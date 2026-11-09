@@ -1,0 +1,145 @@
+@model CustomerFormViewModel
+@{
+    ViewData["Title"] = Model.IsEdit ? L["Edit customer"] : L["New customer"];
+    var action = Model.IsEdit ? "Edit" : "Create";
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="@(Model.IsEdit ? "Details" : "Index")" asp-route-id="@Model.Id" class="small fw-semibold text-decoration-none">
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i> @(Model.IsEdit ? Model.Name : L["Customers"])
+        </a>
+        <h1 class="mt-1">@ViewData["Title"]</h1>
+    </div>
+</div>
+
+<form asp-action="@action" asp-route-id="@Model.Id" method="post" data-once novalidate>
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-person me-2 text-primary"></i>@L["Customer details"]</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" autofocus />
+                            <span asp-validation-for="Name"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Type" class="form-label"></label>
+                            <select asp-for="Type" class="form-select">
+                                @foreach (var t in Enum.GetValues<CustomerType>())
+                                {
+                                    <option value="@t">@L[EnumText.Of(t)]</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="form-label"></label>
+                            <input asp-for="Phone" class="form-control num" type="tel" inputmode="numeric" placeholder="03001234567" />
+                            <span asp-validation-for="Phone"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="WhatsApp" class="form-label"></label>
+                            <input asp-for="WhatsApp" class="form-control num" type="tel" inputmode="numeric" placeholder="@L["Same as phone if empty"]" />
+                            <span asp-validation-for="WhatsApp"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Address" class="form-label"></label>
+                            <input asp-for="Address" class="form-control" placeholder="@L["House, street, sector"]" />
+                            <span asp-validation-for="Address"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-calendar-week me-2 text-primary"></i>@L["Delivery"]</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="AreaId" class="form-label"></label>
+                            <select asp-for="AreaId" class="form-select">
+                                <option value="0">@L["Select area"]</option>
+                                @foreach (var a in Model.Areas)
+                                {
+                                    <option value="@a.Id">@a.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="AreaId"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ScheduleType" class="form-label"></label>
+                            <select asp-for="ScheduleType" class="form-select" id="scheduleType">
+                                @foreach (var s in Enum.GetValues<ScheduleType>())
+                                {
+                                    <option value="@s">@L[EnumText.Of(s)]</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-12" id="daysBox" style="@(Model.ScheduleType == ScheduleType.FixedWeekdays ? "" : "display:none")">
+                            <label class="form-label">@L["Delivery days"]</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach (var (day, label) in EnumText.Week)
+                                {
+                                    <label class="pick pick-sm">
+                                        <input type="checkbox" class="form-check-input mt-0" name="Days" value="@day" checked="@Model.Days.Contains(day)" />
+                                        <span>@L[label]</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-droplet me-2 text-primary"></i>@L["Bottles and price"]</div>
+                <div class="card-body d-grid gap-3">
+                    <div>
+                        <label asp-for="Rate" class="form-label"></label>
+                        <input asp-for="Rate" class="form-control num" type="number" min="0" step="1" />
+                        <span asp-validation-for="Rate"></span>
+                    </div>
+                    @if (!Model.IsEdit)
+                    {
+                        <div>
+                            <label asp-for="OpeningBottles" class="form-label"></label>
+                            <input asp-for="OpeningBottles" class="form-control num" type="number" min="0" step="1" />
+                            <div class="form-text">@L["Bottles the customer is keeping at home."]</div>
+                            <span asp-validation-for="OpeningBottles"></span>
+                        </div>
+                        <div>
+                            <label asp-for="DepositTaken" class="form-label"></label>
+                            <input asp-for="DepositTaken" class="form-control num" type="number" min="0" step="1" />
+                            <span asp-validation-for="DepositTaken"></span>
+                        </div>
+                    }
+                    <div>
+                        <label asp-for="MaxBottles" class="form-label"></label>
+                        <input asp-for="MaxBottles" class="form-control num" type="number" min="0" step="1" placeholder="@L["No limit"]" />
+                        <div class="form-text">@L["Warn when the customer keeps more bottles than this."]</div>
+                        <span asp-validation-for="MaxBottles"></span>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg-at btn-icon justify-content-center">
+                <i class="bi bi-check2"></i><span>@(Model.IsEdit ? L["Save changes"] : L["Add customer"])</span>
+            </button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        (function () {
+            var sel = document.getElementById('scheduleType'), box = document.getElementById('daysBox');
+            sel.addEventListener('change', function () { box.style.display = sel.value === 'FixedWeekdays' ? '' : 'none'; });
+        })();
+    </script>
+}

@@ -1,6 +1,8 @@
+@model PlantSummary
 @{
     ViewData["Title"] = L["Dashboard"];
     var name = User.FindFirst(AppClaims.FullName)?.Value;
+    var setupDone = Model.Areas > 0 && Model.DeliveryStaff > 0 && Model.ActiveCustomers > 0;
 }
 
 <div class="page-head">
@@ -8,36 +10,67 @@
         <h1>@L["Welcome, {0}", name ?? ""]</h1>
         <p>@L["Here is your plant at a glance."]</p>
     </div>
+    <div class="actions">
+        <a asp-controller="Customers" asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-person-plus"></i>@L["New customer"]</a>
+    </div>
 </div>
 
 <div class="row g-3 mb-4">
     <div class="col-6 col-xl-3">
-        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-truck"></i></span>
-            <div><div class="stat-label">@L["Today's deliveries"]</div><div class="stat-value num">0</div></div></div>
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-people"></i></span>
+            <div><div class="stat-label">@L["Active customers"]</div><div class="stat-value num">@Model.ActiveCustomers</div></div></div>
     </div>
     <div class="col-6 col-xl-3">
         <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-droplet-half"></i></span>
-            <div><div class="stat-label">@L["Bottles with customers"]</div><div class="stat-value num">0</div></div></div>
+            <div><div class="stat-label">@L["Bottles with customers"]</div><div class="stat-value num">@Model.BottlesWithCustomers</div></div></div>
     </div>
     <div class="col-6 col-xl-3">
-        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-cash-stack"></i></span>
-            <div><div class="stat-label">@L["Cash collected today"]</div><div class="stat-value num">Rs 0</div></div></div>
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-truck"></i></span>
+            <div><div class="stat-label">@L["Today's deliveries"]</div><div class="stat-value num">@Model.TodayDeliveries</div></div></div>
     </div>
     <div class="col-6 col-xl-3">
-        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-hourglass-split"></i></span>
-            <div><div class="stat-label">@L["Total pending (udhaar)"]</div><div class="stat-value num">Rs 0</div></div></div>
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-cash-stack"></i></span>
+            <div><div class="stat-label">@L["Cash collected today"]</div><div class="stat-value num">Rs @Model.TodayCash.ToString("N0")</div></div></div>
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">@L["Get your plant ready"]</div>
-    <div class="card-body">
-        <ol class="mb-0 d-grid gap-2">
-            <li>@L["Add your delivery areas"]</li>
-            <li>@L["Add delivery staff and assign areas"]</li>
-            <li>@L["Add customers with their bottle rate"]</li>
-            <li>@L["Start recording daily deliveries"]</li>
-        </ol>
-        <p class="text-muted small mt-3 mb-0">@L["These screens are coming in the next updates."]</p>
+@if (!setupDone)
+{
+    <div class="card">
+        <div class="card-header">@L["Get your plant ready"]</div>
+        <div class="card-body d-grid gap-2">
+            <a asp-controller="DeliveryAreas" asp-action="Index" class="setup-step @(Model.Areas > 0 ? "done" : "")">
+                <i class="bi @(Model.Areas > 0 ? "bi-check-circle-fill" : "bi-1-circle")"></i>
+                <span>@L["Add your delivery areas"]</span>
+                <span class="ms-auto num small text-muted">@Model.Areas</span>
+            </a>
+            <a asp-controller="Staff" asp-action="Index" class="setup-step @(Model.DeliveryStaff > 0 ? "done" : "")">
+                <i class="bi @(Model.DeliveryStaff > 0 ? "bi-check-circle-fill" : "bi-2-circle")"></i>
+                <span>@L["Add delivery staff and assign areas"]</span>
+                <span class="ms-auto num small text-muted">@Model.DeliveryStaff</span>
+            </a>
+            <a asp-controller="Customers" asp-action="Index" class="setup-step @(Model.ActiveCustomers > 0 ? "done" : "")">
+                <i class="bi @(Model.ActiveCustomers > 0 ? "bi-check-circle-fill" : "bi-3-circle")"></i>
+                <span>@L["Add customers with their bottle rate"]</span>
+                <span class="ms-auto num small text-muted">@Model.ActiveCustomers</span>
+            </a>
+            <div class="setup-step">
+                <i class="bi bi-4-circle"></i>
+                <span>@L["Start recording daily deliveries"]</span>
+                <span class="ms-auto small text-muted">@L["Soon"]</span>
+            </div>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body d-flex align-items-center gap-3">
+            <span class="stat-icon tone-green"><i class="bi bi-check2-all"></i></span>
+            <div>
+                <div class="fw-bold">@L["Your plant is set up."]</div>
+                <div class="text-muted small">@L["{0} areas and {1} delivery staff. Daily delivery entry is coming next.", Model.Areas, Model.DeliveryStaff]</div>
+            </div>
+        </div>
+    </div>
+}

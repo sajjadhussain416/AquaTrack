@@ -44,17 +44,17 @@
             <a class="side-link @Active("", "Dashboard")" asp-area="" asp-controller="Dashboard" asp-action="Index">
                 <i class="bi bi-grid-1x2"></i><span>@L["Dashboard"]</span>
             </a>
-            <a class="side-link disabled" href="#"><i class="bi bi-people"></i><span>@L["Customers"]</span><span class="soon">@L["Soon"]</span></a>
+            <a class="side-link @Active("", "Customers")" asp-area="" asp-controller="Customers" asp-action="Index"><i class="bi bi-people"></i><span>@L["Customers"]</span></a>
             <a class="side-link disabled" href="#"><i class="bi bi-truck"></i><span>@L["Deliveries"]</span><span class="soon">@L["Soon"]</span></a>
             <a class="side-link disabled" href="#"><i class="bi bi-receipt"></i><span>@L["Bills"]</span><span class="soon">@L["Soon"]</span></a>
             <a class="side-link disabled" href="#"><i class="bi bi-cash-coin"></i><span>@L["Payments"]</span><span class="soon">@L["Soon"]</span></a>
 
             <div class="nav-group-title mt-2">@L["Setup"]</div>
-            <a class="side-link disabled" href="#"><i class="bi bi-geo-alt"></i><span>@L["Areas"]</span><span class="soon">@L["Soon"]</span></a>
-            <a class="side-link disabled" href="#"><i class="bi bi-person-badge"></i><span>@L["Delivery staff"]</span><span class="soon">@L["Soon"]</span></a>
+            <a class="side-link @Active("", "DeliveryAreas")" asp-area="" asp-controller="DeliveryAreas" asp-action="Index"><i class="bi bi-geo-alt"></i><span>@L["Areas"]</span></a>
+            <a class="side-link @Active("", "Staff")" asp-area="" asp-controller="Staff" asp-action="Index"><i class="bi bi-person-badge"></i><span>@L["Delivery staff"]</span></a>
         }
     </nav>
 
-    <div class="sidebar-foot">AquaTrack v0.2</div>
+    <div class="sidebar-foot">AquaTrack v0.3</div>
 </aside>
 <div class="sidebar-backdrop" data-sidebar-close></div>

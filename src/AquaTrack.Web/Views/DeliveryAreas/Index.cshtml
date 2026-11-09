@@ -1,0 +1,91 @@
+@model AreasPageViewModel
+@{
+    ViewData["Title"] = L["Areas"];
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Delivery areas"]</h1>
+        <p>@L["Group customers by area and give each area to a delivery staff member."]</p>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-8">
+        <div class="card">
+            @if (Model.Areas.Count == 0)
+            {
+                <div class="empty-state">
+                    <i class="bi bi-geo-alt"></i>
+                    <h5 class="text-body">@L["No areas yet"]</h5>
+                    <p class="mb-0">@L["Add your first area using the form."]</p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-at">
+                        <thead><tr><th>@L["Area"]</th><th>@L["Delivery staff"]</th><th>@L["Customers"]</th><th></th></tr></thead>
+                        <tbody>
+                        @foreach (var a in Model.Areas)
+                        {
+                            <tr>
+                                <td class="cell-title"><i class="bi bi-geo-alt text-primary me-2"></i>@a.Name</td>
+                                <td>
+                                    @if (a.DeliveryBoyName is null)
+                                    {
+                                        <span class="badge-soft trial">@L["Not assigned"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span><i class="bi bi-person-badge me-1 text-muted"></i>@a.DeliveryBoyName</span>
+                                    }
+                                </td>
+                                <td class="num">@a.CustomerCount</td>
+                                <td class="text-end text-nowrap">
+                                    <a asp-action="Edit" asp-route-id="@a.Id" class="btn btn-light btn-sm"><i class="bi bi-pencil"></i></a>
+                                    <form asp-action="Delete" asp-route-id="@a.Id" method="post" class="d-inline"
+                                          onsubmit="return confirm('@L["Remove this area?"]');">
+                                        <button class="btn btn-light btn-sm text-danger" aria-label="@L["Remove"]"><i class="bi bi-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header"><i class="bi bi-plus-circle me-2 text-primary"></i>@L["Add area"]</div>
+            <div class="card-body">
+                <form asp-action="Create" method="post" data-once>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+                    <div class="mb-3">
+                        <label asp-for="Form.Name" class="form-label"></label>
+                        <input asp-for="Form.Name" class="form-control" placeholder="@L["e.g. G-11 Sector or Main Bazar"]" />
+                        <span asp-validation-for="Form.Name"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Form.DeliveryBoyId" class="form-label"></label>
+                        <select asp-for="Form.DeliveryBoyId" class="form-select">
+                            <option value="">@L["Assign later"]</option>
+                            @foreach (var s in Model.Form.Staff)
+                            {
+                                <option value="@s.Id">@s.FullName</option>
+                            }
+                        </select>
+                        @if (Model.Form.Staff.Count == 0)
+                        {
+                            <div class="form-text">@L["No delivery staff yet. You can assign one later."]</div>
+                        }
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">@L["Add area"]</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

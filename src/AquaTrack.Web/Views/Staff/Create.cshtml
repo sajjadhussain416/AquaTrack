@@ -1,0 +1,74 @@
+@model StaffFormViewModel
+@{
+    ViewData["Title"] = L["Add staff"];
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="Index" class="small fw-semibold text-decoration-none">
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i> @L["Delivery staff"]
+        </a>
+        <h1 class="mt-1">@L["Add delivery staff"]</h1>
+        <p>@L["Share the mobile number and password with the staff member so they can sign in."]</p>
+    </div>
+</div>
+
+<form asp-action="Create" method="post" data-once novalidate>
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+    <div class="row g-3">
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-header"><i class="bi bi-person-badge me-2 text-primary"></i>@L["Login details"]</div>
+                <div class="card-body d-grid gap-3">
+                    <div>
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Phone" class="form-label"></label>
+                        <input asp-for="Phone" class="form-control num" type="tel" inputmode="numeric" placeholder="03001234567" />
+                        <span asp-validation-for="Phone"></span>
+                    </div>
+                    <div>
+                        <label asp-for="Password" class="form-label"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-lock"></i>
+                            <input asp-for="Password" class="form-control" autocomplete="new-password" />
+                            <button type="button" class="pw-toggle" data-pw-toggle="Password" aria-label="@L["Show password"]"><i class="bi bi-eye"></i></button>
+                        </div>
+                        <div class="form-text">@L["At least 8 characters with one number."]</div>
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-geo-alt me-2 text-primary"></i>@L["Areas"]</div>
+                <div class="card-body">
+                    @if (Model.AllAreas.Count == 0)
+                    {
+                        <p class="text-muted mb-0">@L["No areas yet. You can assign areas later."]</p>
+                    }
+                    else
+                    {
+                        <div class="d-grid gap-2">
+                            @foreach (var a in Model.AllAreas)
+                            {
+                                <label class="pick">
+                                    <input type="checkbox" class="form-check-input mt-0" name="AreaIds" value="@a.Id" checked="@Model.AreaIds.Contains(a.Id)" />
+                                    <span>@a.Name</span>
+                                </label>
+                            }
+                        </div>
+                        <div class="form-text mt-2">@L["An area already given to someone else will move to this staff member."]</div>
+                    }
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 btn-lg-at btn-icon justify-content-center">
+                <i class="bi bi-check2"></i><span>@L["Add staff"]</span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -128,4 +128,129 @@
   <data name="{0} is too long." xml:space="preserve"><value>{0} بہت لمبا ہے۔</value></data>
   <data name="{0} must be between {1} and {2}." xml:space="preserve"><value>{0} کو {1} اور {2} کے درمیان ہونا چاہیے۔</value></data>
   <data name="{0} plants" xml:space="preserve"><value>{0} پلانٹس</value></data>
+  <data name="Activate" xml:space="preserve"><value>فعال کریں</value></data>
+  <data name="Active customers" xml:space="preserve"><value>فعال گاہک</value></data>
+  <data name="Add a customer, or change the search." xml:space="preserve"><value>گاہک شامل کریں یا تلاش تبدیل کریں۔</value></data>
+  <data name="Add a delivery area first, then add customers." xml:space="preserve"><value>پہلے ڈیلیوری علاقہ شامل کریں، پھر گاہک۔</value></data>
+  <data name="Add area" xml:space="preserve"><value>علاقہ شامل کریں</value></data>
+  <data name="Add customer" xml:space="preserve"><value>گاہک شامل کریں</value></data>
+  <data name="Add delivery staff" xml:space="preserve"><value>ڈیلیوری عملہ شامل کریں</value></data>
+  <data name="Add staff" xml:space="preserve"><value>عملہ شامل کریں</value></data>
+  <data name="Add your first area using the form." xml:space="preserve"><value>فارم سے اپنا پہلا علاقہ شامل کریں۔</value></data>
+  <data name="Add your first delivery staff member." xml:space="preserve"><value>اپنا پہلا ڈیلیوری ملازم شامل کریں۔</value></data>
+  <data name="All areas" xml:space="preserve"><value>تمام علاقے</value></data>
+  <data name="Alternate days" xml:space="preserve"><value>ایک دن چھوڑ کر</value></data>
+  <data name="An area already given to someone else will move to this staff member." xml:space="preserve"><value>جو علاقہ کسی اور کے پاس ہے وہ اس ملازم کو منتقل ہو جائے گا۔</value></data>
+  <data name="An area with this name already exists." xml:space="preserve"><value>اس نام کا علاقہ پہلے سے موجود ہے۔</value></data>
+  <data name="Another active customer already has this phone number." xml:space="preserve"><value>یہ فون نمبر پہلے ہی کسی دوسرے فعال گاہک کا ہے۔</value></data>
+  <data name="Area" xml:space="preserve"><value>علاقہ</value></data>
+  <data name="Area added." xml:space="preserve"><value>علاقہ شامل ہو گیا۔</value></data>
+  <data name="Area name" xml:space="preserve"><value>علاقے کا نام</value></data>
+  <data name="Area not found." xml:space="preserve"><value>علاقہ نہیں ملا۔</value></data>
+  <data name="Area removed." xml:space="preserve"><value>علاقہ ہٹا دیا گیا۔</value></data>
+  <data name="Area updated." xml:space="preserve"><value>علاقہ اپ ڈیٹ ہو گیا۔</value></data>
+  <data name="Assign later" xml:space="preserve"><value>بعد میں دیں</value></data>
+  <data name="Bottle history" xml:space="preserve"><value>بوتلوں کی تاریخ</value></data>
+  <data name="Bottle limit" xml:space="preserve"><value>بوتلوں کی حد</value></data>
+  <data name="Bottles" xml:space="preserve"><value>بوتلیں</value></data>
+  <data name="Bottles and price" xml:space="preserve"><value>بوتلیں اور قیمت</value></data>
+  <data name="Bottles given at start" xml:space="preserve"><value>شروع میں دی گئی بوتلیں</value></data>
+  <data name="Bottles in hand" xml:space="preserve"><value>پاس موجود بوتلیں</value></data>
+  <data name="Bottles the customer is keeping at home." xml:space="preserve"><value>وہ بوتلیں جو گاہک گھر پر رکھ رہا ہے۔</value></data>
+  <data name="Cancel" xml:space="preserve"><value>منسوخ</value></data>
+  <data name="Change password" xml:space="preserve"><value>پاس ورڈ تبدیل کریں</value></data>
+  <data name="Could not save the login. Please check the details." xml:space="preserve"><value>لاگ اِن محفوظ نہیں ہو سکا۔ براہ کرم تفصیل چیک کریں۔</value></data>
+  <data name="Customer" xml:space="preserve"><value>گاہک</value></data>
+  <data name="Customer activated." xml:space="preserve"><value>گاہک فعال ہو گیا۔</value></data>
+  <data name="Customer added." xml:space="preserve"><value>گاہک شامل ہو گیا۔</value></data>
+  <data name="Customer deactivated." xml:space="preserve"><value>گاہک غیر فعال ہو گیا۔</value></data>
+  <data name="Customer details" xml:space="preserve"><value>گاہک کی تفصیل</value></data>
+  <data name="Customer name" xml:space="preserve"><value>گاہک کا نام</value></data>
+  <data name="Customer not found." xml:space="preserve"><value>گاہک نہیں ملا۔</value></data>
+  <data name="Customer since" xml:space="preserve"><value>گاہک کب سے</value></data>
+  <data name="Customer type" xml:space="preserve"><value>گاہک کی قسم</value></data>
+  <data name="Customer updated." xml:space="preserve"><value>گاہک اپ ڈیٹ ہو گیا۔</value></data>
+  <data name="Daily" xml:space="preserve"><value>روزانہ</value></data>
+  <data name="Damaged" xml:space="preserve"><value>خراب</value></data>
+  <data name="Date" xml:space="preserve"><value>تاریخ</value></data>
+  <data name="Deactivate" xml:space="preserve"><value>غیر فعال کریں</value></data>
+  <data name="Deactivate this customer? They will leave the delivery list." xml:space="preserve"><value>کیا اس گاہک کو غیر فعال کرنا ہے؟ یہ ڈیلیوری لسٹ سے نکل جائے گا۔</value></data>
+  <data name="Delivered" xml:space="preserve"><value>ڈیلیور کی گئی</value></data>
+  <data name="Delivery" xml:space="preserve"><value>ڈیلیوری</value></data>
+  <data name="Delivery areas" xml:space="preserve"><value>ڈیلیوری علاقے</value></data>
+  <data name="Delivery days" xml:space="preserve"><value>ڈیلیوری کے دن</value></data>
+  <data name="Delivery schedule" xml:space="preserve"><value>ڈیلیوری شیڈول</value></data>
+  <data name="Delivery staff added. They can now sign in with their mobile number." xml:space="preserve"><value>ڈیلیوری عملہ شامل ہو گیا۔ اب وہ اپنے موبائل نمبر سے لاگ اِن کر سکتا ہے۔</value></data>
+  <data name="Deposit held" xml:space="preserve"><value>جمع سیکیورٹی</value></data>
+  <data name="Each delivery staff member signs in on their phone and sees only their areas." xml:space="preserve"><value>ہر ڈیلیوری ملازم اپنے فون پر لاگ اِن کرتا ہے اور صرف اپنے علاقے دیکھتا ہے۔</value></data>
+  <data name="Edit" xml:space="preserve"><value>ترمیم</value></data>
+  <data name="Edit area" xml:space="preserve"><value>علاقے میں ترمیم</value></data>
+  <data name="Edit customer" xml:space="preserve"><value>گاہک میں ترمیم</value></data>
+  <data name="Empty collected" xml:space="preserve"><value>خالی واپس لی</value></data>
+  <data name="Fixed days" xml:space="preserve"><value>مقررہ دن</value></data>
+  <data name="Fri" xml:space="preserve"><value>جمعہ</value></data>
+  <data name="Full name" xml:space="preserve"><value>پورا نام</value></data>
+  <data name="Given at start" xml:space="preserve"><value>شروع میں دی گئی</value></data>
+  <data name="Group customers by area and give each area to a delivery staff member." xml:space="preserve"><value>گاہکوں کو علاقوں میں تقسیم کریں اور ہر علاقہ کسی ڈیلیوری ملازم کو دیں۔</value></data>
+  <data name="Home" xml:space="preserve"><value>گھر</value></data>
+  <data name="House, street, sector" xml:space="preserve"><value>مکان، گلی، سیکٹر</value></data>
+  <data name="Inactive" xml:space="preserve"><value>غیر فعال</value></data>
+  <data name="Login details" xml:space="preserve"><value>لاگ اِن کی تفصیل</value></data>
+  <data name="Lost" xml:space="preserve"><value>گم شدہ</value></data>
+  <data name="Mon" xml:space="preserve"><value>پیر</value></data>
+  <data name="Move this area's customers to another area before removing it." xml:space="preserve"><value>ہٹانے سے پہلے اس علاقے کے گاہک کسی دوسرے علاقے میں منتقل کریں۔</value></data>
+  <data name="Movement" xml:space="preserve"><value>تفصیل</value></data>
+  <data name="Name" xml:space="preserve"><value>نام</value></data>
+  <data name="New customer" xml:space="preserve"><value>نیا گاہک</value></data>
+  <data name="New password" xml:space="preserve"><value>نیا پاس ورڈ</value></data>
+  <data name="Next" xml:space="preserve"><value>اگلا</value></data>
+  <data name="No areas yet" xml:space="preserve"><value>ابھی کوئی علاقہ نہیں</value></data>
+  <data name="No areas yet. You can assign areas later." xml:space="preserve"><value>ابھی کوئی علاقہ نہیں۔ علاقے بعد میں دیے جا سکتے ہیں۔</value></data>
+  <data name="No bottle movements yet." xml:space="preserve"><value>ابھی بوتلوں کا کوئی ریکارڈ نہیں۔</value></data>
+  <data name="No customers found" xml:space="preserve"><value>کوئی گاہک نہیں ملا</value></data>
+  <data name="No delivery staff yet" xml:space="preserve"><value>ابھی کوئی ڈیلیوری عملہ نہیں</value></data>
+  <data name="No delivery staff yet. You can assign one later." xml:space="preserve"><value>ابھی کوئی ڈیلیوری عملہ نہیں۔ بعد میں دیا جا سکتا ہے۔</value></data>
+  <data name="No limit" xml:space="preserve"><value>کوئی حد نہیں</value></data>
+  <data name="Not assigned" xml:space="preserve"><value>کسی کو نہیں دیا</value></data>
+  <data name="Office" xml:space="preserve"><value>دفتر</value></data>
+  <data name="On call" xml:space="preserve"><value>کال پر</value></data>
+  <data name="Only plant users can add staff." xml:space="preserve"><value>صرف پلانٹ کے صارفین عملہ شامل کر سکتے ہیں۔</value></data>
+  <data name="Page {0} of {1}" xml:space="preserve"><value>صفحہ {0} از {1}</value></data>
+  <data name="Password changed." xml:space="preserve"><value>پاس ورڈ تبدیل ہو گیا۔</value></data>
+  <data name="Phone" xml:space="preserve"><value>فون</value></data>
+  <data name="Please select a valid delivery staff member." xml:space="preserve"><value>براہ کرم درست ڈیلیوری ملازم منتخب کریں۔</value></data>
+  <data name="Please select an area." xml:space="preserve"><value>براہ کرم علاقہ منتخب کریں۔</value></data>
+  <data name="Previous" xml:space="preserve"><value>پچھلا</value></data>
+  <data name="Price per bottle" xml:space="preserve"><value>فی بوتل قیمت</value></data>
+  <data name="Rate" xml:space="preserve"><value>ریٹ</value></data>
+  <data name="Remove" xml:space="preserve"><value>ہٹائیں</value></data>
+  <data name="Remove this area?" xml:space="preserve"><value>کیا یہ علاقہ ہٹانا ہے؟</value></data>
+  <data name="Same as phone if empty" xml:space="preserve"><value>خالی ہو تو فون والا نمبر</value></data>
+  <data name="Sat" xml:space="preserve"><value>ہفتہ</value></data>
+  <data name="Save" xml:space="preserve"><value>محفوظ کریں</value></data>
+  <data name="Save changes" xml:space="preserve"><value>تبدیلیاں محفوظ کریں</value></data>
+  <data name="Schedule" xml:space="preserve"><value>شیڈول</value></data>
+  <data name="Search by name, phone or address" xml:space="preserve"><value>نام، فون یا پتے سے تلاش کریں</value></data>
+  <data name="Security deposit taken (PKR)" xml:space="preserve"><value>وصول شدہ سیکیورٹی (روپے)</value></data>
+  <data name="Select area" xml:space="preserve"><value>علاقہ منتخب کریں</value></data>
+  <data name="Select at least one delivery day." xml:space="preserve"><value>کم از کم ایک ڈیلیوری دن منتخب کریں۔</value></data>
+  <data name="Share the mobile number and password with the staff member so they can sign in." xml:space="preserve"><value>موبائل نمبر اور پاس ورڈ ملازم کو دیں تاکہ وہ لاگ اِن کر سکے۔</value></data>
+  <data name="Shop" xml:space="preserve"><value>دکان</value></data>
+  <data name="Show inactive" xml:space="preserve"><value>غیر فعال بھی دکھائیں</value></data>
+  <data name="Staff member activated." xml:space="preserve"><value>ملازم فعال ہو گیا۔</value></data>
+  <data name="Staff member deactivated." xml:space="preserve"><value>ملازم غیر فعال ہو گیا۔</value></data>
+  <data name="Staff member not found." xml:space="preserve"><value>ملازم نہیں ملا۔</value></data>
+  <data name="Sun" xml:space="preserve"><value>اتوار</value></data>
+  <data name="This customer has more bottles than the limit ({0})." xml:space="preserve"><value>اس گاہک کے پاس حد ({0}) سے زیادہ بوتلیں ہیں۔</value></data>
+  <data name="Thu" xml:space="preserve"><value>جمعرات</value></data>
+  <data name="Tue" xml:space="preserve"><value>منگل</value></data>
+  <data name="Warn when the customer keeps more bottles than this." xml:space="preserve"><value>جب گاہک اس سے زیادہ بوتلیں رکھے تو خبردار کریں۔</value></data>
+  <data name="Wed" xml:space="preserve"><value>بدھ</value></data>
+  <data name="WhatsApp number" xml:space="preserve"><value>واٹس ایپ نمبر</value></data>
+  <data name="Your plan allows no more delivery staff. Upgrade the plan to add more." xml:space="preserve"><value>آپ کے پلان میں مزید ڈیلیوری عملے کی گنجائش نہیں۔ مزید کے لیے پلان اپ گریڈ کریں۔</value></data>
+  <data name="Your plan's customer limit is reached. Upgrade the plan to add more." xml:space="preserve"><value>آپ کے پلان کی گاہکوں کی حد پوری ہو گئی۔ مزید کے لیے پلان اپ گریڈ کریں۔</value></data>
+  <data name="Your plant is set up." xml:space="preserve"><value>آپ کا پلانٹ تیار ہے۔</value></data>
+  <data name="e.g. G-11 Sector or Main Bazar" xml:space="preserve"><value>مثلاً G-11 سیکٹر یا مین بازار</value></data>
+  <data name="{0} areas and {1} delivery staff. Daily delivery entry is coming next." xml:space="preserve"><value>{0} علاقے اور {1} ڈیلیوری عملہ۔ روزانہ ڈیلیوری کا اندراج اگلی اپ ڈیٹ میں۔</value></data>
+  <data name="{0} customers" xml:space="preserve"><value>{0} گاہک</value></data>
 </root>

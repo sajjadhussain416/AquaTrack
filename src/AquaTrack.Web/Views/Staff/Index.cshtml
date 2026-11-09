@@ -1,0 +1,122 @@
+@model IReadOnlyList<StaffListItem>
+@{
+    ViewData["Title"] = L["Delivery staff"];
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Delivery staff"]</h1>
+        <p>@L["Each delivery staff member signs in on their phone and sees only their areas."]</p>
+    </div>
+    <div class="actions">
+        <a asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-person-plus"></i>@L["Add staff"]</a>
+    </div>
+</div>
+
+<div class="card">
+    @if (Model.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-person-badge"></i>
+            <h5 class="text-body">@L["No delivery staff yet"]</h5>
+            <p>@L["Add your first delivery staff member."]</p>
+            <a asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-person-plus"></i>@L["Add staff"]</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead><tr><th>@L["Name"]</th><th>@L["Mobile number"]</th><th>@L["Areas"]</th><th>@L["Status"]</th><th></th></tr></thead>
+                <tbody>
+                @foreach (var s in Model)
+                {
+                    <tr class="@(s.IsActive ? "" : "opacity-50")">
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="avatar" style="width:32px;height:32px;font-size:.85rem">@s.FullName[..1].ToUpperInvariant()</span>
+                                <span class="cell-title">@s.FullName</span>
+                            </div>
+                        </td>
+                        <td class="num">@s.Phone</td>
+                        <td>
+                            @if (s.Areas.Count == 0)
+                            {
+                                <span class="text-muted small">@L["Not assigned"]</span>
+                            }
+                            @foreach (var a in s.Areas)
+                            {
+                                <span class="chip">@a</span>
+                            }
+                        </td>
+                        <td>
+                            @if (s.IsActive) { <span class="badge-soft active">@L["Active"]</span> }
+                            else { <span class="badge-soft suspended">@L["Inactive"]</span> }
+                        </td>
+                        <td class="text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-label="@L["Actions"]"><i class="bi bi-three-dots"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                    <li>
+                                        <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#resetPw"
+                                                data-user-id="@s.Id" data-user-name="@s.FullName">
+                                            <i class="bi bi-key me-2"></i>@L["Change password"]
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <form asp-action="SetActive" method="post">
+                                            <input type="hidden" name="id" value="@s.Id" />
+                                            <input type="hidden" name="active" value="@(s.IsActive ? "false" : "true")" />
+                                            @if (s.IsActive)
+                                            {
+                                                <button class="dropdown-item text-danger"><i class="bi bi-person-dash me-2"></i>@L["Deactivate"]</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="dropdown-item"><i class="bi bi-person-check me-2 text-success"></i>@L["Activate"]</button>
+                                            }
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+<div class="modal fade" id="resetPw" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form asp-action="ResetPassword" method="post" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@L["Change password"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@L["Close"]"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-muted" id="resetPwName"></p>
+                <input type="hidden" name="id" id="resetPwId" />
+                <label class="form-label" for="newPassword">@L["New password"]</label>
+                <input type="text" class="form-control" name="newPassword" id="newPassword" minlength="8" required autocomplete="off" />
+                <div class="form-text">@L["At least 8 characters with one number."]</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">@L["Cancel"]</button>
+                <button type="submit" class="btn btn-primary">@L["Save"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('resetPw').addEventListener('show.bs.modal', function (e) {
+            var b = e.relatedTarget;
+            document.getElementById('resetPwId').value = b.getAttribute('data-user-id');
+            document.getElementById('resetPwName').textContent = b.getAttribute('data-user-name');
+            document.getElementById('newPassword').value = '';
+        });
+    </script>
+}

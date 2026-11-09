@@ -1,0 +1,106 @@
+@model CustomersIndexViewModel
+@{
+    ViewData["Title"] = L["Customers"];
+    var p = Model.Page;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Customers"]</h1>
+        <p>@L["{0} customers", p.Total]</p>
+    </div>
+    <div class="actions">
+        <a asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-person-plus"></i>@L["New customer"]</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body border-bottom">
+        <form method="get" class="row g-2 align-items-center">
+            <div class="col-md-5">
+                <div class="input-icon">
+                    <i class="bi bi-search"></i>
+                    <input name="q" value="@Model.Search" class="form-control" placeholder="@L["Search by name, phone or address"]" style="height:44px" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select name="areaId" class="form-select" style="height:44px">
+                    <option value="">@L["All areas"]</option>
+                    @foreach (var a in Model.Areas)
+                    {
+                        <option value="@a.Id" selected="@(Model.AreaId == a.Id)">@a.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="inactive" value="true" id="inactive" checked="@Model.ShowInactive" />
+                    <label class="form-check-label small" for="inactive">@L["Show inactive"]</label>
+                </div>
+            </div>
+            <div class="col-md-2 d-flex gap-2">
+                <button type="submit" class="btn btn-light flex-fill">@L["Filter"]</button>
+            </div>
+        </form>
+    </div>
+
+    @if (p.Items.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-people"></i>
+            <h5 class="text-body">@L["No customers found"]</h5>
+            <p>@L["Add a customer, or change the search."]</p>
+            <a asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-person-plus"></i>@L["New customer"]</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Customer"]</th>
+                        <th>@L["Area"]</th>
+                        <th>@L["Schedule"]</th>
+                        <th>@L["Rate"]</th>
+                        <th>@L["Bottles in hand"]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var c in p.Items)
+                {
+                    <tr class="@(c.IsActive ? "" : "opacity-50")">
+                        <td>
+                            <a asp-action="Details" asp-route-id="@c.Id" class="cell-title text-decoration-none">@c.Name</a>
+                            <div class="cell-sub"><span class="num">@c.Phone</span> · @c.Address</div>
+                        </td>
+                        <td>@c.AreaName</td>
+                        <td><span class="chip">@L[EnumText.Of(c.ScheduleType)]</span></td>
+                        <td class="num">Rs @c.Rate.ToString("N0")</td>
+                        <td><span class="bottle-count num"><i class="bi bi-droplet-fill"></i>@c.BottlesInHand</span></td>
+                        <td class="text-end"><a asp-action="Details" asp-route-id="@c.Id" class="btn btn-light btn-sm"><i class="bi @(AppCultures.IsUrdu ? "bi-chevron-left" : "bi-chevron-right")"></i></a></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        @if (p.TotalPages > 1)
+        {
+            <div class="card-body border-top d-flex align-items-center">
+                <span class="text-muted small">@L["Page {0} of {1}", p.Page, p.TotalPages]</span>
+                <div class="ms-auto d-flex gap-2">
+                    @if (p.Page > 1)
+                    {
+                        <a class="btn btn-light btn-sm" asp-action="Index" asp-route-q="@Model.Search" asp-route-areaId="@Model.AreaId" asp-route-inactive="@Model.ShowInactive" asp-route-page="@(p.Page - 1)">@L["Previous"]</a>
+                    }
+                    @if (p.Page < p.TotalPages)
+                    {
+                        <a class="btn btn-light btn-sm" asp-action="Index" asp-route-q="@Model.Search" asp-route-areaId="@Model.AreaId" asp-route-inactive="@Model.ShowInactive" asp-route-page="@(p.Page + 1)">@L["Next"]</a>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

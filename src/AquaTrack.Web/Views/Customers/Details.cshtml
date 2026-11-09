@@ -1,0 +1,105 @@
+@model CustomerDetails
+@{
+    ViewData["Title"] = Model.Name;
+    var overLimit = Model.MaxBottles.HasValue && Model.BottlesInHand > Model.MaxBottles.Value;
+    var deactivateMsg = L["Deactivate this customer? They will leave the delivery list."].Value;
+    var submitJs = Model.IsActive ? "return confirm('" + deactivateMsg + "');" : "return true;";
+    var days = string.Join(", ", EnumText.Week.Where(w => Model.ScheduleDays.HasFlag(w.Day)).Select(w => L[w.Label].Value));
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="Index" class="small fw-semibold text-decoration-none">
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i> @L["Customers"]
+        </a>
+        <h1 class="mt-1 d-flex align-items-center gap-2">
+            @Model.Name
+            @if (!Model.IsActive) { <span class="badge-soft suspended">@L["Inactive"]</span> }
+        </h1>
+        <p><i class="bi bi-geo-alt me-1"></i>@Model.AreaName · @Model.Address</p>
+    </div>
+    <div class="actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-light btn-icon"><i class="bi bi-pencil"></i>@L["Edit"]</a>
+        <form asp-action="SetActive" asp-route-id="@Model.Id" method="post"
+              onsubmit="@submitJs">
+            <input type="hidden" name="active" value="@(Model.IsActive ? "false" : "true")" />
+            @if (Model.IsActive)
+            {
+                <button class="btn btn-light btn-icon text-danger"><i class="bi bi-person-dash"></i>@L["Deactivate"]</button>
+            }
+            else
+            {
+                <button class="btn btn-light btn-icon text-success"><i class="bi bi-person-check"></i>@L["Activate"]</button>
+            }
+        </form>
+    </div>
+</div>
+
+@if (overLimit)
+{
+    <div class="alert alert-danger flash mb-3"><i class="bi bi-exclamation-triangle-fill"></i>
+        <span>@L["This customer has more bottles than the limit ({0}).", Model.MaxBottles!.Value]</span></div>
+}
+
+<div class="row g-3 mb-3">
+    <div class="col-md-4">
+        <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-droplet-half"></i></span>
+            <div><div class="stat-label">@L["Bottles in hand"]</div><div class="stat-value num">@Model.BottlesInHand</div></div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-tag"></i></span>
+            <div><div class="stat-label">@L["Price per bottle"]</div><div class="stat-value num">Rs @Model.Rate.ToString("N0")</div></div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-safe"></i></span>
+            <div><div class="stat-label">@L["Deposit held"]</div><div class="stat-value num">Rs @Model.DepositHeld.ToString("N0")</div></div></div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header">@L["Customer details"]</div>
+            <div class="card-body">
+                <dl class="kv">
+                    <dt>@L["Phone"]</dt><dd class="num">@Model.Phone</dd>
+                    <dt>@L["WhatsApp number"]</dt><dd class="num">@(Model.WhatsApp ?? Model.Phone)</dd>
+                    <dt>@L["Customer type"]</dt><dd>@L[EnumText.Of(Model.Type)]</dd>
+                    <dt>@L["Area"]</dt><dd>@Model.AreaName</dd>
+                    <dt>@L["Delivery schedule"]</dt>
+                    <dd>@L[EnumText.Of(Model.ScheduleType)]@(Model.ScheduleType == ScheduleType.FixedWeekdays ? $" ({days})" : "")</dd>
+                    <dt>@L["Bottle limit"]</dt><dd class="num">@(Model.MaxBottles?.ToString() ?? "-")</dd>
+                    <dt>@L["Customer since"]</dt><dd class="num">@PakistanTime.ToLocal(Model.CreatedAt).ToString("dd MMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header">@L["Bottle history"]</div>
+            @if (Model.RecentMovements.Count == 0)
+            {
+                <div class="empty-state"><i class="bi bi-clock-history"></i><p class="mb-0">@L["No bottle movements yet."]</p></div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-at">
+                        <thead><tr><th>@L["Date"]</th><th>@L["Movement"]</th><th>@L["Bottles"]</th></tr></thead>
+                        <tbody>
+                        @foreach (var m in Model.RecentMovements)
+                        {
+                            var plus = m.Type == BottleMovementType.Issue || m.Type == BottleMovementType.Deliver;
+                            <tr>
+                                <td class="num">@PakistanTime.ToLocal(m.Date).ToString("dd MMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</td>
+                                <td>@L[EnumText.Of(m.Type)]</td>
+                                <td class="num fw-bold @(plus ? "text-primary" : "text-success")">@(plus ? "+" : "−")@m.Quantity</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

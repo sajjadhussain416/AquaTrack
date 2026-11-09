@@ -1,3 +1,4 @@
+using AquaTrack.Application.Operations;
 using AquaTrack.Application.Plants;
 using AquaTrack.Infrastructure.Identity;
 using AquaTrack.Infrastructure.Persistence;
@@ -42,6 +43,10 @@ public static class DependencyInjection
             .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>();
 
         services.AddScoped<IPlantService, PlantService>();
+        services.AddScoped<IAreaService, AreaService>();
+        services.AddScoped<IStaffService, StaffService>();
+        services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IPlantDashboardService, PlantDashboardService>();
 
         return services;
     }
