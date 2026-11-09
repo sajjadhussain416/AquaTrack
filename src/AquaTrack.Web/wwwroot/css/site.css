@@ -1,0 +1,7 @@
+html { font-size: 15px; }
+@media (min-width: 768px) { html { font-size: 16px; } }
+body { min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1; }
+
+/* Urdu (right-to-left) support, used from Day 2 */
+html[dir="rtl"] body { font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", serif; line-height: 2; }
