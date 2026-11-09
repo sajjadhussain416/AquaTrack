@@ -27,12 +27,14 @@ $secretsDir  = Join-Path $env:APPDATA "Microsoft\UserSecrets\aquatrack-web-2026"
 $secretsFile = Join-Path $secretsDir "secrets.json"
 if (-not (Test-Path $secretsFile) -or -not (Select-String -Path $secretsFile -Pattern "SuperAdmin:Phone" -Quiet)) {
     Write-Host ""
+    Write-Host "Type your full name and press Enter:" -ForegroundColor Yellow
+    $name  = Read-Host "Full name"
     Write-Host "Type your Super Admin mobile number and press Enter:" -ForegroundColor Yellow
     $phone = Read-Host "Mobile number"
     Write-Host "Type a password (at least 8 characters) and press Enter:" -ForegroundColor Yellow
     $pass  = Read-Host "Password"
     New-Item -ItemType Directory -Force -Path $secretsDir | Out-Null
-    $json = @{ "SuperAdmin:Phone" = $phone; "SuperAdmin:Password" = $pass; "SuperAdmin:FullName" = "Attique" } | ConvertTo-Json
+    $json = @{ "SuperAdmin:Phone" = $phone; "SuperAdmin:Password" = $pass; "SuperAdmin:FullName" = $name } | ConvertTo-Json
     Set-Content -Path $secretsFile -Value $json -Encoding UTF8
     Write-Host "Super Admin saved (outside Git)" -ForegroundColor Green
 } else {

@@ -1,0 +1,60 @@
+@{
+    var area = ViewContext.RouteData.Values["area"]?.ToString() ?? "";
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string Active(string a, string c) =>
+        string.Equals(area, a, StringComparison.OrdinalIgnoreCase) &&
+        string.Equals(controller, c, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+}
+<aside class="sidebar" id="sidebar">
+    <a class="brand" href="~/">
+        <span class="brand-mark"><i class="bi bi-droplet-fill"></i></span>
+        <span>
+            <span class="brand-name">AquaTrack</span>
+            <span class="brand-tag">@L["Water delivery made simple"]</span>
+        </span>
+    </a>
+
+    <nav class="nav-group">
+        @if (User.IsInRole(Roles.SuperAdmin))
+        {
+            <div class="nav-group-title">@L["Platform"]</div>
+            <a class="side-link @Active("SuperAdmin", "Dashboard")" asp-area="SuperAdmin" asp-controller="Dashboard" asp-action="Index">
+                <i class="bi bi-grid-1x2"></i><span>@L["Dashboard"]</span>
+            </a>
+            <a class="side-link @Active("SuperAdmin", "Plants")" asp-area="SuperAdmin" asp-controller="Plants" asp-action="Index">
+                <i class="bi bi-buildings"></i><span>@L["Water plants"]</span>
+            </a>
+            <a class="side-link disabled" href="#">
+                <i class="bi bi-credit-card-2-front"></i><span>@L["Subscriptions"]</span><span class="soon">@L["Soon"]</span>
+            </a>
+            <a class="side-link disabled" href="#">
+                <i class="bi bi-layers"></i><span>@L["Plans"]</span><span class="soon">@L["Soon"]</span>
+            </a>
+        }
+        else if (User.IsInRole(Roles.DeliveryBoy))
+        {
+            <div class="nav-group-title">@L["My work"]</div>
+            <a class="side-link @Active("", "Delivery")" asp-area="" asp-controller="Delivery" asp-action="Index">
+                <i class="bi bi-truck"></i><span>@L["Today's deliveries"]</span>
+            </a>
+        }
+        else
+        {
+            <div class="nav-group-title">@L["Plant"]</div>
+            <a class="side-link @Active("", "Dashboard")" asp-area="" asp-controller="Dashboard" asp-action="Index">
+                <i class="bi bi-grid-1x2"></i><span>@L["Dashboard"]</span>
+            </a>
+            <a class="side-link disabled" href="#"><i class="bi bi-people"></i><span>@L["Customers"]</span><span class="soon">@L["Soon"]</span></a>
+            <a class="side-link disabled" href="#"><i class="bi bi-truck"></i><span>@L["Deliveries"]</span><span class="soon">@L["Soon"]</span></a>
+            <a class="side-link disabled" href="#"><i class="bi bi-receipt"></i><span>@L["Bills"]</span><span class="soon">@L["Soon"]</span></a>
+            <a class="side-link disabled" href="#"><i class="bi bi-cash-coin"></i><span>@L["Payments"]</span><span class="soon">@L["Soon"]</span></a>
+
+            <div class="nav-group-title mt-2">@L["Setup"]</div>
+            <a class="side-link disabled" href="#"><i class="bi bi-geo-alt"></i><span>@L["Areas"]</span><span class="soon">@L["Soon"]</span></a>
+            <a class="side-link disabled" href="#"><i class="bi bi-person-badge"></i><span>@L["Delivery staff"]</span><span class="soon">@L["Soon"]</span></a>
+        }
+    </nav>
+
+    <div class="sidebar-foot">AquaTrack v0.2</div>
+</aside>
+<div class="sidebar-backdrop" data-sidebar-close></div>

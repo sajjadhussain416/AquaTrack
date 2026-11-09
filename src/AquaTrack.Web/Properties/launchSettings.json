@@ -6,7 +6,8 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7180;http://localhost:5180",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SuperAdmin__FullName": "Sajjad Hussain"
       }
     }
   }

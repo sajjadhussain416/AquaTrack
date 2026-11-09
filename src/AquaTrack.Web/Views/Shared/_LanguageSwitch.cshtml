@@ -1,0 +1,8 @@
+@{
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
+}
+<form asp-controller="Language" asp-action="Set" asp-area="" method="post" class="lang-switch" aria-label="@L["Language"]">
+    <input type="hidden" name="returnUrl" value="@returnUrl" />
+    <button type="submit" name="culture" value="en" class="@(AppCultures.IsUrdu ? "" : "on")">EN</button>
+    <button type="submit" name="culture" value="ur" class="ur @(AppCultures.IsUrdu ? "on" : "")">اردو</button>
+</form>

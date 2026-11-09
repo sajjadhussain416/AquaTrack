@@ -1,0 +1,119 @@
+@model IReadOnlyList<PlantListItem>
+@{
+    ViewData["Title"] = L["Water plants"];
+    var q = ViewBag.Query as string;
+    var status = ViewBag.Status as PlantStatus?;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Water plants"]</h1>
+        <p>@L["{0} plants", Model.Count]</p>
+    </div>
+    <div class="actions">
+        <a asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-plus-lg"></i>@L["New plant"]</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body border-bottom">
+        <form method="get" class="row g-2 align-items-center">
+            <div class="col-md-6">
+                <div class="input-icon">
+                    <i class="bi bi-search"></i>
+                    <input name="q" value="@q" class="form-control" placeholder="@L["Search by plant, owner, phone or city"]" style="height:44px" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select" style="height:44px">
+                    <option value="">@L["All statuses"]</option>
+                    <option value="@PlantStatus.Trial" selected="@(status == PlantStatus.Trial)">@L["Trial"]</option>
+                    <option value="@PlantStatus.Active" selected="@(status == PlantStatus.Active)">@L["Active"]</option>
+                    <option value="@PlantStatus.Suspended" selected="@(status == PlantStatus.Suspended)">@L["Suspended"]</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-light flex-fill">@L["Filter"]</button>
+                @if (!string.IsNullOrEmpty(q) || status.HasValue)
+                {
+                    <a asp-action="Index" class="btn btn-light">@L["Clear"]</a>
+                }
+            </div>
+        </form>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-buildings"></i>
+            <h5 class="text-body">@L["No plants found"]</h5>
+            <p>@L["Create a plant, or change the search."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Plant"]</th>
+                        <th>@L["Owner"]</th>
+                        <th>@L["City"]</th>
+                        <th>@L["Plan"]</th>
+                        <th>@L["Customers"]</th>
+                        <th>@L["Next due"]</th>
+                        <th>@L["Status"]</th>
+                        <th class="text-end"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="cell-title">@p.Name</div>
+                            <div class="cell-sub num">@p.Phone</div>
+                        </td>
+                        <td>@p.OwnerName</td>
+                        <td>@p.City</td>
+                        <td>
+                            <div>@p.PlanName</div>
+                            <div class="cell-sub num">Rs @p.MonthlyPrice.ToString("N0")</div>
+                        </td>
+                        <td class="num">@p.CustomerCount</td>
+                        <td class="num">@(p.NextDueDate.HasValue ? PakistanTime.ToLocal(p.NextDueDate.Value).ToString("dd MMM yyyy", System.Globalization.CultureInfo.InvariantCulture) : "-")</td>
+                        <td><partial name="_StatusBadge" model="p.Status" /></td>
+                        <td class="text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-label="@L["Actions"]"><i class="bi bi-three-dots"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                    @if (p.Status != PlantStatus.Active)
+                                    {
+                                        <li>
+                                            <form asp-action="SetStatus" method="post">
+                                                <input type="hidden" name="id" value="@p.Id" />
+                                                <input type="hidden" name="status" value="@PlantStatus.Active" />
+                                                <button class="dropdown-item"><i class="bi bi-check2-circle me-2 text-success"></i>@L["Activate (paid)"]</button>
+                                            </form>
+                                        </li>
+                                    }
+                                    @if (p.Status != PlantStatus.Suspended)
+                                    {
+                                        <li>
+                                            <form asp-action="SetStatus" method="post" onsubmit="return confirm('@L["Suspend this plant? Its users will not be able to sign in."]');">
+                                                <input type="hidden" name="id" value="@p.Id" />
+                                                <input type="hidden" name="status" value="@PlantStatus.Suspended" />
+                                                <button class="dropdown-item text-danger"><i class="bi bi-pause-circle me-2"></i>@L["Suspend"]</button>
+                                            </form>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

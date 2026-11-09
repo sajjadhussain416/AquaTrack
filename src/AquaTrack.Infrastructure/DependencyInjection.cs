@@ -1,5 +1,7 @@
+using AquaTrack.Application.Plants;
 using AquaTrack.Infrastructure.Identity;
 using AquaTrack.Infrastructure.Persistence;
+using AquaTrack.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,8 @@ public static class DependencyInjection
                 options.Password.RequiredLength = 8;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireDigit = true;
 
                 // SRS AUTH-06: lock after 5 failed attempts for 15 minutes
                 options.Lockout.MaxFailedAccessAttempts = 5;
@@ -36,6 +40,8 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<AppDbContext>()
             .AddDefaultTokenProviders()
             .AddClaimsPrincipalFactory<AppClaimsPrincipalFactory>();
+
+        services.AddScoped<IPlantService, PlantService>();
 
         return services;
     }

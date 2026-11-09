@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="@(AppCultures.IsUrdu ? "ur" : "en")" dir="@AppCultures.Direction">
+<head>
+    <partial name="_Head" />
+    <title>@ViewData["Title"] · AquaTrack</title>
+</head>
+<body>
+    <div class="auth">
+        <section class="auth-hero">
+            <a class="brand" href="~/">
+                <span class="brand-mark"><i class="bi bi-droplet-fill"></i></span>
+                <span class="brand-name">AquaTrack</span>
+            </a>
+
+            <h2>@L["Every bottle, every rupee, on record."]</h2>
+            <p>@L["Deliveries, bottles, monthly bills and payments for your water plant, in one place."]</p>
+
+            <ul class="hero-points">
+                <li><i class="bi bi-droplet-half"></i>@L["Know how many bottles are with each customer"]</li>
+                <li><i class="bi bi-receipt-cutoff"></i>@L["Monthly bills made automatically"]</li>
+                <li><i class="bi bi-whatsapp"></i>@L["Send bills and reminders on WhatsApp"]</li>
+                <li><i class="bi bi-phone"></i>@L["Delivery staff work from their phone"]</li>
+            </ul>
+
+            <svg class="hero-wave" viewBox="0 0 1440 220" preserveAspectRatio="none" aria-hidden="true">
+                <path fill="#ffffff" d="M0,96L60,112C120,128,240,160,360,154.7C480,149,600,107,720,96C840,85,960,107,1080,128C1200,149,1320,171,1380,181.3L1440,192L1440,220L0,220Z"></path>
+            </svg>
+        </section>
+
+        <section class="auth-panel">
+            <div class="top"><partial name="_LanguageSwitch" /></div>
+            @RenderBody()
+            <div class="auth-foot">&copy; @DateTime.UtcNow.Year AquaTrack</div>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

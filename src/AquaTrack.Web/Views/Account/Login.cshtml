@@ -1,0 +1,54 @@
+@model AquaTrack.Web.Models.Account.LoginViewModel
+@{
+    Layout = "_AuthLayout";
+    ViewData["Title"] = L["Sign in"];
+}
+
+<div class="auth-form">
+    <h1>@L["Welcome back"]</h1>
+    <p class="lead-sm">@L["Sign in with your mobile number to manage your plant."]</p>
+
+    <form asp-action="Login" method="post" data-once novalidate>
+        <input type="hidden" asp-for="ReturnUrl" />
+
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+
+        <div class="mb-3">
+            <label asp-for="Phone" class="form-label"></label>
+            <div class="input-icon">
+                <i class="bi bi-phone"></i>
+                <input asp-for="Phone" class="form-control num" type="tel" inputmode="numeric"
+                       autocomplete="username" placeholder="03001234567" autofocus />
+            </div>
+            <span asp-validation-for="Phone"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <div class="input-icon">
+                <i class="bi bi-lock"></i>
+                <input asp-for="Password" class="form-control" autocomplete="current-password" placeholder="••••••••" />
+                <button type="button" class="pw-toggle" data-pw-toggle="Password" aria-label="@L["Show password"]">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </div>
+            <span asp-validation-for="Password"></span>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="form-check">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label"></label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 btn-lg-at btn-icon justify-content-center">
+            <span>@L["Sign in"]</span>
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-left" : "bi-arrow-right")"></i>
+        </button>
+    </form>
+
+    <p class="text-center text-muted small mt-4 mb-0">
+        @L["Forgot your password? Ask your plant owner or AquaTrack support to reset it."]
+    </p>
+</div>

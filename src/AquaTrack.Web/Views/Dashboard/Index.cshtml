@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = L["Dashboard"];
+    var name = User.FindFirst(AppClaims.FullName)?.Value;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Welcome, {0}", name ?? ""]</h1>
+        <p>@L["Here is your plant at a glance."]</p>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-truck"></i></span>
+            <div><div class="stat-label">@L["Today's deliveries"]</div><div class="stat-value num">0</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-droplet-half"></i></span>
+            <div><div class="stat-label">@L["Bottles with customers"]</div><div class="stat-value num">0</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-cash-stack"></i></span>
+            <div><div class="stat-label">@L["Cash collected today"]</div><div class="stat-value num">Rs 0</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-hourglass-split"></i></span>
+            <div><div class="stat-label">@L["Total pending (udhaar)"]</div><div class="stat-value num">Rs 0</div></div></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">@L["Get your plant ready"]</div>
+    <div class="card-body">
+        <ol class="mb-0 d-grid gap-2">
+            <li>@L["Add your delivery areas"]</li>
+            <li>@L["Add delivery staff and assign areas"]</li>
+            <li>@L["Add customers with their bottle rate"]</li>
+            <li>@L["Start recording daily deliveries"]</li>
+        </ol>
+        <p class="text-muted small mt-3 mb-0">@L["These screens are coming in the next updates."]</p>
+    </div>
+</div>

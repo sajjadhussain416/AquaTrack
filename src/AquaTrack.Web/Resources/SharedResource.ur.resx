@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Access denied" xml:space="preserve"><value>رسائی کی اجازت نہیں</value></data>
+  <data name="Actions" xml:space="preserve"><value>کارروائیاں</value></data>
+  <data name="Activate (paid)" xml:space="preserve"><value>فعال کریں (ادائیگی ہو گئی)</value></data>
+  <data name="Active" xml:space="preserve"><value>فعال</value></data>
+  <data name="Active (paying)" xml:space="preserve"><value>فعال (ادائیگی والے)</value></data>
+  <data name="Add a new water plant" xml:space="preserve"><value>نیا واٹر پلانٹ شامل کریں</value></data>
+  <data name="Add customers with their bottle rate" xml:space="preserve"><value>گاہک ان کے بوتل ریٹ کے ساتھ شامل کریں</value></data>
+  <data name="Add delivery staff and assign areas" xml:space="preserve"><value>ڈیلیوری عملہ شامل کریں اور علاقے دیں</value></data>
+  <data name="Add your delivery areas" xml:space="preserve"><value>اپنے ڈیلیوری علاقے شامل کریں</value></data>
+  <data name="Address" xml:space="preserve"><value>پتہ</value></data>
+  <data name="All statuses" xml:space="preserve"><value>تمام حیثیتیں</value></data>
+  <data name="All water plants using AquaTrack." xml:space="preserve"><value>AquaTrack استعمال کرنے والے تمام واٹر پلانٹس۔</value></data>
+  <data name="Areas" xml:space="preserve"><value>علاقے</value></data>
+  <data name="At least 8 characters with one number." xml:space="preserve"><value>کم از کم 8 حروف، جن میں ایک ہندسہ ہو۔</value></data>
+  <data name="Billing day of month" xml:space="preserve"><value>مہینے میں بل کا دن</value></data>
+  <data name="Bills" xml:space="preserve"><value>بل</value></data>
+  <data name="Bottles with customers" xml:space="preserve"><value>گاہکوں کے پاس بوتلیں</value></data>
+  <data name="Cash collected today" xml:space="preserve"><value>آج وصول شدہ رقم</value></data>
+  <data name="City" xml:space="preserve"><value>شہر</value></data>
+  <data name="Clear" xml:space="preserve"><value>صاف کریں</value></data>
+  <data name="Close" xml:space="preserve"><value>بند کریں</value></data>
+  <data name="Could not create the owner login. Please check the details." xml:space="preserve"><value>مالک کا لاگ اِن نہیں بن سکا۔ براہ کرم تفصیل چیک کریں۔</value></data>
+  <data name="Create a plant, or change the search." xml:space="preserve"><value>نیا پلانٹ بنائیں یا تلاش تبدیل کریں۔</value></data>
+  <data name="Create plant" xml:space="preserve"><value>پلانٹ بنائیں</value></data>
+  <data name="Create the first water plant to get started." xml:space="preserve"><value>شروع کرنے کے لیے پہلا واٹر پلانٹ بنائیں۔</value></data>
+  <data name="Customers" xml:space="preserve"><value>گاہک</value></data>
+  <data name="Customers on platform" xml:space="preserve"><value>پلیٹ فارم پر گاہک</value></data>
+  <data name="Dashboard" xml:space="preserve"><value>ڈیش بورڈ</value></data>
+  <data name="Deliveries" xml:space="preserve"><value>ڈیلیوریاں</value></data>
+  <data name="Deliveries, bottles, monthly bills and payments for your water plant, in one place." xml:space="preserve"><value>آپ کے واٹر پلانٹ کی ڈیلیوری، بوتلیں، ماہانہ بل اور ادائیگیاں، سب ایک جگہ۔</value></data>
+  <data name="Delivery staff" xml:space="preserve"><value>ڈیلیوری عملہ</value></data>
+  <data name="Delivery staff work from their phone" xml:space="preserve"><value>ڈیلیوری عملہ اپنے فون سے کام کرے</value></data>
+  <data name="Enter a valid mobile number like 03001234567." xml:space="preserve"><value>درست موبائل نمبر لکھیں، جیسے 03001234567۔</value></data>
+  <data name="Every bottle, every rupee, on record." xml:space="preserve"><value>ہر بوتل، ہر روپیہ، ریکارڈ پر۔</value></data>
+  <data name="Filter" xml:space="preserve"><value>فلٹر</value></data>
+  <data name="Forgot your password? Ask your plant owner or AquaTrack support to reset it." xml:space="preserve"><value>پاس ورڈ بھول گئے؟ اپنے پلانٹ مالک یا AquaTrack سپورٹ سے نیا پاس ورڈ لیں۔</value></data>
+  <data name="Get your plant ready" xml:space="preserve"><value>اپنا پلانٹ تیار کریں</value></data>
+  <data name="Go to my home" xml:space="preserve"><value>میرے ہوم پیج پر جائیں</value></data>
+  <data name="Here is your plant at a glance." xml:space="preserve"><value>آپ کے پلانٹ کا ایک نظر میں جائزہ۔</value></data>
+  <data name="Keep me signed in" xml:space="preserve"><value>مجھے لاگ اِن رکھیں</value></data>
+  <data name="Know how many bottles are with each customer" xml:space="preserve"><value>جانیں ہر گاہک کے پاس کتنی بوتلیں ہیں</value></data>
+  <data name="Language" xml:space="preserve"><value>زبان</value></data>
+  <data name="Menu" xml:space="preserve"><value>مینو</value></data>
+  <data name="Mobile number" xml:space="preserve"><value>موبائل نمبر</value></data>
+  <data name="Mobile number or password is incorrect." xml:space="preserve"><value>موبائل نمبر یا پاس ورڈ غلط ہے۔</value></data>
+  <data name="Monthly bills are made on this day (1 to 28)." xml:space="preserve"><value>ماہانہ بل اسی دن بنیں گے (1 سے 28)۔</value></data>
+  <data name="Monthly bills made automatically" xml:space="preserve"><value>ماہانہ بل خود بخود تیار</value></data>
+  <data name="Monthly revenue" xml:space="preserve"><value>ماہانہ آمدنی</value></data>
+  <data name="My work" xml:space="preserve"><value>میرا کام</value></data>
+  <data name="New plant" xml:space="preserve"><value>نیا پلانٹ</value></data>
+  <data name="Next due" xml:space="preserve"><value>اگلی ادائیگی</value></data>
+  <data name="No deliveries yet" xml:space="preserve"><value>ابھی کوئی ڈیلیوری نہیں</value></data>
+  <data name="No plants found" xml:space="preserve"><value>کوئی پلانٹ نہیں ملا</value></data>
+  <data name="No plants yet" xml:space="preserve"><value>ابھی کوئی پلانٹ نہیں</value></data>
+  <data name="On free trial" xml:space="preserve"><value>مفت آزمائش پر</value></data>
+  <data name="Owner" xml:space="preserve"><value>مالک</value></data>
+  <data name="Owner login" xml:space="preserve"><value>مالک کا لاگ اِن</value></data>
+  <data name="Owner mobile number" xml:space="preserve"><value>مالک کا موبائل نمبر</value></data>
+  <data name="Owner name" xml:space="preserve"><value>مالک کا نام</value></data>
+  <data name="Owner password" xml:space="preserve"><value>مالک کا پاس ورڈ</value></data>
+  <data name="Password" xml:space="preserve"><value>پاس ورڈ</value></data>
+  <data name="Password must be at least 8 characters." xml:space="preserve"><value>پاس ورڈ کم از کم 8 حروف کا ہونا چاہیے۔</value></data>
+  <data name="Password must contain at least one number." xml:space="preserve"><value>پاس ورڈ میں کم از کم ایک ہندسہ ہونا چاہیے۔</value></data>
+  <data name="Payments" xml:space="preserve"><value>ادائیگیاں</value></data>
+  <data name="Plan" xml:space="preserve"><value>پلان</value></data>
+  <data name="Plans" xml:space="preserve"><value>پلانز</value></data>
+  <data name="Plant" xml:space="preserve"><value>پلانٹ</value></data>
+  <data name="Plant created. The owner can now sign in with their mobile number." xml:space="preserve"><value>پلانٹ بن گیا۔ مالک اب اپنے موبائل نمبر سے لاگ اِن کر سکتا ہے۔</value></data>
+  <data name="Plant details" xml:space="preserve"><value>پلانٹ کی تفصیل</value></data>
+  <data name="Plant manager" xml:space="preserve"><value>پلانٹ منیجر</value></data>
+  <data name="Plant name" xml:space="preserve"><value>پلانٹ کا نام</value></data>
+  <data name="Plant not found." xml:space="preserve"><value>پلانٹ نہیں ملا۔</value></data>
+  <data name="Plant owner" xml:space="preserve"><value>پلانٹ مالک</value></data>
+  <data name="Plant phone" xml:space="preserve"><value>پلانٹ کا فون</value></data>
+  <data name="Plant status updated." xml:space="preserve"><value>پلانٹ کی حیثیت تبدیل ہو گئی۔</value></data>
+  <data name="Platform" xml:space="preserve"><value>پلیٹ فارم</value></data>
+  <data name="Platform health" xml:space="preserve"><value>پلیٹ فارم کی صورتحال</value></data>
+  <data name="Platform overview" xml:space="preserve"><value>پلیٹ فارم کا جائزہ</value></data>
+  <data name="Please enter {0}." xml:space="preserve"><value>براہ کرم {0} درج کریں۔</value></data>
+  <data name="Please select a plan." xml:space="preserve"><value>براہ کرم پلان منتخب کریں۔</value></data>
+  <data name="Price per bottle (PKR)" xml:space="preserve"><value>فی بوتل قیمت (روپے)</value></data>
+  <data name="Pricing and bottles" xml:space="preserve"><value>قیمت اور بوتلیں</value></data>
+  <data name="Recently added plants" xml:space="preserve"><value>حال ہی میں شامل پلانٹس</value></data>
+  <data name="Search by plant, owner, phone or city" xml:space="preserve"><value>پلانٹ، مالک، فون یا شہر سے تلاش کریں</value></data>
+  <data name="Security deposit per bottle (PKR)" xml:space="preserve"><value>فی بوتل سیکیورٹی (روپے)</value></data>
+  <data name="Send bills and reminders on WhatsApp" xml:space="preserve"><value>بل اور یاد دہانی واٹس ایپ پر بھیجیں</value></data>
+  <data name="Setup" xml:space="preserve"><value>سیٹ اپ</value></data>
+  <data name="Show password" xml:space="preserve"><value>پاس ورڈ دکھائیں</value></data>
+  <data name="Sign in" xml:space="preserve"><value>لاگ اِن</value></data>
+  <data name="Sign in with your mobile number to manage your plant." xml:space="preserve"><value>اپنا پلانٹ سنبھالنے کے لیے موبائل نمبر سے لاگ اِن کریں۔</value></data>
+  <data name="Sign out" xml:space="preserve"><value>لاگ آؤٹ</value></data>
+  <data name="Soon" xml:space="preserve"><value>جلد</value></data>
+  <data name="Start recording daily deliveries" xml:space="preserve"><value>روزانہ ڈیلیوری درج کرنا شروع کریں</value></data>
+  <data name="Status" xml:space="preserve"><value>حیثیت</value></data>
+  <data name="Subscriptions" xml:space="preserve"><value>سبسکرپشنز</value></data>
+  <data name="Super Admin" xml:space="preserve"><value>سپر ایڈمن</value></data>
+  <data name="Suspend" xml:space="preserve"><value>معطل کریں</value></data>
+  <data name="Suspend this plant? Its users will not be able to sign in." xml:space="preserve"><value>کیا یہ پلانٹ معطل کرنا ہے؟ اس کے صارفین لاگ اِن نہیں کر سکیں گے۔</value></data>
+  <data name="Suspended" xml:space="preserve"><value>معطل</value></data>
+  <data name="Suspended plants" xml:space="preserve"><value>معطل پلانٹس</value></data>
+  <data name="The owner signs in with this number." xml:space="preserve"><value>مالک اسی نمبر سے لاگ اِن کرے گا۔</value></data>
+  <data name="The plant starts with a 30-day free trial. The owner signs in with the mobile number you enter here." xml:space="preserve"><value>پلانٹ 30 دن کی مفت آزمائش سے شروع ہوگا۔ مالک یہاں درج موبائل نمبر سے لاگ اِن کرے گا۔</value></data>
+  <data name="These screens are coming in the next updates." xml:space="preserve"><value>یہ اسکرینیں اگلی اپ ڈیٹس میں آ رہی ہیں۔</value></data>
+  <data name="This mobile number is already registered." xml:space="preserve"><value>یہ موبائل نمبر پہلے سے رجسٹرڈ ہے۔</value></data>
+  <data name="Today's deliveries" xml:space="preserve"><value>آج کی ڈیلیوریاں</value></data>
+  <data name="Too many wrong attempts. Please try again after 15 minutes." xml:space="preserve"><value>بہت زیادہ غلط کوششیں۔ براہ کرم 15 منٹ بعد دوبارہ کوشش کریں۔</value></data>
+  <data name="Total bottles owned" xml:space="preserve"><value>کل بوتلیں (ملکیت)</value></data>
+  <data name="Total pending (udhaar)" xml:space="preserve"><value>کل ادھار</value></data>
+  <data name="Total plants" xml:space="preserve"><value>کل پلانٹس</value></data>
+  <data name="Trial" xml:space="preserve"><value>آزمائشی</value></data>
+  <data name="Used for new customers. Can be changed per customer." xml:space="preserve"><value>نئے گاہکوں کے لیے استعمال ہوگا۔ ہر گاہک کے لیے بدلا جا سکتا ہے۔</value></data>
+  <data name="View all" xml:space="preserve"><value>سب دیکھیں</value></data>
+  <data name="Water delivery made simple" xml:space="preserve"><value>پانی کی ڈیلیوری، آسان</value></data>
+  <data name="Water plants" xml:space="preserve"><value>واٹر پلانٹس</value></data>
+  <data name="Welcome back" xml:space="preserve"><value>خوش آمدید</value></data>
+  <data name="Welcome, {0}" xml:space="preserve"><value>خوش آمدید، {0}</value></data>
+  <data name="You do not have permission to open this page." xml:space="preserve"><value>آپ کو یہ صفحہ کھولنے کی اجازت نہیں۔</value></data>
+  <data name="Your delivery list will appear here once your areas and customers are set up." xml:space="preserve"><value>علاقے اور گاہک شامل ہونے کے بعد آپ کی ڈیلیوری لسٹ یہاں نظر آئے گی۔</value></data>
+  <data name="Your plant account is suspended. Please contact support." xml:space="preserve"><value>آپ کے پلانٹ کا اکاؤنٹ معطل ہے۔ براہ کرم سپورٹ سے رابطہ کریں۔</value></data>
+  <data name="e.g. Al-Madina Water Plant" xml:space="preserve"><value>مثلاً المدینہ واٹر پلانٹ</value></data>
+  <data name="month" xml:space="preserve"><value>ماہانہ</value></data>
+  <data name="{0} is too long." xml:space="preserve"><value>{0} بہت لمبا ہے۔</value></data>
+  <data name="{0} must be between {1} and {2}." xml:space="preserve"><value>{0} کو {1} اور {2} کے درمیان ہونا چاہیے۔</value></data>
+  <data name="{0} plants" xml:space="preserve"><value>{0} پلانٹس</value></data>
+</root>

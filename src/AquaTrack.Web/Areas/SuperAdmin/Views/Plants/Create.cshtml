@@ -1,0 +1,134 @@
+@model PlantFormViewModel
+@{
+    ViewData["Title"] = L["New plant"];
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="Index" class="small fw-semibold text-decoration-none">
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i> @L["Water plants"]
+        </a>
+        <h1 class="mt-1">@L["Add a new water plant"]</h1>
+        <p>@L["The plant starts with a 30-day free trial. The owner signs in with the mobile number you enter here."]</p>
+    </div>
+</div>
+
+<form asp-action="Create" method="post" data-once novalidate>
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+
+    <div class="row g-3">
+        <div class="col-lg-8">
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-buildings me-2 text-primary"></i>@L["Plant details"]</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="PlantName" class="form-label"></label>
+                            <input asp-for="PlantName" class="form-control" placeholder="@L["e.g. Al-Madina Water Plant"]" />
+                            <span asp-validation-for="PlantName"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="PlantPhone" class="form-label"></label>
+                            <input asp-for="PlantPhone" class="form-control num" type="tel" inputmode="numeric" placeholder="03001234567" />
+                            <span asp-validation-for="PlantPhone"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="City" class="form-label"></label>
+                            <input asp-for="City" class="form-control" list="cities" />
+                            <datalist id="cities">
+                                <option value="Islamabad"></option><option value="Rawalpindi"></option><option value="Lahore"></option>
+                                <option value="Karachi"></option><option value="Peshawar"></option><option value="Faisalabad"></option>
+                                <option value="Multan"></option><option value="Gujranwala"></option><option value="Sialkot"></option>
+                                <option value="Quetta"></option><option value="Hyderabad"></option><option value="Abbottabad"></option>
+                            </datalist>
+                            <span asp-validation-for="City"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Address" class="form-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-droplet me-2 text-primary"></i>@L["Pricing and bottles"]</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="DefaultRate" class="form-label"></label>
+                            <input asp-for="DefaultRate" class="form-control num" type="number" min="0" step="1" />
+                            <div class="form-text">@L["Used for new customers. Can be changed per customer."]</div>
+                            <span asp-validation-for="DefaultRate"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="DepositPerBottle" class="form-label"></label>
+                            <input asp-for="DepositPerBottle" class="form-control num" type="number" min="0" step="1" />
+                            <span asp-validation-for="DepositPerBottle"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="TotalBottles" class="form-label"></label>
+                            <input asp-for="TotalBottles" class="form-control num" type="number" min="0" step="1" />
+                            <span asp-validation-for="TotalBottles"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="BillingDay" class="form-label"></label>
+                            <input asp-for="BillingDay" class="form-control num" type="number" min="1" max="28" />
+                            <div class="form-text">@L["Monthly bills are made on this day (1 to 28)."]</div>
+                            <span asp-validation-for="BillingDay"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-person-gear me-2 text-primary"></i>@L["Owner login"]</div>
+                <div class="card-body d-grid gap-3">
+                    <div>
+                        <label asp-for="OwnerName" class="form-label"></label>
+                        <input asp-for="OwnerName" class="form-control" />
+                        <span asp-validation-for="OwnerName"></span>
+                    </div>
+                    <div>
+                        <label asp-for="OwnerPhone" class="form-label"></label>
+                        <input asp-for="OwnerPhone" class="form-control num" type="tel" inputmode="numeric" placeholder="03001234567" />
+                        <div class="form-text">@L["The owner signs in with this number."]</div>
+                        <span asp-validation-for="OwnerPhone"></span>
+                    </div>
+                    <div>
+                        <label asp-for="OwnerPassword" class="form-label"></label>
+                        <div class="input-icon">
+                            <i class="bi bi-lock"></i>
+                            <input asp-for="OwnerPassword" class="form-control" autocomplete="new-password" />
+                            <button type="button" class="pw-toggle" data-pw-toggle="OwnerPassword" aria-label="@L["Show password"]"><i class="bi bi-eye"></i></button>
+                        </div>
+                        <div class="form-text">@L["At least 8 characters with one number."]</div>
+                        <span asp-validation-for="OwnerPassword"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header"><i class="bi bi-layers me-2 text-primary"></i>@L["Plan"]</div>
+                <div class="card-body d-grid gap-2">
+                    @foreach (var plan in Model.Plans)
+                    {
+                        <label class="d-flex align-items-center gap-2 border rounded-3 p-3" style="cursor:pointer">
+                            <input type="radio" class="form-check-input mt-0" name="PlanId" value="@plan.Id" checked="@(Model.PlanId == plan.Id)" />
+                            <span class="fw-bold">@plan.Name</span>
+                            <span class="ms-auto num fw-semibold text-primary">Rs @plan.MonthlyPrice.ToString("N0")<small class="text-muted fw-normal"> / @L["month"]</small></span>
+                        </label>
+                    }
+                    <span asp-validation-for="PlanId"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-lg-at btn-icon justify-content-center">
+                <i class="bi bi-check2"></i><span>@L["Create plant"]</span>
+            </button>
+        </div>
+    </div>
+</form>

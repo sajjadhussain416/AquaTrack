@@ -1,0 +1,13 @@
+@model AquaTrack.Domain.Enums.PlantStatus
+@switch (Model)
+{
+    case PlantStatus.Active:
+        <span class="badge-soft active">@L["Active"]</span>
+        break;
+    case PlantStatus.Suspended:
+        <span class="badge-soft suspended">@L["Suspended"]</span>
+        break;
+    default:
+        <span class="badge-soft trial">@L["Trial"]</span>
+        break;
+}

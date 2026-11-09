@@ -35,18 +35,27 @@ public static class DbSeeder
 
         // Super Admin (credentials come from configuration / user-secrets, never from code)
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-        var adminPhone = config["SuperAdmin:Phone"];
+        var adminPhone = PhoneNumber.Normalize(config["SuperAdmin:Phone"]);
         var adminPassword = config["SuperAdmin:Password"];
 
-        if (!string.IsNullOrWhiteSpace(adminPhone) && !string.IsNullOrWhiteSpace(adminPassword)
-            && await userManager.FindByNameAsync(adminPhone) is null)
+        var existingAdmin = string.IsNullOrWhiteSpace(adminPhone) ? null : await userManager.FindByNameAsync(adminPhone);
+        var configuredName = config["SuperAdmin:FullName"];
+
+        // Keep the Super Admin display name in sync with configuration (no hard-coded names)
+        if (existingAdmin is not null && !string.IsNullOrWhiteSpace(configuredName) && existingAdmin.FullName != configuredName)
+        {
+            existingAdmin.FullName = configuredName.Trim();
+            await userManager.UpdateAsync(existingAdmin);
+        }
+
+        if (existingAdmin is null && !string.IsNullOrWhiteSpace(adminPhone) && !string.IsNullOrWhiteSpace(adminPassword))
         {
             var admin = new ApplicationUser
             {
                 UserName = adminPhone,
                 PhoneNumber = adminPhone,
                 Email = config["SuperAdmin:Email"],
-                FullName = config["SuperAdmin:FullName"] ?? "Super Admin",
+                FullName = string.IsNullOrWhiteSpace(configuredName) ? "Super Admin" : configuredName.Trim(),
                 PlantId = null
             };
 

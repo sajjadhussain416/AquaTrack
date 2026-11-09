@@ -1,0 +1,84 @@
+@model PlatformStats
+@{
+    ViewData["Title"] = L["Dashboard"];
+    var recent = (IReadOnlyList<PlantListItem>)ViewBag.Recent;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Platform overview"]</h1>
+        <p>@L["All water plants using AquaTrack."]</p>
+    </div>
+    <div class="actions">
+        <a asp-controller="Plants" asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-plus-lg"></i>@L["New plant"]</a>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-buildings"></i></span>
+            <div><div class="stat-label">@L["Total plants"]</div><div class="stat-value num">@Model.TotalPlants</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-check2-circle"></i></span>
+            <div><div class="stat-label">@L["Active (paying)"]</div><div class="stat-value num">@Model.ActivePlants</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-hourglass-split"></i></span>
+            <div><div class="stat-label">@L["On free trial"]</div><div class="stat-value num">@Model.TrialPlants</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-cash-coin"></i></span>
+            <div><div class="stat-label">@L["Monthly revenue"]</div><div class="stat-value num">Rs @Model.ExpectedMonthlyRevenue.ToString("N0")</div></div></div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-8">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+                <span>@L["Recently added plants"]</span>
+                <a asp-controller="Plants" asp-action="Index" class="ms-auto small fw-semibold">@L["View all"]</a>
+            </div>
+            @if (recent.Count == 0)
+            {
+                <div class="empty-state">
+                    <i class="bi bi-buildings"></i>
+                    <h5 class="text-body">@L["No plants yet"]</h5>
+                    <p>@L["Create the first water plant to get started."]</p>
+                    <a asp-controller="Plants" asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-plus-lg"></i>@L["New plant"]</a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-at">
+                        <thead><tr><th>@L["Plant"]</th><th>@L["City"]</th><th>@L["Plan"]</th><th>@L["Status"]</th></tr></thead>
+                        <tbody>
+                        @foreach (var p in recent)
+                        {
+                            <tr>
+                                <td><div class="cell-title">@p.Name</div><div class="cell-sub">@p.OwnerName</div></td>
+                                <td>@p.City</td>
+                                <td>@p.PlanName</td>
+                                <td><partial name="_StatusBadge" model="p.Status" /></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card h-100">
+            <div class="card-header">@L["Platform health"]</div>
+            <div class="card-body d-grid gap-3">
+                <div class="d-flex align-items-center"><span class="stat-icon tone-blue me-3" style="width:40px;height:40px;font-size:1.1rem"><i class="bi bi-people"></i></span>
+                    <div><div class="stat-label">@L["Customers on platform"]</div><div class="fw-bold num fs-5">@Model.TotalCustomers</div></div></div>
+                <div class="d-flex align-items-center"><span class="stat-icon tone-red me-3" style="width:40px;height:40px;font-size:1.1rem"><i class="bi bi-pause-circle"></i></span>
+                    <div><div class="stat-label">@L["Suspended plants"]</div><div class="fw-bold num fs-5">@Model.SuspendedPlants</div></div></div>
+            </div>
+        </div>
+    </div>
+</div>
