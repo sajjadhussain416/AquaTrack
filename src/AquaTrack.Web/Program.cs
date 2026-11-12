@@ -4,7 +4,10 @@ using AquaTrack.Infrastructure;
 using AquaTrack.Infrastructure.Persistence;
 using AquaTrack.Web;
 using AquaTrack.Web.Services;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -28,6 +31,37 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.Name = "AquaTrack.Auth";
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+
+    // Without "Keep me signed in": the login lasts only while the browser is open AND the app keeps running.
+    // A browser close ends the session cookie; an app restart changes AppSession.BootId and the old login is refused.
+    options.Events.OnSigningIn = ctx =>
+    {
+        if (ctx.Properties.IsPersistent != true && ctx.Principal?.Identity is ClaimsIdentity id)
+            id.AddClaim(new Claim(AppSession.BootClaim, AppSession.BootId));
+        return Task.CompletedTask;
+    };
+
+    var identityCheck = options.Events.OnValidatePrincipal; // security-stamp validation from Identity
+    options.Events.OnValidatePrincipal = async ctx =>
+    {
+        if (ctx.Properties.IsPersistent != true &&
+            ctx.Principal?.FindFirst(AppSession.BootClaim)?.Value != AppSession.BootId)
+        {
+            ctx.RejectPrincipal();
+            await ctx.HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return;
+        }
+        await identityCheck(ctx);
+    };
+});
+
+// Identity re-checks logins every 30 minutes and rebuilds the user's claims; carry the boot id over.
+builder.Services.Configure<SecurityStampValidatorOptions>(o => o.OnRefreshingPrincipal = ctx =>
+{
+    var boot = ctx.CurrentPrincipal?.FindFirst(AppSession.BootClaim);
+    if (boot is not null && ctx.NewPrincipal?.Identity is ClaimsIdentity id)
+        id.AddClaim(new Claim(boot.Type, boot.Value));
+    return Task.CompletedTask;
 });
 
 // SRS SYS-02: English + Urdu (Urdu is right-to-left)

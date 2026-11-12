@@ -49,6 +49,29 @@
         if (e.target.name === 'Method') syncMethod(e.target.closest('form'));
     });
 
+    // ---- Owner's payment accounts: keep them current without a reload ----
+    // Fetched when the screen comes back into view and every minute, so a bank / Easypaisa change in
+    // Settings reaches the delivery staff's phone on its own.
+    var payToBusy = false;
+    function refreshPayTo() {
+        if (payToBusy || document.hidden || !document.querySelector('[data-pay-to]')) return;
+        payToBusy = true;
+        fetch('/Delivery/PayTo', { headers: { 'X-Requested-With': 'fetch' }, cache: 'no-store' })
+            .then(function (res) { return res.ok ? res.text() : null; })
+            .then(function (html) {
+                if (html === null) return;
+                document.querySelectorAll('[data-pay-to]').forEach(function (box) {
+                    if (box.innerHTML.trim() !== html.trim()) box.innerHTML = html;
+                });
+                document.querySelectorAll('[data-stop-form]').forEach(syncMethod);
+            })
+            .catch(function () { /* offline: keep what is shown */ })
+            .then(function () { payToBusy = false; });
+    }
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) refreshPayTo(); });
+    window.addEventListener('focus', refreshPayTo);
+    setInterval(refreshPayTo, 60000);
+
     document.querySelectorAll('[data-stop-form]').forEach(syncMethod);
 
     // ---- Save a card ----

@@ -501,4 +501,8 @@
   <data name="This IBAN is not correct. A Pakistani IBAN has 24 characters and starts with PK. Please check it again." xml:space="preserve"><value>یہ IBAN درست نہیں۔ پاکستانی IBAN میں 24 حروف ہوتے ہیں اور یہ PK سے شروع ہوتا ہے۔ دوبارہ چیک کریں۔</value></data>
   <data name="Enter the IBAN (starts with PK) or the account number in digits only." xml:space="preserve"><value>IBAN (جو PK سے شروع ہو) یا صرف ہندسوں میں اکاؤنٹ نمبر لکھیں۔</value></data>
   <data name="The owner has already checked this payment. Ask the owner to change it." xml:space="preserve"><value>مالک یہ ادائیگی چیک کر چکا ہے۔ تبدیلی کے لیے مالک سے کہیں۔</value></data>
+  <data name="The owner has not added an Easypaisa account." xml:space="preserve"><value>مالک نے ایزی پیسہ اکاؤنٹ شامل نہیں کیا۔</value></data>
+  <data name="The owner has not added a JazzCash account." xml:space="preserve"><value>مالک نے جاز کیش اکاؤنٹ شامل نہیں کیا۔</value></data>
+  <data name="The owner has not added a bank account." xml:space="preserve"><value>مالک نے بینک اکاؤنٹ شامل نہیں کیا۔</value></data>
+  <data name="Keep me signed in on this device" xml:space="preserve"><value>اس ڈیوائس پر لاگ اِن رہیں</value></data>
 </root>

@@ -1,0 +1,29 @@
+@model AquaTrack.Application.Settings.PaymentAccounts
+@* Where the customer sends money. Re-fetched by route.js so the owner's latest Settings show without a reload. *@
+@{
+    var a = Model ?? AquaTrack.Application.Settings.PaymentAccounts.None;
+}
+@if (a.HasEasypaisa)
+{
+    <span data-for="Easypaisa" hidden><i class="bi bi-phone"></i> @L["Easypaisa"]: <b class="num">@a.EasypaisaNumber</b> · @a.EasypaisaTitle</span>
+}
+else
+{
+    <span data-for="Easypaisa" class="pay-missing" hidden><i class="bi bi-exclamation-circle"></i> @L["The owner has not added an Easypaisa account."]</span>
+}
+@if (a.HasJazzCash)
+{
+    <span data-for="JazzCash" hidden><i class="bi bi-phone"></i> @L["JazzCash"]: <b class="num">@a.JazzCashNumber</b> · @a.JazzCashTitle</span>
+}
+else
+{
+    <span data-for="JazzCash" class="pay-missing" hidden><i class="bi bi-exclamation-circle"></i> @L["The owner has not added a JazzCash account."]</span>
+}
+@if (a.HasBank)
+{
+    <span data-for="BankTransfer" hidden><i class="bi bi-bank"></i> @a.BankName · @a.BankAccountTitle · <b class="num">@a.BankAccountDisplay</b></span>
+}
+else
+{
+    <span data-for="BankTransfer" class="pay-missing" hidden><i class="bi bi-exclamation-circle"></i> @L["The owner has not added a bank account."]</span>
+}

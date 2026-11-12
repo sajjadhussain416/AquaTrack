@@ -44,6 +44,17 @@ public class DeliveryController : Controller
         });
     }
 
+    /// <summary>
+    /// The plant's current payment accounts as HTML. The route screen re-fetches this, so an account
+    /// the owner changes in Settings reaches delivery staff without them reloading the page.
+    /// </summary>
+    [HttpGet]
+    public async Task<IActionResult> PayTo(CancellationToken ct)
+    {
+        Response.Headers.CacheControl = "no-store";
+        return PartialView("_PayTo", await _settings.GetPaymentAccountsAsync(ct));
+    }
+
     /// <summary>Saves one card. Returns the refreshed card HTML for the route screen's script.</summary>
     [HttpPost]
     public async Task<IActionResult> Save(DeliveryFormModel form, int? areaId, CancellationToken ct)

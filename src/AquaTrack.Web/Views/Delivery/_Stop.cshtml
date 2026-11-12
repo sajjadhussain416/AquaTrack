@@ -82,14 +82,9 @@
         </div>
 
         <div class="tid-row" data-tid-row hidden="@(!digital)">
-            @if (accounts is not null)
-            {
-                <div class="pay-to">
-                    @if (accounts.HasEasypaisa) { <span data-for="Easypaisa" hidden><i class="bi bi-phone"></i> @L["Easypaisa"]: <b class="num">@accounts.EasypaisaNumber</b> · @accounts.EasypaisaTitle</span> }
-                    @if (accounts.HasJazzCash) { <span data-for="JazzCash" hidden><i class="bi bi-phone"></i> @L["JazzCash"]: <b class="num">@accounts.JazzCashNumber</b> · @accounts.JazzCashTitle</span> }
-                    @if (accounts.HasBank) { <span data-for="BankTransfer" hidden><i class="bi bi-bank"></i> @accounts.BankName · @accounts.BankAccountTitle · <b class="num">@accounts.BankAccountDisplay</b></span> }
-                </div>
-            }
+            <div class="pay-to" data-pay-to>
+                <partial name="_PayTo" model="(accounts ?? AquaTrack.Application.Settings.PaymentAccounts.None)" />
+            </div>
             <input name="TransactionRef" class="form-control num" maxlength="50" value="@Model.TransactionRef"
                    placeholder="@L["Transaction ID (TID)"]" autocomplete="off" />
             <div class="form-text">@L["The owner will check this payment in the plant's account."]</div>

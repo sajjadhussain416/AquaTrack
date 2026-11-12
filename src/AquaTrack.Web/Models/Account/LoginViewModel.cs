@@ -13,8 +13,12 @@ public class LoginViewModel
     [Display(Name = "Password")]
     public string Password { get; set; } = string.Empty;
 
-    [Display(Name = "Keep me signed in")]
-    public bool RememberMe { get; set; } = true;
+    /// <summary>
+    /// Off by default: closing the browser or restarting the app signs the user out.
+    /// Delivery staff tick it once on their own phone so they are not asked every morning.
+    /// </summary>
+    [Display(Name = "Keep me signed in on this device")]
+    public bool RememberMe { get; set; }
 
     public string? ReturnUrl { get; set; }
 }

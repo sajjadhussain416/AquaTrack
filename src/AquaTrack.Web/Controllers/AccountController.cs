@@ -86,7 +86,7 @@ public class AccountController : Controller
             return View(model);
         }
 
-        if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+        if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl) && await CanOpenAsync(user, model.ReturnUrl))
         {
             return LocalRedirect(model.ReturnUrl);
         }
@@ -104,6 +104,18 @@ public class AccountController : Controller
     [HttpGet]
     [AllowAnonymous]
     public IActionResult AccessDenied() => View();
+
+    /// <summary>
+    /// Delivery staff only have the route screen; any other return address (for example the owner's
+    /// dashboard link) would end on "Access denied", so they go to their route instead.
+    /// </summary>
+    private async Task<bool> CanOpenAsync(ApplicationUser user, string returnUrl)
+    {
+        if (!await _userManager.IsInRoleAsync(user, Roles.DeliveryBoy)) return true;
+        return returnUrl.StartsWith("/Delivery", StringComparison.OrdinalIgnoreCase)
+            && !returnUrl.StartsWith("/Deliveries", StringComparison.OrdinalIgnoreCase)
+            && !returnUrl.StartsWith("/DeliveryAreas", StringComparison.OrdinalIgnoreCase);
+    }
 
     private async Task<IActionResult> RedirectToHomeAsync(ApplicationUser user)
     {
