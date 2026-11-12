@@ -132,6 +132,13 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             e.Property(x => x.Address).HasMaxLength(300);
             e.Property(x => x.LogoUrl).HasMaxLength(500);
             e.Property(x => x.Status).HasConversion<string>().HasMaxLength(20);
+            e.Property(x => x.EasypaisaNumber).HasMaxLength(20);
+            e.Property(x => x.JazzCashNumber).HasMaxLength(20);
+            e.Property(x => x.EasypaisaTitle).HasMaxLength(150);
+            e.Property(x => x.JazzCashTitle).HasMaxLength(150);
+            e.Property(x => x.BankName).HasMaxLength(100);
+            e.Property(x => x.BankAccountTitle).HasMaxLength(150);
+            e.Property(x => x.BankAccountNumber).HasMaxLength(40);
         });
 
         b.Entity<SubscriptionPayment>(e =>
@@ -180,6 +187,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             e.Property(x => x.DeliveryBoyId).HasMaxLength(450).IsRequired();
             e.Property(x => x.Status).HasConversion<string>().HasMaxLength(20);
             e.Property(x => x.Note).HasMaxLength(300);
+            e.Property(x => x.PaymentMethod).HasConversion<string>().HasMaxLength(20).HasDefaultValue(PaymentMethod.Cash);
+            e.Property(x => x.TransactionRef).HasMaxLength(50);
             e.HasIndex(x => new { x.PlantId, x.Date });
             e.HasIndex(x => new { x.CustomerId, x.Date });
             e.HasIndex(x => new { x.DeliveryBoyId, x.Date });
@@ -204,6 +213,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             e.Property(x => x.Method).HasConversion<string>().HasMaxLength(20);
             e.Property(x => x.ReceivedById).HasMaxLength(450).IsRequired();
             e.Property(x => x.Note).HasMaxLength(300);
+            e.Property(x => x.TransactionRef).HasMaxLength(50);
+            e.Property(x => x.Verification).HasConversion<string>().HasMaxLength(20).HasDefaultValue(PaymentVerification.Verified);
+            e.Property(x => x.VerifiedById).HasMaxLength(450);
+            e.HasIndex(x => new { x.PlantId, x.Verification });
             e.HasIndex(x => new { x.CustomerId, x.Date });
         });
 

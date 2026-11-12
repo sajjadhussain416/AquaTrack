@@ -1,5 +1,6 @@
 using AquaTrack.Application.Common;
 using AquaTrack.Application.Operations;
+using AquaTrack.Application.Settings;
 using AquaTrack.Web.Models.Operations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,15 @@ namespace AquaTrack.Web.Controllers;
 public class DeliveryController : Controller
 {
     private readonly IDeliveryService _deliveries;
+    private readonly ICashService _cash;
+    private readonly IPlantSettingsService _settings;
     private readonly IStringLocalizer<SharedResource> _l;
 
-    public DeliveryController(IDeliveryService deliveries, IStringLocalizer<SharedResource> l)
+    public DeliveryController(IDeliveryService deliveries, ICashService cash, IPlantSettingsService settings, IStringLocalizer<SharedResource> l)
     {
         _deliveries = deliveries;
+        _cash = cash;
+        _settings = settings;
         _l = l;
     }
 
@@ -34,7 +39,8 @@ public class DeliveryController : Controller
         {
             Route = await _deliveries.GetRouteAsync(day, areaId, ct),
             CanPickDate = !IsDeliveryBoy,
-            Today = today
+            Today = today,
+            MyCashInHand = IsDeliveryBoy ? await _cash.GetMyCashInHandAsync(ct) : null
         });
     }
 
@@ -57,6 +63,7 @@ public class DeliveryController : Controller
         if (isScript)
         {
             ViewData["RouteDate"] = form.Date.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+            ViewData["Accounts"] = await _settings.GetPaymentAccountsAsync(ct);
             return PartialView("_Stop", result.Value);
         }
 

@@ -4,6 +4,7 @@
     var inv = System.Globalization.CultureInfo.InvariantCulture;
     ViewData["Title"] = L["Today's deliveries"];
     ViewData["RouteDate"] = r.Date.ToString("yyyy-MM-dd", inv);
+    ViewData["Accounts"] = r.Accounts;
     var isToday = r.Date == Model.Today;
     var pending = r.Stops.Count(s => !s.IsSaved);
 }
@@ -47,7 +48,13 @@ else
         <div><span class="t-label">@L["Filled given"]</span><span class="t-value num" data-total="filled">@r.Totals.Filled</span></div>
         <div><span class="t-label">@L["Empties"]</span><span class="t-value num" data-total="empties">@r.Totals.Empties</span></div>
         <div><span class="t-label">@L["Cash"]</span><span class="t-value num">Rs <span data-total="cash">@r.Totals.Cash.ToString("N0")</span></span></div>
+        <div><span class="t-label">@L["Digital"]</span><span class="t-value num">Rs <span data-total="digital">@r.Totals.Digital.ToString("N0")</span></span></div>
     </div>
+
+    @if (Model.MyCashInHand is decimal inHand)
+    {
+        <div class="cash-hand"><i class="bi bi-wallet2"></i><span>@L["Cash in your hand (to give the owner)"]</span><b class="num ms-auto">@Fmt.Money(inHand)</b></div>
+    }
 
     <div class="route-tools">
         <div class="seg" role="tablist">

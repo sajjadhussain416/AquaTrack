@@ -90,3 +90,11 @@ public enum AuditAction
     Updated = 1,
     Deleted = 2
 }
+
+/// <summary>Digital payments taken at the door wait for the owner to check them (Day 6).</summary>
+public enum PaymentVerification
+{
+    Verified = 0,
+    Pending = 1,
+    Rejected = 2
+}

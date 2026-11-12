@@ -34,6 +34,15 @@
     </div>
 </div>
 
+@if ((int)ViewBag.PendingChecks > 0)
+{
+    <a asp-controller="Payments" asp-action="Verify" class="alert flash mb-3 text-decoration-none" style="background:var(--at-amber-50);color:var(--at-amber-600)">
+        <i class="bi bi-shield-exclamation"></i>
+        <span class="fw-semibold">@L["{0} payments to check", (int)ViewBag.PendingChecks]</span>
+        <span class="ms-auto fw-bold">@L["Check now"]</span>
+    </a>
+}
+
 <div class="card mb-3">
     <div class="card-body d-flex flex-wrap align-items-center gap-3">
         <span class="stat-icon tone-red"><i class="bi bi-wallet2"></i></span>

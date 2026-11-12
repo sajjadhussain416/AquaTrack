@@ -31,7 +31,14 @@
     <div class="receipt-amount">
         <div class="doc-label">@L["Amount received"]</div>
         <div class="num">@Fmt.Money(r.Amount)</div>
-        <div class="receipt-check"><i class="bi bi-check-circle-fill"></i> @L["Paid"]</div>
+        @if (r.Verification == PaymentVerification.Pending)
+        {
+            <div class="receipt-check text-warning"><i class="bi bi-hourglass-split"></i> @L["Waiting for the plant to confirm"]</div>
+        }
+        else
+        {
+            <div class="receipt-check"><i class="bi bi-check-circle-fill"></i> @L["Paid"]</div>
+        }
     </div>
 
     <dl class="kv">
@@ -40,6 +47,10 @@
         <dt>@L["Area"]</dt><dd>@r.AreaName</dd>
         <dt>@L["Payment method"]</dt><dd>@L[EnumText.Of(r.Method)]</dd>
         <dt>@L["Received by"]</dt><dd>@r.ReceivedBy</dd>
+        @if (!string.IsNullOrEmpty(r.TransactionRef))
+        {
+            <dt>@L["Transaction ID (TID)"]</dt><dd class="num">@r.TransactionRef</dd>
+        }
         @if (!string.IsNullOrEmpty(r.Note))
         {
             <dt>@L["Note"]</dt><dd>@r.Note</dd>

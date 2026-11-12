@@ -28,7 +28,21 @@ public class WhatsAppMessages
         if (b.PreviousBalance != 0) sb.AppendLine($"{_l["Previous balance"]}: {Fmt.Money(b.PreviousBalance)}");
         if (b.Adjustments != 0) sb.AppendLine($"{_l["Adjustments"]}: {Fmt.Money(b.Adjustments)}");
         if (b.PaymentsInPeriod != 0) sb.AppendLine($"{_l["Payments received"]}: {Fmt.Money(-b.PaymentsInPeriod)}");
-        sb.AppendLine($"*{_l["Total due"]}: {Fmt.Money(b.TotalDue)}*");
+        sb.AppendLine(b.TotalDue < 0
+            ? $"*{_l["Advance (nothing to pay)"]}: {Fmt.Money(-b.TotalDue)}*"
+            : $"*{_l["Total due"]}: {Fmt.Money(b.TotalDue)}*");
+
+        var a = b.Plant.Accounts;
+        if (b.TotalDue > 0 && a.Any)
+        {
+            sb.AppendLine();
+            sb.AppendLine($"{_l["You can pay by"]}:");
+            if (a.HasEasypaisa) sb.AppendLine($"• {_l["Easypaisa"]}: {a.EasypaisaNumber} ({a.EasypaisaTitle})");
+            if (a.HasJazzCash) sb.AppendLine($"• {_l["JazzCash"]}: {a.JazzCashNumber} ({a.JazzCashTitle})");
+            if (a.HasBank) sb.AppendLine($"• {a.BankName}: {a.BankAccountTitle}, {a.BankAccountDisplay}");
+            sb.AppendLine(_l["Please send the transaction ID (TID) after paying."]);
+        }
+
         sb.AppendLine();
         sb.Append($"{_l["Thank you!"]} {b.Plant.Phone}");
 

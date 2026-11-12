@@ -50,7 +50,8 @@ public class DeliveriesController : Controller
         if (ModelState.IsValid)
         {
             var result = await _deliveries.SaveAsync(
-                new DeliveryEntry(row.CustomerId, row.Date, model.Status, model.Filled, model.Empties, model.Cash, model.Note), ct);
+                new DeliveryEntry(row.CustomerId, row.Date, model.Status, model.Filled, model.Empties, model.Cash,
+                    model.Method, model.TransactionRef, model.Note), ct);
 
             if (result.Succeeded)
             {
@@ -62,7 +63,8 @@ public class DeliveriesController : Controller
         }
 
         var vm = DeliveryEditViewModel.From(row);
-        vm.Status = model.Status; vm.Filled = model.Filled; vm.Empties = model.Empties; vm.Cash = model.Cash; vm.Note = model.Note;
+        vm.Status = model.Status; vm.Filled = model.Filled; vm.Empties = model.Empties; vm.Cash = model.Cash;
+        vm.Method = model.Method; vm.TransactionRef = model.TransactionRef; vm.Note = model.Note;
         return View(vm);
     }
 

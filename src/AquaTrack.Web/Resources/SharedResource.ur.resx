@@ -258,7 +258,7 @@
   <data name="All done for now" xml:space="preserve"><value>فی الحال سب مکمل</value></data>
   <data name="Ask your plant owner to give you an area." xml:space="preserve"><value>اپنے پلانٹ مالک سے علاقہ لینے کا کہیں۔</value></data>
   <data name="Bottles and cash count only when the status is Delivered." xml:space="preserve"><value>بوتلیں اور رقم صرف تب شمار ہوں گی جب حیثیت "ڈیلیور کی گئی" ہو۔</value></data>
-  <data name="Cash" xml:space="preserve"><value>رقم</value></data>
+  <data name="Cash" xml:space="preserve"><value>نقد</value></data>
   <data name="Cash collected" xml:space="preserve"><value>وصول شدہ رقم</value></data>
   <data name="Cash received (PKR)" xml:space="preserve"><value>وصول شدہ رقم (روپے)</value></data>
   <data name="Cash received (Rs)" xml:space="preserve"><value>وصول شدہ رقم (روپے)</value></data>
@@ -407,8 +407,97 @@
   <data name="Total due" xml:space="preserve"><value>کل واجب الادا</value></data>
   <data name="Updated" xml:space="preserve"><value>اپ ڈیٹ</value></data>
   <data name="View bills" xml:space="preserve"><value>بل دیکھیں</value></data>
-  <data name="bottles" xml:space="preserve"><value>بوتلیں</value></data>
+  <data name="{0} bottles" xml:space="preserve"><value>{0} بوتلیں</value></data>
   <data name="e.g. JazzCash transaction ID" xml:space="preserve"><value>مثلاً جاز کیش ٹرانزیکشن آئی ڈی</value></data>
   <data name="{0} bills marked as sent." xml:space="preserve"><value>{0} بل بھیجے ہوئے درج ہو گئے۔</value></data>
   <data name="{0} draft bills. Drafts update when you press Refresh; sent bills stay as they are." xml:space="preserve"><value>{0} مسودہ بل۔ "تازہ کریں" دبانے پر مسودے اپ ڈیٹ ہوتے ہیں؛ بھیجے گئے بل ویسے ہی رہتے ہیں۔</value></data>
+  <data name="A new price applies to new customers. Change an existing customer's price on their page." xml:space="preserve"><value>نئی قیمت نئے گاہکوں پر لاگو ہوگی۔ پرانے گاہک کی قیمت اس کے صفحے سے بدلیں۔</value></data>
+  <data name="Account number / IBAN" xml:space="preserve"><value>اکاؤنٹ نمبر / IBAN</value></data>
+  <data name="Account title" xml:space="preserve"><value>اکاؤنٹ ٹائٹل</value></data>
+  <data name="Add delivery staff to see their cash here." xml:space="preserve"><value>ڈیلیوری عملہ شامل کریں تاکہ ان کی نقد رقم یہاں نظر آئے۔</value></data>
+  <data name="All payments are verified." xml:space="preserve"><value>تمام ادائیگیاں تصدیق شدہ ہیں۔</value></data>
+  <data name="Amount received (PKR)" xml:space="preserve"><value>وصول شدہ رقم (روپے)</value></data>
+  <data name="Amount received (Rs)" xml:space="preserve"><value>وصول شدہ رقم (روپے)</value></data>
+  <data name="Bank name" xml:space="preserve"><value>بینک کا نام</value></data>
+  <data name="Cash each delivery staff member collected, gave you, and still has." xml:space="preserve"><value>ہر ڈیلیوری ملازم نے کتنی نقد لی، آپ کو دی، اور کتنی ابھی اس کے پاس ہے۔</value></data>
+  <data name="Cash in your hand (to give the owner)" xml:space="preserve"><value>آپ کے پاس نقد (مالک کو دینی ہے)</value></data>
+  <data name="Cash received from staff saved." xml:space="preserve"><value>عملے سے وصول نقد محفوظ ہو گئی۔</value></data>
+  <data name="Cash received on {0}" xml:space="preserve"><value>{0} کو وصول نقد</value></data>
+  <data name="Cash sheet" xml:space="preserve"><value>نقد کا حساب</value></data>
+  <data name="Check now" xml:space="preserve"><value>ابھی چیک کریں</value></data>
+  <data name="Check payments" xml:space="preserve"><value>ادائیگیاں چیک کریں</value></data>
+  <data name="Choose a date within the last 60 days." xml:space="preserve"><value>پچھلے 60 دنوں میں سے تاریخ چنیں۔</value></data>
+  <data name="Collected" xml:space="preserve"><value>وصول</value></data>
+  <data name="Digital" xml:space="preserve"><value>ڈیجیٹل</value></data>
+  <data name="Digital (to your account)" xml:space="preserve"><value>ڈیجیٹل (آپ کے اکاؤنٹ میں)</value></data>
+  <data name="Easypaisa number" xml:space="preserve"><value>ایزی پیسہ نمبر</value></data>
+  <data name="Enter a valid phone number." xml:space="preserve"><value>درست فون نمبر درج کریں۔</value></data>
+  <data name="Enter the transaction ID (TID) of the Easypaisa / JazzCash / bank payment." xml:space="preserve"><value>ایزی پیسہ / جاز کیش / بینک ادائیگی کا ٹرانزیکشن آئی ڈی (TID) درج کریں۔</value></data>
+  <data name="Entry not found." xml:space="preserve"><value>اندراج نہیں ملا۔</value></data>
+  <data name="Entry removed." xml:space="preserve"><value>اندراج ہٹا دیا گیا۔</value></data>
+  <data name="For a bank account, enter the bank name, account title and account number / IBAN." xml:space="preserve"><value>بینک اکاؤنٹ کے لیے بینک کا نام، اکاؤنٹ ٹائٹل اور اکاؤنٹ نمبر / IBAN درج کریں۔</value></data>
+  <data name="From before" xml:space="preserve"><value>پچھلا</value></data>
+  <data name="From the Easypaisa / JazzCash SMS or bank slip." xml:space="preserve"><value>ایزی پیسہ / جاز کیش کے SMS یا بینک سلپ سے۔</value></data>
+  <data name="Given to you" xml:space="preserve"><value>آپ کو دی گئی</value></data>
+  <data name="JazzCash number" xml:space="preserve"><value>جاز کیش نمبر</value></data>
+  <data name="Money received" xml:space="preserve"><value>رقم آ گئی</value></data>
+  <data name="Not received" xml:space="preserve"><value>رقم نہیں آئی</value></data>
+  <data name="Nothing to check" xml:space="preserve"><value>چیک کرنے کو کچھ نہیں</value></data>
+  <data name="Open your Easypaisa / JazzCash / bank app and match each amount and TID. Verify if the money arrived, Reject if it did not." xml:space="preserve"><value>اپنی ایزی پیسہ / جاز کیش / بینک ایپ کھولیں اور ہر رقم اور TID ملائیں۔ رقم آ گئی ہو تو تصدیق کریں، نہ آئی ہو تو مسترد کریں۔</value></data>
+  <data name="Payment accounts" xml:space="preserve"><value>ادائیگی کے اکاؤنٹس</value></data>
+  <data name="Payment rejected. The amount was added back to the customer's balance." xml:space="preserve"><value>ادائیگی مسترد۔ رقم دوبارہ گاہک کے بقایا میں شامل ہو گئی۔</value></data>
+  <data name="Payment verified." xml:space="preserve"><value>ادائیگی کی تصدیق ہو گئی۔</value></data>
+  <data name="Plant settings" xml:space="preserve"><value>پلانٹ کی سیٹنگز</value></data>
+  <data name="Please send the transaction ID (TID) after paying." xml:space="preserve"><value>ادائیگی کے بعد ٹرانزیکشن آئی ڈی (TID) ضرور بھیجیں۔</value></data>
+  <data name="Reason (optional)" xml:space="preserve"><value>وجہ (اختیاری)</value></data>
+  <data name="Receive cash" xml:space="preserve"><value>نقد وصول کریں</value></data>
+  <data name="Received" xml:space="preserve"><value>وصول</value></data>
+  <data name="Reject this payment? The amount will be added back to the balance." xml:space="preserve"><value>کیا یہ ادائیگی مسترد کرنی ہے؟ رقم دوبارہ بقایا میں شامل ہو جائے گی۔</value></data>
+  <data name="Remove this entry?" xml:space="preserve"><value>کیا یہ اندراج ہٹانا ہے؟</value></data>
+  <data name="Save settings" xml:space="preserve"><value>سیٹنگز محفوظ کریں</value></data>
+  <data name="Settings" xml:space="preserve"><value>سیٹنگز</value></data>
+  <data name="Settings saved." xml:space="preserve"><value>سیٹنگز محفوظ ہو گئیں۔</value></data>
+  <data name="Still with staff" xml:space="preserve"><value>ابھی عملے کے پاس</value></data>
+  <data name="Still with staff = from before + collected − given to you. Easypaisa / JazzCash / bank money is not counted here; check it under Payments." xml:space="preserve"><value>عملے کے پاس = پچھلا + وصول − آپ کو دی گئی۔ ایزی پیسہ / جاز کیش / بینک کی رقم یہاں شامل نہیں؛ وہ ادائیگیوں میں چیک کریں۔</value></data>
+  <data name="Taken by {0}" xml:space="preserve"><value>وصول کنندہ: {0}</value></data>
+  <data name="The owner will check this payment in the plant's account." xml:space="preserve"><value>مالک یہ ادائیگی پلانٹ کے اکاؤنٹ میں چیک کرے گا۔</value></data>
+  <data name="These appear on the delivery screen, printed bills and WhatsApp bills, so customers know where to send money. Leave empty what you do not use." xml:space="preserve"><value>یہ ڈیلیوری اسکرین، پرنٹ شدہ بل اور واٹس ایپ بل پر نظر آئیں گے تاکہ گاہک جانیں رقم کہاں بھیجنی ہے۔ جو استعمال نہیں کرتے وہ خالی چھوڑ دیں۔</value></data>
+  <data name="This payment is already checked." xml:space="preserve"><value>یہ ادائیگی پہلے ہی چیک ہو چکی ہے۔</value></data>
+  <data name="To verify" xml:space="preserve"><value>تصدیق باقی</value></data>
+  <data name="Transaction ID (TID)" xml:space="preserve"><value>ٹرانزیکشن آئی ڈی (TID)</value></data>
+  <data name="Waiting for the plant to confirm" xml:space="preserve"><value>پلانٹ کی تصدیق کا انتظار</value></data>
+  <data name="You can pay by" xml:space="preserve"><value>آپ ادائیگی کر سکتے ہیں</value></data>
+  <data name="Your plant details and where customers send money." xml:space="preserve"><value>آپ کے پلانٹ کی تفصیل اور گاہک رقم کہاں بھیجیں۔</value></data>
+  <data name="{0} deliveries done" xml:space="preserve"><value>{0} ڈیلیوریاں مکمل</value></data>
+  <data name="+ {0} digital" xml:space="preserve"><value>+ {0} ڈیجیٹل</value></data>
+  <data name="e.g. Meezan Bank" xml:space="preserve"><value>مثلاً میزان بینک</value></data>
+  <data name="{0} Easypaisa / JazzCash / bank payments are waiting for you to check." xml:space="preserve"><value>{0} ایزی پیسہ / جاز کیش / بینک ادائیگیاں آپ کی تصدیق کی منتظر ہیں۔</value></data>
+  <data name="{0} payments to check" xml:space="preserve"><value>{0} ادائیگیاں چیک کرنی ہیں</value></data>
+  <data name="Advance (nothing to pay)" xml:space="preserve"><value>ایڈوانس (کچھ ادا نہیں کرنا)</value></data>
+  <data name="Payment methods" xml:space="preserve"><value>ادائیگی کے طریقے</value></data>
+  <data name="Delivery staff collect it at the door. Check it daily on the cash sheet." xml:space="preserve"><value>ڈیلیوری عملہ گھر پر وصول کرتا ہے۔ روزانہ نقد کے حساب میں چیک کریں۔</value></data>
+  <data name="Always on" xml:space="preserve"><value>ہمیشہ فعال</value></data>
+  <data name="Mobile wallet" xml:space="preserve"><value>موبائل والیٹ</value></data>
+  <data name="On" xml:space="preserve"><value>فعال</value></data>
+  <data name="Off" xml:space="preserve"><value>بند</value></data>
+  <data name="Account name" xml:space="preserve"><value>اکاؤنٹ کا نام</value></data>
+  <data name="Name shown when sending money" xml:space="preserve"><value>رقم بھیجتے وقت نظر آنے والا نام</value></data>
+  <data name="Bank account" xml:space="preserve"><value>بینک اکاؤنٹ</value></data>
+  <data name="Bank transfer / IBAN (Raast, IBFT)" xml:space="preserve"><value>بینک ٹرانسفر / IBAN (راست، IBFT)</value></data>
+  <data name="Correct IBAN" xml:space="preserve"><value>IBAN درست ہے</value></data>
+  <data name="This IBAN is not correct. Please check it again." xml:space="preserve"><value>یہ IBAN درست نہیں۔ دوبارہ چیک کریں۔</value></data>
+  <data name="An IBAN has 24 characters." xml:space="preserve"><value>IBAN میں 24 حروف ہوتے ہیں۔</value></data>
+  <data name="Account number. An IBAN (starts with PK) is better." xml:space="preserve"><value>اکاؤنٹ نمبر۔ IBAN (جو PK سے شروع ہو) بہتر ہے۔</value></data>
+  <data name="Bank" xml:space="preserve"><value>بینک</value></data>
+  <data name="Choose bank" xml:space="preserve"><value>بینک منتخب کریں</value></data>
+  <data name="Banks" xml:space="preserve"><value>بینک</value></data>
+  <data name="Digital banks" xml:space="preserve"><value>ڈیجیٹل بینک</value></data>
+  <data name="Other (type the name)" xml:space="preserve"><value>دیگر (نام لکھیں)</value></data>
+  <data name="Paste the IBAN and the bank is picked for you." xml:space="preserve"><value>IBAN پیسٹ کریں، بینک خود منتخب ہو جائے گا۔</value></data>
+  <data name="Enter a valid Easypaisa number like 03001234567." xml:space="preserve"><value>درست ایزی پیسہ نمبر لکھیں، جیسے 03001234567۔</value></data>
+  <data name="Enter a valid JazzCash number like 03001234567." xml:space="preserve"><value>درست جاز کیش نمبر لکھیں، جیسے 03001234567۔</value></data>
+  <data name="Enter the name on the Easypaisa account." xml:space="preserve"><value>ایزی پیسہ اکاؤنٹ پر موجود نام لکھیں۔</value></data>
+  <data name="Enter the name on the JazzCash account." xml:space="preserve"><value>جاز کیش اکاؤنٹ پر موجود نام لکھیں۔</value></data>
+  <data name="This IBAN is not correct. A Pakistani IBAN has 24 characters and starts with PK. Please check it again." xml:space="preserve"><value>یہ IBAN درست نہیں۔ پاکستانی IBAN میں 24 حروف ہوتے ہیں اور یہ PK سے شروع ہوتا ہے۔ دوبارہ چیک کریں۔</value></data>
+  <data name="Enter the IBAN (starts with PK) or the account number in digits only." xml:space="preserve"><value>IBAN (جو PK سے شروع ہو) یا صرف ہندسوں میں اکاؤنٹ نمبر لکھیں۔</value></data>
 </root>

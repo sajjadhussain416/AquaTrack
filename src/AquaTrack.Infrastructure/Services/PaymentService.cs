@@ -43,7 +43,7 @@ public class PaymentService : IPaymentService
             .Select(x => new
             {
                 x.Id, x.Date, x.CustomerId, CustomerName = x.Customer!.Name, AreaName = x.Customer.Area!.Name,
-                x.Amount, x.Method, x.ReceivedById, FromDelivery = x.DeliveryId != null, x.Note
+                x.Amount, x.Method, x.ReceivedById, FromDelivery = x.DeliveryId != null, x.TransactionRef, x.Verification, x.Note
             })
             .ToListAsync(ct);
 
@@ -51,7 +51,7 @@ public class PaymentService : IPaymentService
 
         var items = rows.Select(x => new PaymentListItem(
                 x.Id, x.Date, x.CustomerId, x.CustomerName, x.AreaName, x.Amount, x.Method,
-                names.GetValueOrDefault(x.ReceivedById, "-"), x.FromDelivery, x.Note))
+                names.GetValueOrDefault(x.ReceivedById, "-"), x.FromDelivery, x.TransactionRef, x.Verification, x.Note))
             .ToList();
 
         var byMethod = items
@@ -95,11 +95,19 @@ public class PaymentService : IPaymentService
         if (input.Date < today.AddYears(-1))
             return Result<int>.Fail("Payment date is too old.");
 
+        var tid = string.IsNullOrWhiteSpace(input.TransactionRef) || input.Method == PaymentMethod.Cash
+            ? null
+            : input.TransactionRef.Trim()[..Math.Min(input.TransactionRef.Trim().Length, 50)];
+
         var payment = new Payment
         {
             CustomerId = input.CustomerId,
             Amount = decimal.Round(input.Amount, 2),
             Method = input.Method,
+            TransactionRef = tid,
+            Verification = PaymentVerification.Verified,
+            VerifiedById = input.Method == PaymentMethod.Cash ? null : _currentUser.UserId,
+            VerifiedAt = input.Method == PaymentMethod.Cash ? null : DateTime.UtcNow,
             ReceivedById = _currentUser.UserId!,
             Date = Ledger.StampFor(input.Date, today),
             Note = string.IsNullOrWhiteSpace(input.Note) ? null : input.Note.Trim()[..Math.Min(input.Note.Trim().Length, 300)]
@@ -117,7 +125,7 @@ public class PaymentService : IPaymentService
             .Select(p => new
             {
                 p.Id, p.Date, p.CustomerId, CustomerName = p.Customer!.Name, p.Customer.Phone, AreaName = p.Customer.Area!.Name,
-                p.Amount, p.Method, p.ReceivedById, p.Note
+                p.Amount, p.Method, p.ReceivedById, p.TransactionRef, p.Verification, p.Note
             })
             .FirstOrDefaultAsync(ct);
 
@@ -127,7 +135,7 @@ public class PaymentService : IPaymentService
 
         return new ReceiptView(
             x.Id, x.Date, x.CustomerId, x.CustomerName, x.Phone, x.AreaName, x.Amount, x.Method,
-            names.GetValueOrDefault(x.ReceivedById, "-"), x.Note,
+            names.GetValueOrDefault(x.ReceivedById, "-"), x.TransactionRef, x.Verification, x.Note,
             await Ledger.BalanceAsync(_db, x.CustomerId, ct),
             await Ledger.PlantHeaderAsync(_db, ct));
     }
@@ -142,6 +150,81 @@ public class PaymentService : IPaymentService
 
         _db.Payments.Remove(payment); // soft delete, audit-logged
         await _db.SaveChangesAsync(ct);
+        return Result.Ok();
+    }
+
+    // ------------------------------------------------------------------ Verification
+
+    public async Task<IReadOnlyList<PaymentListItem>> GetPendingAsync(CancellationToken ct = default)
+    {
+        var rows = await _db.Payments.AsNoTracking()
+            .Where(x => x.Verification == PaymentVerification.Pending)
+            .OrderBy(x => x.Date)
+            .Select(x => new
+            {
+                x.Id, x.Date, x.CustomerId, CustomerName = x.Customer!.Name, AreaName = x.Customer.Area!.Name,
+                x.Amount, x.Method, x.ReceivedById, FromDelivery = x.DeliveryId != null, x.TransactionRef, x.Verification, x.Note
+            })
+            .ToListAsync(ct);
+
+        var names = await UserNamesAsync(ct);
+
+        return rows.Select(x => new PaymentListItem(
+                x.Id, x.Date, x.CustomerId, x.CustomerName, x.AreaName, x.Amount, x.Method,
+                names.GetValueOrDefault(x.ReceivedById, "-"), x.FromDelivery, x.TransactionRef, x.Verification, x.Note))
+            .ToList();
+    }
+
+    public Task<int> GetPendingCountAsync(CancellationToken ct = default) =>
+        _db.Payments.CountAsync(x => x.Verification == PaymentVerification.Pending, ct);
+
+    public async Task<Result> VerifyAsync(int id, CancellationToken ct = default)
+    {
+        var payment = await _db.Payments.FirstOrDefaultAsync(p => p.Id == id, ct);
+        if (payment is null) return Result.Fail("Payment not found.");
+        if (payment.Verification != PaymentVerification.Pending) return Result.Fail("This payment is already checked.");
+
+        payment.Verification = PaymentVerification.Verified;
+        payment.VerifiedById = _currentUser.UserId;
+        payment.VerifiedAt = DateTime.UtcNow;
+
+        await _db.SaveChangesAsync(ct);
+        return Result.Ok();
+    }
+
+    public async Task<Result> RejectAsync(int id, string? reason, CancellationToken ct = default)
+    {
+        var payment = await _db.Payments.FirstOrDefaultAsync(p => p.Id == id, ct);
+        if (payment is null) return Result.Fail("Payment not found.");
+        if (payment.Verification != PaymentVerification.Pending) return Result.Fail("This payment is already checked.");
+
+        await using var tx = await _db.Database.BeginTransactionAsync(ct);
+
+        var why = string.IsNullOrWhiteSpace(reason) ? "Payment not received" : reason.Trim()[..Math.Min(reason.Trim().Length, 150)];
+
+        // Keep a trail in the audit log, then remove the money from the customer's account
+        payment.Verification = PaymentVerification.Rejected;
+        payment.VerifiedById = _currentUser.UserId;
+        payment.VerifiedAt = DateTime.UtcNow;
+        payment.Note = $"Rejected: {why}";
+        await _db.SaveChangesAsync(ct);
+
+        if (payment.DeliveryId.HasValue)
+        {
+            var delivery = await _db.Deliveries.FirstOrDefaultAsync(d => d.Id == payment.DeliveryId.Value, ct);
+            if (delivery is not null)
+            {
+                delivery.CashCollected = 0;
+                delivery.PaymentMethod = PaymentMethod.Cash;
+                delivery.TransactionRef = null;
+                var note = $"{payment.Method} {payment.Amount:0} rejected: {why}";
+                delivery.Note = string.IsNullOrEmpty(delivery.Note) ? note : $"{delivery.Note} · {note}"[..Math.Min(delivery.Note.Length + note.Length + 3, 300)];
+            }
+        }
+
+        _db.Payments.Remove(payment);
+        await _db.SaveChangesAsync(ct);
+        await tx.CommitAsync(ct);
         return Result.Ok();
     }
 

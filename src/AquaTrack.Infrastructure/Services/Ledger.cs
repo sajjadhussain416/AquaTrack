@@ -1,4 +1,5 @@
 using AquaTrack.Application.Billing;
+using AquaTrack.Application.Settings;
 using AquaTrack.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,7 +40,8 @@ internal static class Ledger
 
     public static Task<PlantHeader> PlantHeaderAsync(AppDbContext db, CancellationToken ct) =>
         db.Plants.AsNoTracking()
-            .Select(p => new PlantHeader(p.Name, p.Phone, p.City, p.Address, p.LogoUrl))
+            .Select(p => new PlantHeader(p.Name, p.Phone, p.City, p.Address, p.LogoUrl,
+                new PaymentAccounts(p.EasypaisaNumber, p.JazzCashNumber, p.BankName, p.BankAccountTitle, p.BankAccountNumber, p.EasypaisaTitle, p.JazzCashTitle)))
             .FirstAsync(ct);
 
     /// <summary>A payment on a past date is stamped at noon Pakistan time; today's at the actual time.</summary>
