@@ -17,11 +17,13 @@ public class ReportsController : Controller
     private readonly IAreaService _areas;
     private readonly IStaffService _staff;
     private readonly WhatsAppMessages _whatsApp;
+    private readonly AquaTrack.Application.Expenses.IExpenseService _expenses;
     private readonly IStringLocalizer<SharedResource> _l;
 
     public ReportsController(IReportService reports, IAreaService areas, IStaffService staff,
-        WhatsAppMessages whatsApp, IStringLocalizer<SharedResource> l)
+        WhatsAppMessages whatsApp, AquaTrack.Application.Expenses.IExpenseService expenses, IStringLocalizer<SharedResource> l)
     {
+        _expenses = expenses;
         _reports = reports;
         _areas = areas;
         _staff = staff;
@@ -84,6 +86,15 @@ public class ReportsController : Controller
         if (result.Succeeded) TempData["Success"] = _l["Bottle stock saved."].Value;
         else TempData["Error"] = _l[result.Errors[0]].Value;
         return RedirectToAction(nameof(Bottles));
+    }
+
+    // ---------------- Profit (SRS EXP-02) ----------------
+
+    public async Task<IActionResult> Profit(int? months, CancellationToken ct)
+    {
+        var m = months is 3 or 6 or 12 ? months.Value : 6;
+        ViewBag.Months = m;
+        return View(await _expenses.GetProfitAsync(m, ct));
     }
 
     // ---------------- Sales ----------------

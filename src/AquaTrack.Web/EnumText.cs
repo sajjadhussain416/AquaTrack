@@ -61,6 +61,28 @@ public static class EnumText
 
     public static string Of(BillStatus s) => s == BillStatus.Sent ? "Sent" : "Draft";
 
+    public static string Of(ExpenseCategory c) => c switch
+    {
+        ExpenseCategory.Electricity => "Electricity",
+        ExpenseCategory.Filters => "Filters & chemicals",
+        ExpenseCategory.Salary => "Salary",
+        ExpenseCategory.Fuel => "Fuel",
+        ExpenseCategory.NewBottles => "New bottles",
+        ExpenseCategory.Maintenance => "Repair & maintenance",
+        _ => "Other"
+    };
+
+    public static string Icon(ExpenseCategory c) => c switch
+    {
+        ExpenseCategory.Electricity => "bi-lightning-charge",
+        ExpenseCategory.Filters => "bi-funnel",
+        ExpenseCategory.Salary => "bi-person-badge",
+        ExpenseCategory.Fuel => "bi-fuel-pump",
+        ExpenseCategory.NewBottles => "bi-droplet",
+        ExpenseCategory.Maintenance => "bi-tools",
+        _ => "bi-three-dots"
+    };
+
     public static readonly (WeekDays Day, string Label)[] Week =
     {
         (WeekDays.Monday, "Mon"), (WeekDays.Tuesday, "Tue"), (WeekDays.Wednesday, "Wed"),

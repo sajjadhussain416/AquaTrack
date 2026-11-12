@@ -1,0 +1,122 @@
+@model AquaTrack.Application.Expenses.ProfitReport
+@{
+    ViewData["Title"] = L["Profit report"];
+    var months = (int)ViewBag.Months;
+    var top = Model.Months.Count == 0 ? 1m : Math.Max(1m, Model.Months.Max(m => Math.Max(m.Sales, m.Expenses)));
+    string Pct(decimal v) => (Math.Max(0m, v) * 100m / top).ToString("0.#", System.Globalization.CultureInfo.InvariantCulture) + "%";
+    string Tone(decimal v) => v >= 0 ? "profit-pos" : "profit-neg";
+    var maxCat = Model.ExpensesByCategory.Count == 0 ? 1m : Model.ExpensesByCategory.Max(c => c.Amount);
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Reports"]</h1>
+        <p>@L["Sales minus expenses, month by month."]</p>
+    </div>
+    <div class="actions no-print">
+        <a asp-controller="Expenses" asp-action="Index" class="btn btn-light btn-icon"><i class="bi bi-plus-lg"></i>@L["Add expense"]</a>
+        <button type="button" class="btn btn-light btn-icon" onclick="window.print()"><i class="bi bi-printer"></i>@L["Print"]</button>
+    </div>
+</div>
+
+<partial name="_Tabs" />
+
+<div class="d-flex flex-wrap align-items-center gap-2 mb-3 no-print">
+    <div class="seg">
+        @foreach (var n in new[] { 3, 6, 12 })
+        {
+            <a class="@(months == n ? "on" : "")" asp-route-months="@n">@L["Last {0} months", n]</a>
+        }
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-4">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-graph-up-arrow"></i></span>
+            <div><div class="stat-label">@L["Sales"]</div><div class="stat-value num">@Fmt.Money(Model.TotalSales)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-4">
+        <div class="card stat"><span class="stat-icon tone-red"><i class="bi bi-wallet2"></i></span>
+            <div><div class="stat-label">@L["Expenses"]</div><div class="stat-value num">@Fmt.Money(Model.TotalExpenses)</div></div></div>
+    </div>
+    <div class="col-12 col-xl-4">
+        <div class="card stat"><span class="stat-icon @(Model.TotalProfit >= 0 ? "tone-green" : "tone-red")"><i class="bi bi-piggy-bank"></i></span>
+            <div><div class="stat-label">@(Model.TotalProfit >= 0 ? L["Profit"] : L["Loss"])</div><div class="stat-value num @Tone(Model.TotalProfit)">@Fmt.Money(Math.Abs(Model.TotalProfit))</div></div></div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-xl-8">
+        <div class="card h-100">
+            <div class="card-header"><i class="bi bi-calendar3 me-2 text-primary"></i>@L["Month by month"]</div>
+            <div class="table-responsive">
+                <table class="table table-at mb-0">
+                    <thead>
+                        <tr>
+                            <th>@L["Period"]</th>
+                            <th class="text-end">@L["Bottles"]</th>
+                            <th class="text-end">@L["Sales"]</th>
+                            <th class="text-end">@L["Expenses"]</th>
+                            <th class="text-end">@L["Profit"]</th>
+                            <th style="width:22%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var m in Model.Months)
+                    {
+                        <tr>
+                            <td>
+                                <a class="cell-title" asp-controller="Expenses" asp-action="Index" asp-route-year="@m.Period.Year" asp-route-month="@m.Period.Month">@Fmt.Month(m.Period)</a>
+                                <div class="cell-sub num">@L["Collected"] @Fmt.Money(m.Collected)</div>
+                            </td>
+                            <td class="text-end num">@m.Bottles</td>
+                            <td class="text-end num">@Fmt.Money(m.Sales)</td>
+                            <td class="text-end num text-danger">@Fmt.Money(m.Expenses)</td>
+                            <td class="text-end num fw-bold @Tone(m.Profit)">@Fmt.Money(m.Profit)</td>
+                            <td>
+                                <div class="day-bar mb-1" title="@L["Sales"]"><span style="width:@Pct(m.Sales)"></span></div>
+                                <div class="day-bar" title="@L["Expenses"]"><span style="width:@Pct(m.Expenses);background:var(--at-red-600)"></span></div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>@L["Total"]</th>
+                            <th class="text-end num">@Model.Months.Sum(m => m.Bottles)</th>
+                            <th class="text-end num">@Fmt.Money(Model.TotalSales)</th>
+                            <th class="text-end num">@Fmt.Money(Model.TotalExpenses)</th>
+                            <th class="text-end num @Tone(Model.TotalProfit)">@Fmt.Money(Model.TotalProfit)</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card h-100">
+            <div class="card-header"><i class="bi bi-pie-chart me-2 text-primary"></i>@L["Where the money went"]</div>
+            <div class="card-body">
+                @if (Model.ExpensesByCategory.Count == 0)
+                {
+                    <p class="text-muted small mb-2">@L["No expenses recorded in this period."]</p>
+                    <a asp-controller="Expenses" asp-action="Index" class="btn btn-primary btn-sm btn-icon"><i class="bi bi-plus-lg"></i>@L["Add expense"]</a>
+                }
+                else
+                {
+                    <div class="d-grid gap-3">
+                        @foreach (var c in Model.ExpensesByCategory)
+                        {
+                            <div>
+                                <div class="d-flex small fw-semibold mb-1"><span><i class="bi @EnumText.Icon(c.Category) me-1 text-muted"></i>@L[EnumText.Of(c.Category)]</span><span class="ms-auto num">@Fmt.Money(c.Amount)</span></div>
+                                <div class="day-bar"><span style="width:@((c.Amount * 100m / maxCat).ToString("0.#", System.Globalization.CultureInfo.InvariantCulture))%;background:var(--at-red-600)"></span></div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<p class="small text-muted mt-3 mb-0"><i class="bi bi-info-circle me-1"></i>@L["Sales = bottles delivered × each customer's price. Collected = money actually received that month. Profit = sales − expenses."]</p>

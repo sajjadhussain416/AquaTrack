@@ -649,4 +649,39 @@
   <data name="days" xml:space="preserve"><value>دن</value></data>
   <data name="e.g. Easypaisa TID" xml:space="preserve"><value>مثلاً ایزی پیسہ TID</value></data>
   <data name="{0} days overdue" xml:space="preserve"><value>{0} دن سے واجب</value></data>
+  <data name="Add electricity, filters, salary and other costs to see your real profit." xml:space="preserve"><value>اصل منافع دیکھنے کے لیے بجلی، فلٹر، تنخواہ اور دوسرے خرچے درج کریں۔</value></data>
+  <data name="Add expense" xml:space="preserve"><value>خرچہ درج کریں</value></data>
+  <data name="Category" xml:space="preserve"><value>قسم</value></data>
+  <data name="Choose a category." xml:space="preserve"><value>قسم منتخب کریں۔</value></data>
+  <data name="Electricity" xml:space="preserve"><value>بجلی</value></data>
+  <data name="Expense not found." xml:space="preserve"><value>خرچہ نہیں ملا۔</value></data>
+  <data name="Expense removed." xml:space="preserve"><value>خرچہ ہٹا دیا گیا۔</value></data>
+  <data name="Expense saved." xml:space="preserve"><value>خرچہ محفوظ ہو گیا۔</value></data>
+  <data name="Expenses" xml:space="preserve"><value>خرچے</value></data>
+  <data name="Filters &amp; chemicals" xml:space="preserve"><value>فلٹر اور کیمیکل</value></data>
+  <data name='For "Other", write what the money was for.' xml:space="preserve"><value>"دیگر" کے لیے لکھیں کہ پیسے کس چیز پر خرچ ہوئے۔</value></data>
+  <data name="Fuel" xml:space="preserve"><value>ایندھن</value></data>
+  <data name="Last {0} months" xml:space="preserve"><value>پچھلے {0} مہینے</value></data>
+  <data name="Loss" xml:space="preserve"><value>نقصان</value></data>
+  <data name="Money spent on running the plant. It is taken out of sales in the profit report." xml:space="preserve"><value>پلانٹ چلانے پر خرچ ہونے والی رقم۔ منافع رپورٹ میں یہ فروخت سے منفی کی جاتی ہے۔</value></data>
+  <data name="Month by month" xml:space="preserve"><value>ماہ بہ ماہ</value></data>
+  <data name="New bottles" xml:space="preserve"><value>نئی بوتلیں</value></data>
+  <data name="No expenses in {0}." xml:space="preserve"><value>{0} میں کوئی خرچہ نہیں۔</value></data>
+  <data name="No expenses recorded in this period." xml:space="preserve"><value>اس مدت میں کوئی خرچہ درج نہیں۔</value></data>
+  <data name="No expenses yet" xml:space="preserve"><value>ابھی کوئی خرچہ نہیں</value></data>
+  <data name="Other" xml:space="preserve"><value>دیگر</value></data>
+  <data name="Profit" xml:space="preserve"><value>منافع</value></data>
+  <data name="Profit report" xml:space="preserve"><value>منافع رپورٹ</value></data>
+  <data name="Repair &amp; maintenance" xml:space="preserve"><value>مرمت اور دیکھ بھال</value></data>
+  <data name="Salary" xml:space="preserve"><value>تنخواہ</value></data>
+  <data name="Sales = bottles delivered × each customer's price. Collected = money actually received that month. Profit = sales − expenses." xml:space="preserve"><value>فروخت = دی گئی بوتلیں × ہر گاہک کا ریٹ۔ وصول = اس مہینے اصل میں ملی رقم۔ منافع = فروخت − خرچے۔</value></data>
+  <data name="Sales minus expenses, month by month." xml:space="preserve"><value>ماہ بہ ماہ فروخت میں سے خرچے۔</value></data>
+  <data name="Save expense" xml:space="preserve"><value>خرچہ محفوظ کریں</value></data>
+  <data name="Show all" xml:space="preserve"><value>سب دکھائیں</value></data>
+  <data name="Showing: {0}" xml:space="preserve"><value>دکھایا جا رہا ہے: {0}</value></data>
+  <data name="Spent in {0}" xml:space="preserve"><value>{0} میں خرچ</value></data>
+  <data name="The date cannot be in the future." xml:space="preserve"><value>تاریخ آگے کی نہیں ہو سکتی۔</value></data>
+  <data name="The date is too old." xml:space="preserve"><value>تاریخ بہت پرانی ہے۔</value></data>
+  <data name="Where the money went" xml:space="preserve"><value>پیسے کہاں گئے</value></data>
+  <data name="e.g. WAPDA bill October, 2 filter cartridges" xml:space="preserve"><value>مثلاً اکتوبر کا واپڈا بل، 2 فلٹر کارٹریج</value></data>
 </root>

@@ -580,3 +580,18 @@ html[dir="rtl"] .doc-label { text-transform: none; letter-spacing: 0; font-size:
 .sub-banner.soon { background: var(--at-amber-50); color: var(--at-amber-600); }
 .sub-banner.late { background: var(--at-red-50); color: var(--at-red-600); }
 .sub-banner .btn { margin-inline-start: auto; }
+
+/* ---------- Day 9: Expenses & profit ---------- */
+.expense-cats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .4rem; }
+.expense-cats .method-pick { padding: .55rem .25rem; }
+.cat-line { display: flex; align-items: center; gap: .75rem; padding: .45rem .6rem; border-radius: var(--at-radius-sm); text-decoration: none; color: var(--at-ink); }
+.cat-line:hover { background: var(--at-canvas); }
+.cat-line.on { background: var(--at-blue-50); }
+.cat-line .cat-name { width: 11rem; flex: 0 0 auto; font-weight: 600; font-size: .9rem; }
+.cat-line .cat-name i { color: var(--at-ink-muted); margin-inline-end: .4rem; }
+.profit-pos { color: var(--at-green-600); }
+.profit-neg { color: var(--at-red-600); }
+@media (max-width: 575.98px) {
+    .expense-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cat-line .cat-name { width: 8rem; }
+}
