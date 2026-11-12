@@ -80,13 +80,15 @@ public class DeliveryService : IDeliveryService
 
             var stop = new RouteStop(
                 c.Id, c.Name, c.Phone, c.Address, c.AreaName, c.Rate, c.Bottles, scheduled,
-                d?.Id, d?.Status, d?.FilledGiven ?? 0, d?.EmptyCollected ?? 0, d?.CashCollected ?? 0, d?.Note);
+                d?.Id, d?.Status, d?.FilledGiven ?? 0, d?.EmptyCollected ?? 0, d?.CashCollected ?? 0,
+                d?.PaymentMethod ?? PaymentMethod.Cash, d?.TransactionRef, d?.Note);
 
             if (scheduled || d is not null) stops.Add(stop);
             else others.Add(stop);
         }
 
-        return new RouteDay(date, areas, areaId, stops, others, Totals(deliveries.Values, stops.Count));
+        return new RouteDay(date, areas, areaId, stops, others, Totals(deliveries.Values, stops.Count),
+            await PlantSettingsService.Accounts(_db, ct));
     }
 
     /// <summary>Is this customer due on this date? On-call customers are never pre-listed.</summary>
@@ -128,7 +130,8 @@ public class DeliveryService : IDeliveryService
             list.Count(d => d.Status == DeliveryStatus.Done),
             list.Sum(d => d.FilledGiven),
             list.Sum(d => d.EmptyCollected),
-            list.Sum(d => d.CashCollected));
+            list.Where(d => d.PaymentMethod == PaymentMethod.Cash).Sum(d => d.CashCollected),
+            list.Where(d => d.PaymentMethod != PaymentMethod.Cash).Sum(d => d.CashCollected));
     }
 
     // ------------------------------------------------------------------ Save
@@ -161,6 +164,14 @@ public class DeliveryService : IDeliveryService
 
         if (done && filled == 0 && empties == 0 && cash == 0)
             return Result<RouteStop>.Fail("Enter bottles or cash, or choose Not home / Skip.");
+
+        var method = cash > 0 ? entry.Method : PaymentMethod.Cash;
+        var tid = method == PaymentMethod.Cash || string.IsNullOrWhiteSpace(entry.TransactionRef)
+            ? null
+            : entry.TransactionRef.Trim()[..Math.Min(entry.TransactionRef.Trim().Length, 50)];
+
+        if (method != PaymentMethod.Cash && (tid is null || tid.Length < 4))
+            return Result<RouteStop>.Fail("Enter the transaction ID (TID) of the Easypaisa / JazzCash / bank payment.");
 
         var delivery = await _db.Deliveries.FirstOrDefaultAsync(d => d.CustomerId == customer.Id && d.Date == entry.Date, ct);
         var existingId = delivery?.Id;
@@ -197,6 +208,8 @@ public class DeliveryService : IDeliveryService
         delivery.FilledGiven = filled;
         delivery.EmptyCollected = empties;
         delivery.CashCollected = cash;
+        delivery.PaymentMethod = method;
+        delivery.TransactionRef = tid;
         delivery.Note = string.IsNullOrWhiteSpace(entry.Note) ? null : entry.Note.Trim()[..Math.Min(entry.Note.Trim().Length, 300)];
 
         await _db.SaveChangesAsync(ct);
@@ -225,10 +238,17 @@ public class DeliveryService : IDeliveryService
 
         if (cash > 0)
         {
+            // Cash is in the delivery boy's hand. Digital money entered by staff must be checked by the owner;
+            // when the owner enters it, they have already checked it.
+            var needsCheck = method != PaymentMethod.Cash && IsDeliveryBoy;
+
             _db.Payments.Add(new Payment
             {
-                CustomerId = customer.Id, DeliveryId = delivery.Id, Amount = cash, Method = PaymentMethod.Cash,
-                ReceivedById = delivery.DeliveryBoyId, Date = when, Note = "Collected at delivery"
+                CustomerId = customer.Id, DeliveryId = delivery.Id, Amount = cash, Method = method,
+                TransactionRef = tid, ReceivedById = delivery.DeliveryBoyId, Date = when, Note = "Collected at delivery",
+                Verification = needsCheck ? PaymentVerification.Pending : PaymentVerification.Verified,
+                VerifiedById = method != PaymentMethod.Cash && !needsCheck ? _currentUser.UserId : null,
+                VerifiedAt = method != PaymentMethod.Cash && !needsCheck ? DateTime.UtcNow : null
             });
         }
 
@@ -238,7 +258,7 @@ public class DeliveryService : IDeliveryService
         return Result<RouteStop>.Ok(new RouteStop(
             customer.Id, customer.Name, customer.Phone, customer.Address, customer.Area?.Name ?? "", customer.Rate,
             bottlesBefore + filled - empties, true,
-            delivery.Id, delivery.Status, filled, empties, cash, delivery.Note));
+            delivery.Id, delivery.Status, filled, empties, cash, method, tid, delivery.Note));
     }
 
     // ------------------------------------------------------------------ Owner views
@@ -301,5 +321,6 @@ public class DeliveryService : IDeliveryService
     private static DeliveryRow ToRow(Delivery d, string customerName, string areaName, IReadOnlyDictionary<string, string> names) =>
         new(d.Id, d.Date, d.CustomerId, customerName, areaName,
             names.TryGetValue(d.DeliveryBoyId, out var n) ? n : "-",
-            d.Status, d.FilledGiven, d.EmptyCollected, d.CashCollected, d.Note, d.UpdatedAt ?? d.CreatedAt);
+            d.Status, d.FilledGiven, d.EmptyCollected, d.CashCollected, d.PaymentMethod, d.TransactionRef, d.Note,
+            d.UpdatedAt ?? d.CreatedAt);
 }

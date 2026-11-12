@@ -16,6 +16,15 @@
     </div>
 </div>
 
+@if (Model.PendingCount > 0)
+{
+    <a asp-action="Verify" class="alert flash mb-3 text-decoration-none" style="background:var(--at-amber-50);color:var(--at-amber-600)">
+        <i class="bi bi-shield-exclamation"></i>
+        <span class="fw-semibold">@L["{0} Easypaisa / JazzCash / bank payments are waiting for you to check.", Model.PendingCount]</span>
+        <span class="ms-auto fw-bold">@L["Check now"] <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-left" : "bi-arrow-right")"></i></span>
+    </a>
+}
+
 <div class="card mb-3">
     <div class="card-body d-flex flex-wrap align-items-center gap-3">
         <div class="month-nav">
@@ -89,7 +98,9 @@
                         </td>
                         <td>
                             <span class="chip">@L[EnumText.Of(x.Method)]</span>
+                            @if (x.Verification == PaymentVerification.Pending) { <span class="badge-soft trial">@L["To verify"]</span> }
                             @if (x.FromDelivery) { <span class="cell-sub ms-1"><i class="bi bi-truck"></i> @L["At delivery"]</span> }
+                            @if (!string.IsNullOrEmpty(x.TransactionRef)) { <div class="cell-sub num">TID @x.TransactionRef</div> }
                         </td>
                         <td>@x.ReceivedBy</td>
                         <td class="text-end num fw-bold text-success">@Fmt.Money(x.Amount)</td>

@@ -1,0 +1,58 @@
+@model IReadOnlyList<PaymentListItem>
+@{
+    ViewData["Title"] = L["Check payments"];
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="Index" class="small fw-semibold text-decoration-none">
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i> @L["Payments"]
+        </a>
+        <h1 class="mt-1">@L["Check payments"]</h1>
+        <p>@L["Open your Easypaisa / JazzCash / bank app and match each amount and TID. Verify if the money arrived, Reject if it did not."]</p>
+    </div>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="card">
+        <div class="empty-state">
+            <i class="bi bi-shield-check"></i>
+            <h5 class="text-body">@L["Nothing to check"]</h5>
+            <p class="mb-0">@L["All payments are verified."]</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="verify-list">
+        @foreach (var x in Model)
+        {
+            <div class="card verify-card">
+                <div class="card-body">
+                    <div class="d-flex flex-wrap align-items-start gap-3">
+                        <span class="stat-icon tone-amber"><i class="bi @EnumText.Icon(x.Method)"></i></span>
+                        <div class="flex-fill">
+                            <div class="verify-amount num">@Fmt.Money(x.Amount)</div>
+                            <div class="fw-bold">@L[EnumText.Of(x.Method)] · TID <span class="num">@x.TransactionRef</span></div>
+                            <div class="cell-sub">
+                                <a asp-controller="Customers" asp-action="Details" asp-route-id="@x.CustomerId">@x.CustomerName</a>
+                                · @x.AreaName · <span class="num">@Fmt.Day(x.Date)</span> · @L["Taken by {0}", x.ReceivedBy]
+                            </div>
+                        </div>
+                    </div>
+                    <div class="verify-actions">
+                        <form asp-action="MarkVerified" asp-route-id="@x.Id" method="post">
+                            <button class="btn btn-success btn-icon w-100 justify-content-center"><i class="bi bi-check2-circle"></i>@L["Money received"]</button>
+                        </form>
+                        <form asp-action="Reject" asp-route-id="@x.Id" method="post" class="d-flex gap-2"
+                              onsubmit="return confirm('@L["Reject this payment? The amount will be added back to the balance."]');">
+                            <input name="reason" class="form-control" maxlength="150" placeholder="@L["Reason (optional)"]" />
+                            <button class="btn btn-light text-danger btn-icon text-nowrap"><i class="bi bi-x-circle"></i>@L["Not received"]</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

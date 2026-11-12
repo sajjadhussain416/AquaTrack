@@ -4,11 +4,14 @@
     var state = !saved ? "pending" : Model.Status == DeliveryStatus.Done ? "done" : "missed";
     var dateText = ViewData["RouteDate"] as string ?? PakistanTime.Today.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
     var search = (Model.Name + " " + Model.Address + " " + Model.Phone).ToLowerInvariant();
+    var accounts = ViewData["Accounts"] as AquaTrack.Application.Settings.PaymentAccounts;
+    var digital = Model.Method != PaymentMethod.Cash;
 }
 <article class="stop @state @(saved ? "" : "open")" id="stop-@Model.CustomerId"
          data-state="@state" data-search="@search"
          data-filled="@Model.Filled" data-empties="@Model.Empties"
-         data-cash="@Model.Cash.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+         data-cash="@Model.Cash.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+         data-method="@Model.Method">
     <header class="stop-head" data-stop-toggle>
         <div class="stop-title">
             <div class="stop-name">@Model.Name</div>
@@ -28,7 +31,11 @@
         <div class="stop-summary num">
             <span><i class="bi bi-arrow-down-circle text-primary"></i> @Model.Filled</span>
             <span><i class="bi bi-arrow-up-circle text-success"></i> @Model.Empties</span>
-            <span><i class="bi bi-cash"></i> Rs @Model.Cash.ToString("N0")</span>
+            <span><i class="bi @EnumText.Icon(Model.Method)"></i> @Fmt.Money(Model.Cash)@(digital ? " · " + L[EnumText.Of(Model.Method)].Value : "")</span>
+            @if (digital && !string.IsNullOrEmpty(Model.TransactionRef))
+            {
+                <span class="text-muted fw-normal">TID @Model.TransactionRef</span>
+            }
         </div>
     }
 
@@ -56,12 +63,36 @@
         </div>
 
         <div class="cash-row">
-            <label>@L["Cash received (Rs)"]</label>
+            <label>@L["Amount received (Rs)"]</label>
             <div class="d-flex gap-2">
                 <input name="Cash" type="number" inputmode="decimal" min="0" step="1" value="@(saved ? Model.Cash.ToString("0", System.Globalization.CultureInfo.InvariantCulture) : "0")" class="form-control num" />
                 <button type="button" class="btn btn-light text-nowrap" data-full-cash>@L["Full amount"]</button>
             </div>
             <div class="form-text num">@L["Rate"]: Rs @Model.Rate.ToString("N0")</div>
+        </div>
+
+        <div class="method-row" role="radiogroup" aria-label="@L["Payment method"]">
+            @foreach (var pm in Enum.GetValues<PaymentMethod>())
+            {
+                <label class="method-pick">
+                    <input type="radio" name="Method" value="@pm" checked="@(Model.Method == pm)" />
+                    <i class="bi @EnumText.Icon(pm)"></i><span>@L[EnumText.Of(pm)]</span>
+                </label>
+            }
+        </div>
+
+        <div class="tid-row" data-tid-row hidden="@(!digital)">
+            @if (accounts is not null)
+            {
+                <div class="pay-to">
+                    @if (accounts.HasEasypaisa) { <span data-for="Easypaisa" hidden><i class="bi bi-phone"></i> @L["Easypaisa"]: <b class="num">@accounts.EasypaisaNumber</b> · @accounts.EasypaisaTitle</span> }
+                    @if (accounts.HasJazzCash) { <span data-for="JazzCash" hidden><i class="bi bi-phone"></i> @L["JazzCash"]: <b class="num">@accounts.JazzCashNumber</b> · @accounts.JazzCashTitle</span> }
+                    @if (accounts.HasBank) { <span data-for="BankTransfer" hidden><i class="bi bi-bank"></i> @accounts.BankName · @accounts.BankAccountTitle · <b class="num">@accounts.BankAccountDisplay</b></span> }
+                </div>
+            }
+            <input name="TransactionRef" class="form-control num" maxlength="50" value="@Model.TransactionRef"
+                   placeholder="@L["Transaction ID (TID)"]" autocomplete="off" />
+            <div class="form-text">@L["The owner will check this payment in the plant's account."]</div>
         </div>
 
         <div class="stop-actions">

@@ -38,6 +38,15 @@ public class Plant : BaseEntity
 
     public decimal DepositPerBottle { get; set; }
 
+    // Where customers send money (shown on route cards, bills and WhatsApp messages)
+    public string? EasypaisaNumber { get; set; }
+    public string? EasypaisaTitle { get; set; }
+    public string? JazzCashNumber { get; set; }
+    public string? JazzCashTitle { get; set; }
+    public string? BankName { get; set; }
+    public string? BankAccountTitle { get; set; }
+    public string? BankAccountNumber { get; set; }
+
     public int PlanId { get; set; }
     public Plan? Plan { get; set; }
 

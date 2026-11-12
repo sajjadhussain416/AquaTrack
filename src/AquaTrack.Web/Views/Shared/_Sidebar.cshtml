@@ -48,13 +48,18 @@
             <a class="side-link @(Active("", "Deliveries") + Active("", "Delivery"))" asp-area="" asp-controller="Deliveries" asp-action="Index"><i class="bi bi-truck"></i><span>@L["Deliveries"]</span></a>
             <a class="side-link @Active("", "Bills")" asp-area="" asp-controller="Bills" asp-action="Index"><i class="bi bi-receipt"></i><span>@L["Bills"]</span></a>
             <a class="side-link @Active("", "Payments")" asp-area="" asp-controller="Payments" asp-action="Index"><i class="bi bi-cash-coin"></i><span>@L["Payments"]</span></a>
+            <a class="side-link @Active("", "Cash")" asp-area="" asp-controller="Cash" asp-action="Index"><i class="bi bi-wallet2"></i><span>@L["Cash sheet"]</span></a>
 
             <div class="nav-group-title mt-2">@L["Setup"]</div>
             <a class="side-link @Active("", "DeliveryAreas")" asp-area="" asp-controller="DeliveryAreas" asp-action="Index"><i class="bi bi-geo-alt"></i><span>@L["Areas"]</span></a>
             <a class="side-link @Active("", "Staff")" asp-area="" asp-controller="Staff" asp-action="Index"><i class="bi bi-person-badge"></i><span>@L["Delivery staff"]</span></a>
+            @if (User.IsInRole(Roles.PlantOwner))
+            {
+                <a class="side-link @Active("", "Settings")" asp-area="" asp-controller="Settings" asp-action="Index"><i class="bi bi-gear"></i><span>@L["Settings"]</span></a>
+            }
         }
     </nav>
 
-    <div class="sidebar-foot">AquaTrack v0.5</div>
+    <div class="sidebar-foot">AquaTrack v0.6</div>
 </aside>
 <div class="sidebar-backdrop" data-sidebar-close></div>

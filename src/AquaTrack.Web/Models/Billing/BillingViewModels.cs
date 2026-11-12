@@ -33,6 +33,7 @@ public class PaymentsIndexViewModel
     public string? Search { get; set; }
     public PaymentMethod? Method { get; set; }
     public BillPeriod Current { get; set; }
+    public int PendingCount { get; set; }
 }
 
 public class PaymentFormViewModel
@@ -51,6 +52,10 @@ public class PaymentFormViewModel
     [Display(Name = "Date")]
     public DateOnly Date { get; set; }
 
+    [StringLength(50, ErrorMessage = "{0} is too long.")]
+    [Display(Name = "Transaction ID (TID)")]
+    public string? TransactionRef { get; set; }
+
     [StringLength(300, ErrorMessage = "{0} is too long.")]
     [Display(Name = "Note")]
     public string? Note { get; set; }
@@ -58,7 +63,7 @@ public class PaymentFormViewModel
     [ValidateNever] public IReadOnlyList<CustomerBalanceOption> Customers { get; set; } = Array.Empty<CustomerBalanceOption>();
     [ValidateNever] public DateOnly Today { get; set; }
 
-    public PaymentInput ToInput() => new(CustomerId, Amount, Method, Date, Note);
+    public PaymentInput ToInput() => new(CustomerId, Amount, Method, Date, TransactionRef, Note);
 }
 
 public class ReceiptViewModel

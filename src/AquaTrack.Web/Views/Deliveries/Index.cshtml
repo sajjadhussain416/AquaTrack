@@ -80,7 +80,8 @@
     </div>
     <div class="col-6 col-xl-3">
         <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-cash-stack"></i></span>
-            <div><div class="stat-label">@L["Cash collected"]</div><div class="stat-value num">Rs @r.Totals.Cash.ToString("N0")</div></div></div>
+            <div><div class="stat-label">@L["Cash collected"]</div><div class="stat-value num">@Fmt.Money(r.Totals.Cash)</div>
+                <div class="cell-sub num">@L["+ {0} digital", Fmt.Money(r.Totals.Digital)]</div></div></div>
     </div>
 </div>
 
@@ -121,7 +122,13 @@
                         <td><span class="badge-soft @EnumText.Css(d.Status)">@L[EnumText.Of(d.Status)]</span></td>
                         <td class="text-center num fw-bold">@d.Filled</td>
                         <td class="text-center num fw-bold">@d.Empties</td>
-                        <td class="num">Rs @d.Cash.ToString("N0")</td>
+                        <td class="num">
+                            @Fmt.Money(d.Cash)
+                            @if (d.Cash > 0)
+                            {
+                                <div class="cell-sub"><i class="bi @EnumText.Icon(d.Method)"></i> @L[EnumText.Of(d.Method)]@(string.IsNullOrEmpty(d.TransactionRef) ? "" : " · " + d.TransactionRef)</div>
+                            }
+                        </td>
                         <td class="num text-muted small">@PakistanTime.ToLocal(d.SavedAt).ToString("hh:mm tt", inv)</td>
                         <td class="text-end text-nowrap">
                             <a asp-action="Edit" asp-route-id="@d.Id" class="btn btn-light btn-sm" aria-label="@L["Edit"]"><i class="bi bi-pencil"></i></a>

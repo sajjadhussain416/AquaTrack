@@ -37,8 +37,8 @@
                 <div class="doc-muted"><span class="num">@b.Phone</span> · @b.AreaName</div>
             </div>
             <div class="doc-due">
-                <div class="doc-label">@L["Total due"]</div>
-                <div class="doc-due-amount num">@Fmt.Money(b.TotalDue)</div>
+                <div class="doc-label">@(b.TotalDue < 0 ? L["Advance (nothing to pay)"] : L["Total due"])</div>
+                <div class="doc-due-amount num">@Fmt.Money(Math.Abs(b.TotalDue))</div>
             </div>
         </div>
 
@@ -65,6 +65,19 @@
 
         <div class="doc-bottom">
             <div class="doc-notes">
+                @if (b.Plant.Accounts.Any && b.TotalDue > 0)
+                {
+                    <div class="pay-box">
+                        <div class="doc-label">@L["You can pay by"]</div>
+                        @if (b.Plant.Accounts.HasEasypaisa) { <div><b>@L["Easypaisa"]:</b> <span class="num">@b.Plant.Accounts.EasypaisaNumber</span> · @b.Plant.Accounts.EasypaisaTitle</div> }
+                        @if (b.Plant.Accounts.HasJazzCash) { <div><b>@L["JazzCash"]:</b> <span class="num">@b.Plant.Accounts.JazzCashNumber</span> · @b.Plant.Accounts.JazzCashTitle</div> }
+                        @if (b.Plant.Accounts.HasBank)
+                        {
+                            <div><b>@b.Plant.Accounts.BankName:</b> @b.Plant.Accounts.BankAccountTitle</div>
+                            <div class="num">@b.Plant.Accounts.BankAccountDisplay</div>
+                        }
+                    </div>
+                }
                 @if (b.Payments.Count > 0)
                 {
                     <div class="doc-label">@L["Payments in {0}", Fmt.Month(b.Period)]</div>
@@ -82,7 +95,7 @@
                     <div class="sum-row"><span>@a.Reason</span><span class="num">@Fmt.Money(a.Amount)</span></div>
                 }
                 <div class="sum-row"><span>@L["Payments received"]</span><span class="num">@Fmt.Money(-b.PaymentsInPeriod)</span></div>
-                <div class="sum-row total"><span>@L["Total due"]</span><span class="num">@Fmt.Money(b.TotalDue)</span></div>
+                <div class="sum-row total"><span>@(b.TotalDue < 0 ? L["Advance (nothing to pay)"] : L["Total due"])</span><span class="num">@Fmt.Money(Math.Abs(b.TotalDue))</span></div>
             </div>
         </div>
 

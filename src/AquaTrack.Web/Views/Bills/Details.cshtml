@@ -44,7 +44,7 @@
         <div class="card mb-3">
             <div class="card-header d-flex align-items-center">
                 <span>@L["Deliveries in {0}", Fmt.Month(b.Period)]</span>
-                <span class="ms-auto chip num">@b.Bottles @L["bottles"]</span>
+                <span class="ms-auto chip num">@L["{0} bottles", b.Bottles]</span>
             </div>
             @if (b.Lines.Count == 0)
             {
@@ -120,7 +120,7 @@
                     </div>
                 }
                 <div class="sum-row"><span>@L["Payments received"]</span><span class="num text-success">@Fmt.Money(-b.PaymentsInPeriod)</span></div>
-                <div class="sum-row total"><span>@L["Total due"]</span><span class="num">@Fmt.Money(b.TotalDue)</span></div>
+                <div class="sum-row total"><span>@(b.TotalDue < 0 ? L["Advance (nothing to pay)"] : L["Total due"])</span><span class="num">@Fmt.Money(Math.Abs(b.TotalDue))</span></div>
                 @if (b.TotalDue < 0)
                 {
                     <div class="small text-success mt-2"><i class="bi bi-info-circle me-1"></i>@L["Customer has paid in advance."]</div>

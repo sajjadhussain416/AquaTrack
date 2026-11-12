@@ -1,0 +1,131 @@
+@model CashSheet
+@{
+    ViewData["Title"] = L["Cash sheet"];
+    var today = (DateOnly)ViewBag.Today;
+    var handovers = (IReadOnlyList<HandoverItem>)ViewBag.Handovers;
+    var d = Model.Date;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Cash sheet"]</h1>
+        <p>@L["Cash each delivery staff member collected, gave you, and still has."]</p>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body d-flex flex-wrap align-items-center gap-3">
+        <form method="get" class="date-nav">
+            <a class="btn btn-light" asp-route-date="@Fmt.Iso(d.AddDays(-1))" aria-label="@L["Previous"]"><i class="bi @(AppCultures.IsUrdu ? "bi-chevron-right" : "bi-chevron-left")"></i></a>
+            <input type="date" name="date" class="form-control num" value="@Fmt.Iso(d)" max="@Fmt.Iso(today)" onchange="this.form.submit()" />
+            @if (d < today)
+            {
+                <a class="btn btn-light" asp-route-date="@Fmt.Iso(d.AddDays(1))" aria-label="@L["Next"]"><i class="bi @(AppCultures.IsUrdu ? "bi-chevron-left" : "bi-chevron-right")"></i></a>
+                <a class="btn btn-light" asp-action="Index">@L["Today"]</a>
+            }
+        </form>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-cash"></i></span>
+            <div><div class="stat-label">@L["Cash collected"]</div><div class="stat-value num">@Fmt.Money(Model.TotalCollected)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-box-arrow-in-down"></i></span>
+            <div><div class="stat-label">@L["Given to you"]</div><div class="stat-value num">@Fmt.Money(Model.TotalHanded)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon @(Model.TotalOutstanding > 0 ? "tone-red" : "tone-green")"><i class="bi bi-wallet2"></i></span>
+            <div><div class="stat-label">@L["Still with staff"]</div><div class="stat-value num">@Fmt.Money(Model.TotalOutstanding)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-phone"></i></span>
+            <div><div class="stat-label">@L["Digital (to your account)"]</div><div class="stat-value num">@Fmt.Money(Model.TotalDigital)</div></div></div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    @if (Model.Rows.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-person-badge"></i>
+            <h5 class="text-body">@L["No delivery staff yet"]</h5>
+            <p class="mb-0">@L["Add delivery staff to see their cash here."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Delivery staff"]</th>
+                        <th class="text-end">@L["From before"]</th>
+                        <th class="text-end">@L["Collected"]</th>
+                        <th class="text-end">@L["Given to you"]</th>
+                        <th class="text-end">@L["Still with staff"]</th>
+                        <th class="text-end">@L["Digital"]</th>
+                        <th style="min-width:260px">@L["Receive cash"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var r in Model.Rows)
+                {
+                    <tr>
+                        <td>
+                            <div class="cell-title">@r.StaffName</div>
+                            <div class="cell-sub num">@L["{0} deliveries done", r.Deliveries]</div>
+                        </td>
+                        <td class="text-end num text-muted">@Fmt.Money(r.Opening)</td>
+                        <td class="text-end num">@Fmt.Money(r.CashCollected)</td>
+                        <td class="text-end num text-success">@Fmt.Money(r.HandedOver)</td>
+                        <td class="text-end num fw-bold @(r.Closing > 0 ? "text-danger" : "text-success")">@Fmt.Money(r.Closing)</td>
+                        <td class="text-end num text-muted">@Fmt.Money(r.DigitalCollected)</td>
+                        <td>
+                            <form asp-action="Handover" method="post" class="d-flex gap-2" data-once>
+                                <input type="hidden" name="staffId" value="@r.StaffId" />
+                                <input type="hidden" name="date" value="@Fmt.Iso(d)" />
+                                <input name="amount" type="number" min="1" step="1" required class="form-control form-control-sm num"
+                                       value="@(r.Closing > 0 ? Math.Round(r.Closing).ToString(System.Globalization.CultureInfo.InvariantCulture) : "")" placeholder="Rs" />
+                                <button class="btn btn-primary btn-sm text-nowrap">@L["Received"]</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="card-body border-top small text-muted">
+            <i class="bi bi-info-circle me-1"></i>@L["Still with staff = from before + collected − given to you. Easypaisa / JazzCash / bank money is not counted here; check it under Payments."]
+        </div>
+    }
+</div>
+
+@if (handovers.Count > 0)
+{
+    <div class="card">
+        <div class="card-header">@L["Cash received on {0}", Fmt.Day(d)]</div>
+        <div class="table-responsive">
+            <table class="table table-at">
+                <tbody>
+                @foreach (var h in handovers)
+                {
+                    <tr>
+                        <td class="cell-title">@h.StaffName</td>
+                        <td class="num text-muted small">@PakistanTime.ToLocal(h.SavedAt).ToString("hh:mm tt", System.Globalization.CultureInfo.InvariantCulture)</td>
+                        <td class="text-end num fw-bold text-success">@Fmt.Money(h.Amount)</td>
+                        <td class="text-end">
+                            <form asp-action="DeleteHandover" asp-route-id="@h.Id" asp-route-date="@Fmt.Iso(d)" method="post" class="d-inline"
+                                  onsubmit="return confirm('@L["Remove this entry?"]');">
+                                <button class="btn btn-light btn-sm text-danger" aria-label="@L["Remove"]"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

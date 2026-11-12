@@ -102,8 +102,13 @@ public class Delivery : TenantEntity
     public int EmptyCollected { get; set; }
     public DeliveryStatus Status { get; set; } = DeliveryStatus.Done;
 
-    /// <summary>Cash taken at the door; also creates a Payment row.</summary>
+    /// <summary>Money taken at the door (any method); also creates a Payment row.</summary>
     public decimal CashCollected { get; set; }
+
+    /// <summary>How the money at the door was paid.</summary>
+    public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.Cash;
+
+    public string? TransactionRef { get; set; }
 
     public string? Note { get; set; }
 }
@@ -174,6 +179,15 @@ public class Payment : TenantEntity
     /// <summary>Set when cash was collected during a delivery.</summary>
     public int? DeliveryId { get; set; }
     public Delivery? Delivery { get; set; }
+
+    /// <summary>Easypaisa / JazzCash / bank transaction ID (TID).</summary>
+    public string? TransactionRef { get; set; }
+
+    /// <summary>Digital money taken at the door is Pending until the owner checks it.</summary>
+    public PaymentVerification Verification { get; set; } = PaymentVerification.Verified;
+
+    public string? VerifiedById { get; set; }
+    public DateTime? VerifiedAt { get; set; }
 
     public string? Note { get; set; }
 }

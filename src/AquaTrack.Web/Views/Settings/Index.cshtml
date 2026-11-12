@@ -1,0 +1,189 @@
+@model AquaTrack.Web.Models.Settings.SettingsViewModel
+@using AquaTrack.Application.Common
+@{
+    ViewData["Title"] = L["Settings"];
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Plant settings"]</h1>
+        <p>@L["Your plant details and where customers send money."]</p>
+    </div>
+</div>
+
+<form asp-action="Index" method="post" data-once novalidate>
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+
+    <div class="row g-3">
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header"><i class="bi bi-buildings me-2 text-primary"></i>@L["Plant details"]</div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="form-label"></label>
+                            <input asp-for="Phone" class="form-control num" type="tel" inputmode="numeric" />
+                            <span asp-validation-for="Phone"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="City" class="form-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="Address" class="form-label"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="DefaultRate" class="form-label"></label>
+                            <input asp-for="DefaultRate" class="form-control num" type="number" min="0" step="1" />
+                            <span asp-validation-for="DefaultRate"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="DepositPerBottle" class="form-label"></label>
+                            <input asp-for="DepositPerBottle" class="form-control num" type="number" min="0" step="1" />
+                            <span asp-validation-for="DepositPerBottle"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="BillingDay" class="form-label"></label>
+                            <input asp-for="BillingDay" class="form-control num" type="number" min="1" max="28" />
+                            <span asp-validation-for="BillingDay"></span>
+                        </div>
+                    </div>
+                    <p class="form-text mt-3 mb-0">@L["A new price applies to new customers. Change an existing customer's price on their page."]</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card h-100">
+                <div class="card-header"><i class="bi bi-wallet2 me-2 text-primary"></i>@L["Payment methods"]</div>
+                <div class="card-body">
+                    <p class="text-muted small mb-3">@L["These appear on the delivery screen, printed bills and WhatsApp bills, so customers know where to send money. Leave empty what you do not use."]</p>
+
+                    <div class="pm-list">
+                        @* Cash: always available *@
+                        <section class="pm pm-cash">
+                            <div class="pm-head">
+                                <span class="pm-icon"><i class="bi bi-cash-stack"></i></span>
+                                <div class="pm-text">
+                                    <div class="pm-title">@L["Cash"]</div>
+                                    <div class="pm-sub">@L["Delivery staff collect it at the door. Check it daily on the cash sheet."]</div>
+                                </div>
+                                <span class="badge-soft active">@L["Always on"]</span>
+                            </div>
+                        </section>
+
+                        @* Easypaisa *@
+                        <section class="pm pm-easypaisa" data-pm>
+                            <div class="pm-head">
+                                <span class="pm-icon"><i class="bi bi-phone"></i></span>
+                                <div class="pm-text">
+                                    <div class="pm-title">@L["Easypaisa"]</div>
+                                    <div class="pm-sub">@L["Mobile wallet"]</div>
+                                </div>
+                                <span class="badge-soft" data-pm-status data-on="@L["On"]" data-off="@L["Off"]"></span>
+                            </div>
+                            <div class="row g-2 mt-1">
+                                <div class="col-sm-5">
+                                    <label asp-for="EasypaisaNumber" class="form-label small">@L["Mobile number"]</label>
+                                    <input asp-for="EasypaisaNumber" class="form-control num" type="tel" inputmode="numeric" maxlength="15" placeholder="03001234567" data-pm-key />
+                                </div>
+                                <div class="col-sm-7">
+                                    <label asp-for="EasypaisaTitle" class="form-label small"></label>
+                                    <input asp-for="EasypaisaTitle" class="form-control" placeholder="@L["Name shown when sending money"]" />
+                                </div>
+                            </div>
+                        </section>
+
+                        @* JazzCash *@
+                        <section class="pm pm-jazzcash" data-pm>
+                            <div class="pm-head">
+                                <span class="pm-icon"><i class="bi bi-phone"></i></span>
+                                <div class="pm-text">
+                                    <div class="pm-title">@L["JazzCash"]</div>
+                                    <div class="pm-sub">@L["Mobile wallet"]</div>
+                                </div>
+                                <span class="badge-soft" data-pm-status data-on="@L["On"]" data-off="@L["Off"]"></span>
+                            </div>
+                            <div class="row g-2 mt-1">
+                                <div class="col-sm-5">
+                                    <label asp-for="JazzCashNumber" class="form-label small">@L["Mobile number"]</label>
+                                    <input asp-for="JazzCashNumber" class="form-control num" type="tel" inputmode="numeric" maxlength="15" placeholder="03001234567" data-pm-key />
+                                </div>
+                                <div class="col-sm-7">
+                                    <label asp-for="JazzCashTitle" class="form-label small"></label>
+                                    <input asp-for="JazzCashTitle" class="form-control" placeholder="@L["Name shown when sending money"]" />
+                                </div>
+                            </div>
+                        </section>
+
+                        @* Bank account *@
+                        <section class="pm pm-bank" data-pm>
+                            <div class="pm-head">
+                                <span class="pm-icon"><i class="bi bi-bank"></i></span>
+                                <div class="pm-text">
+                                    <div class="pm-title">@L["Bank account"]</div>
+                                    <div class="pm-sub">@L["Bank transfer / IBAN (Raast, IBFT)"]</div>
+                                </div>
+                                <span class="badge-soft" data-pm-status data-on="@L["On"]" data-off="@L["Off"]"></span>
+                            </div>
+                            <div class="row g-2 mt-1">
+                                <div class="col-12">
+                                    <label asp-for="BankAccountNumber" class="form-label small"></label>
+                                    <input asp-for="BankAccountNumber" class="form-control num iban-input" maxlength="34" autocomplete="off" spellcheck="false"
+                                           placeholder="PK00 XXXX 0000 0000 0000 0000" data-pm-key data-iban />
+                                    <div class="iban-hint" data-iban-hint
+                                         data-ok="@L["Correct IBAN"]" data-bad="@L["This IBAN is not correct. Please check it again."]"
+                                         data-short="@L["An IBAN has 24 characters."]" data-acct="@L["Account number. An IBAN (starts with PK) is better."]"></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label asp-for="BankChoice" class="form-label small"></label>
+                                    <select asp-for="BankChoice" class="form-select" data-bank-select>
+                                        <option value="">@L["Choose bank"]</option>
+                                        <optgroup label="@L["Banks"]">
+                                            @foreach (var bank in PakistanBanks.All.Where(x => !x.Digital))
+                                            {
+                                                <option value="@bank.Name" data-code="@bank.IbanCode">@bank.Name</option>
+                                            }
+                                        </optgroup>
+                                        <optgroup label="@L["Digital banks"]">
+                                            @foreach (var bank in PakistanBanks.All.Where(x => x.Digital))
+                                            {
+                                                <option value="@bank.Name" data-code="@bank.IbanCode">@bank.Name</option>
+                                            }
+                                        </optgroup>
+                                        <option value="@PakistanBanks.Other">@L["Other (type the name)"]</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6" data-bank-other hidden="@(Model.BankChoice != PakistanBanks.Other)">
+                                    <label asp-for="BankOther" class="form-label small"></label>
+                                    <input asp-for="BankOther" class="form-control" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label asp-for="BankAccountTitle" class="form-label small"></label>
+                                    <input asp-for="BankAccountTitle" class="form-control" />
+                                </div>
+                            </div>
+                            <p class="form-text mb-0 mt-2"><i class="bi bi-magic me-1"></i>@L["Paste the IBAN and the bank is picked for you."]</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary btn-lg-at btn-icon"><i class="bi bi-check2"></i>@L["Save settings"]</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="~/js/settings.js" asp-append-version="true"></script>
+}

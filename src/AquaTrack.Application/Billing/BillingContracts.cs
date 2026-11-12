@@ -1,5 +1,6 @@
 using AquaTrack.Application.Common;
 using AquaTrack.Application.Operations;
+using AquaTrack.Application.Settings;
 using AquaTrack.Domain.Enums;
 
 namespace AquaTrack.Application.Billing;
@@ -24,7 +25,7 @@ public readonly record struct BillPeriod(int Year, int Month)
     public static bool IsValid(int year, int month) => year is >= 2020 and <= 2100 && month is >= 1 and <= 12;
 }
 
-public record PlantHeader(string Name, string Phone, string City, string? Address, string? LogoUrl);
+public record PlantHeader(string Name, string Phone, string City, string? Address, string? LogoUrl, PaymentAccounts Accounts);
 
 // ---------------- Bills ----------------
 
@@ -134,6 +135,8 @@ public record PaymentListItem(
     PaymentMethod Method,
     string ReceivedBy,
     bool FromDelivery,
+    string? TransactionRef,
+    PaymentVerification Verification,
     string? Note);
 
 public record PaymentMonthView(
@@ -144,7 +147,7 @@ public record PaymentMonthView(
 
 public record CustomerBalanceOption(int Id, string Name, string Phone, string AreaName, decimal Balance);
 
-public record PaymentInput(int CustomerId, decimal Amount, PaymentMethod Method, DateOnly Date, string? Note);
+public record PaymentInput(int CustomerId, decimal Amount, PaymentMethod Method, DateOnly Date, string? TransactionRef, string? Note);
 
 public record ReceiptView(
     int Id,
@@ -156,6 +159,8 @@ public record ReceiptView(
     decimal Amount,
     PaymentMethod Method,
     string ReceivedBy,
+    string? TransactionRef,
+    PaymentVerification Verification,
     string? Note,
     decimal BalanceNow,
     PlantHeader Plant)
@@ -175,4 +180,16 @@ public interface IPaymentService
 
     /// <summary>Only payments taken at the plant; cash collected at a delivery is changed from the delivery.</summary>
     Task<Result> DeleteAsync(int id, CancellationToken ct = default);
+
+    // ---- Verification of Easypaisa / JazzCash / bank money taken at the door ----
+
+    Task<IReadOnlyList<PaymentListItem>> GetPendingAsync(CancellationToken ct = default);
+
+    Task<int> GetPendingCountAsync(CancellationToken ct = default);
+
+    /// <summary>Owner saw the money in the plant's account.</summary>
+    Task<Result> VerifyAsync(int id, CancellationToken ct = default);
+
+    /// <summary>Money never arrived (e.g. fake screenshot). Removes the payment and the amount from the delivery.</summary>
+    Task<Result> RejectAsync(int id, string? reason, CancellationToken ct = default);
 }

@@ -53,9 +53,15 @@
                             }
                         </div>
                     </div>
+                    <div id="tidBox">
+                        <label asp-for="TransactionRef" class="form-label"></label>
+                        <input asp-for="TransactionRef" class="form-control num" autocomplete="off" />
+                        <div class="form-text">@L["From the Easypaisa / JazzCash SMS or bank slip."]</div>
+                        <span asp-validation-for="TransactionRef"></span>
+                    </div>
                     <div>
                         <label asp-for="Note" class="form-label"></label>
-                        <input asp-for="Note" class="form-control" placeholder="@L["e.g. JazzCash transaction ID"]" />
+                        <input asp-for="Note" class="form-control" />
                         <span asp-validation-for="Note"></span>
                     </div>
                 </div>
@@ -91,6 +97,14 @@
                 full.onclick = function () { amount.value = Math.round(b); };
             }
             pick.addEventListener('change', show); show();
+
+            var tidBox = document.getElementById('tidBox');
+            function syncTid() {
+                var m = document.querySelector('input[name=Method]:checked');
+                tidBox.hidden = !m || m.value === 'Cash';
+            }
+            document.querySelectorAll('input[name=Method]').forEach(function (r) { r.addEventListener('change', syncTid); });
+            syncTid();
         })();
     </script>
 }

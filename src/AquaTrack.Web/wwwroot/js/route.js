@@ -35,6 +35,22 @@
         }
     });
 
+    // ---- Payment method: show TID box and where to send money ----
+    function syncMethod(form) {
+        var checked = form.querySelector('input[name=Method]:checked');
+        var method = checked ? checked.value : 'Cash';
+        var row = form.querySelector('[data-tid-row]');
+        if (!row) return;
+        row.hidden = method === 'Cash';
+        row.querySelectorAll('[data-for]').forEach(function (s) { s.hidden = s.getAttribute('data-for') !== method; });
+    }
+
+    document.addEventListener('change', function (e) {
+        if (e.target.name === 'Method') syncMethod(e.target.closest('form'));
+    });
+
+    document.querySelectorAll('[data-stop-form]').forEach(syncMethod);
+
     // ---- Save a card ----
     document.addEventListener('submit', function (e) {
         var form = e.target.closest('[data-stop-form]');
@@ -68,13 +84,15 @@
         var fresh = tmp.firstElementChild;
         fresh.classList.add('just-saved');
         card.replaceWith(fresh);
+        var f = fresh.querySelector('[data-stop-form]');
+        if (f) syncMethod(f);
         recount();
         setTimeout(function () { fresh.classList.remove('just-saved'); apply(); }, 900);
     }
 
     // ---- Totals and counters ----
     function recount() {
-        var stops = 0, done = 0, filled = 0, empties = 0, cash = 0, pending = 0, saved = 0;
+        var stops = 0, done = 0, filled = 0, empties = 0, cash = 0, digital = 0, pending = 0, saved = 0;
 
         allStops().forEach(function (s) {
             var inRoute = list.contains(s);
@@ -85,7 +103,8 @@
             if (state === 'done') done++;
             filled += int(s.getAttribute('data-filled'));
             empties += int(s.getAttribute('data-empties'));
-            cash += num(s.getAttribute('data-cash'));
+            if (s.getAttribute('data-method') === 'Cash') cash += num(s.getAttribute('data-cash'));
+            else digital += num(s.getAttribute('data-cash'));
         });
 
         set('[data-total=stops]', stops);
@@ -93,6 +112,7 @@
         set('[data-total=filled]', filled);
         set('[data-total=empties]', empties);
         set('[data-total=cash]', Math.round(cash).toLocaleString('en-US'));
+        set('[data-total=digital]', Math.round(digital).toLocaleString('en-US'));
         set('[data-count=pending]', pending);
         set('[data-count=saved]', saved);
     }

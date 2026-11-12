@@ -46,6 +46,22 @@
                 <input asp-for="Cash" class="form-control num" type="number" min="0" step="1" />
                 <span asp-validation-for="Cash"></span>
             </div>
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    <label asp-for="Method" class="form-label"></label>
+                    <select asp-for="Method" class="form-select">
+                        @foreach (var pm in Enum.GetValues<PaymentMethod>())
+                        {
+                            <option value="@pm">@L[EnumText.Of(pm)]</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label asp-for="TransactionRef" class="form-label"></label>
+                    <input asp-for="TransactionRef" class="form-control num" />
+                    <span asp-validation-for="TransactionRef"></span>
+                </div>
+            </div>
             <div class="mb-4">
                 <label asp-for="Note" class="form-label"></label>
                 <input asp-for="Note" class="form-control" />

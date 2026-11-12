@@ -356,22 +356,22 @@ a.setup-step:hover { border-color: #cfe1f7; background: #fafcff; }
 .stop-form { display: none; border-top: 1px dashed var(--at-line); padding: .9rem 1rem 1rem; }
 .stop.open .stop-form { display: block; }
 
-.stepper-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: .75rem; }
+.stepper-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .75rem; margin-bottom: .75rem; }
 .stepper label, .cash-row label { display: block; font-size: .8rem; font-weight: 700; color: var(--at-ink-soft); margin-bottom: .3rem; }
 .stepper-ctl { display: flex; align-items: stretch; border: 1px solid #d6dde7; border-radius: var(--at-radius-sm); overflow: hidden; height: 52px; }
 .stepper-ctl button {
-    width: 52px; border: 0; background: var(--at-blue-50); color: var(--at-blue-600);
+    flex: 0 0 44px; width: 44px; border: 0; background: var(--at-blue-50); color: var(--at-blue-600);
     font-size: 1.6rem; font-weight: 700; line-height: 1;
 }
 .stepper-ctl button:active { background: #d6e8fb; }
-.stepper-ctl input { flex: 1; min-width: 0; border: 0; text-align: center; font-size: 1.35rem; font-weight: 800; -moz-appearance: textfield; }
+.stepper-ctl input { flex: 1 1 0; min-width: 0; width: 100%; border: 0; text-align: center; font-size: 1.35rem; font-weight: 800; -moz-appearance: textfield; }
 .stepper-ctl input::-webkit-outer-spin-button, .stepper-ctl input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .stepper-ctl input:focus { outline: none; background: #fafcff; }
 
 .cash-row { margin-bottom: .85rem; }
 .cash-row .form-control { height: 48px; font-size: 1.1rem; font-weight: 700; }
 
-.stop-actions { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: .5rem; }
+.stop-actions { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); gap: .5rem; }
 .stop-actions .btn { min-height: 48px; justify-content: center; }
 
 .others summary { list-style: none; cursor: pointer; }
@@ -451,3 +451,64 @@ html[dir="rtl"] .doc-label { text-transform: none; letter-spacing: 0; font-size:
     .doc-sum { width: 100%; }
     .print-toolbar { padding: .75rem; flex-wrap: wrap; }
 }
+
+/* ---------- Day 6: payment method, verification, cash sheet ---------- */
+.route-totals { grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 575.98px) { .route-totals { grid-template-columns: repeat(3, 1fr); } }
+
+.method-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .4rem; margin-bottom: .75rem; }
+.method-pick {
+    position: relative; min-width: 0;
+    display: flex; flex-direction: column; align-items: center; gap: .15rem; cursor: pointer;
+    border: 1px solid var(--at-line); border-radius: var(--at-radius-sm); padding: .45rem .25rem;
+    font-size: .78rem; font-weight: 700; color: var(--at-ink-soft); text-align: center;
+}
+.method-pick input { position: absolute; opacity: 0; pointer-events: none; }
+.method-pick i { font-size: 1.15rem; }
+.method-pick:has(input:checked) { border-color: var(--at-blue-500); background: var(--at-blue-50); color: var(--at-blue-600); }
+.tid-row { background: var(--at-amber-50); border-radius: var(--at-radius-sm); padding: .65rem; margin-bottom: .85rem; }
+.tid-row .form-control { height: 46px; font-weight: 700; }
+.pay-to { font-size: .85rem; margin-bottom: .4rem; color: var(--at-ink); }
+
+.cash-hand { display: flex; align-items: center; gap: .6rem; background: var(--at-green-50); color: #0f5e40; border-radius: var(--at-radius); padding: .7rem 1rem; margin-bottom: .85rem; font-weight: 600; }
+
+.verify-list { display: grid; gap: .75rem; max-width: 760px; }
+.verify-amount { font-size: 1.6rem; font-weight: 800; }
+.verify-actions { display: grid; grid-template-columns: 1fr 1.6fr; gap: .5rem; margin-top: 1rem; }
+@media (max-width: 575.98px) { .verify-actions { grid-template-columns: 1fr; } }
+
+.pay-box { border: 1px solid #d6e4f3; background: #f7fbff; border-radius: 8px; padding: .6rem .8rem; margin-bottom: .8rem; font-size: .88rem; }
+
+/* Money cells never wrap ("Rs" and the amount stay on one line) */
+.table td.num, .table th.num, .table td.text-end.num { white-space: nowrap; }
+
+/* ---------- Settings: payment methods ---------- */
+.pm-list { display: grid; gap: .75rem; }
+.pm {
+    border: 1px solid var(--at-line); border-radius: var(--at-radius); padding: .85rem 1rem;
+    border-inline-start: 4px solid #c9d4e2; background: var(--at-surface); transition: border-color .2s, box-shadow .2s;
+}
+.pm.is-on, .pm-cash { box-shadow: var(--at-shadow-sm); }
+.pm-head { display: flex; align-items: center; gap: .75rem; }
+.pm-text { flex: 1; min-width: 0; }
+.pm-title { font-weight: 800; color: var(--at-ink); }
+.pm-sub { font-size: .8rem; color: var(--at-ink-muted); }
+.pm-icon {
+    width: 40px; height: 40px; flex: 0 0 40px; border-radius: 10px; display: grid; place-items: center;
+    font-size: 1.2rem; background: #eef1f5; color: var(--at-ink-soft);
+}
+.pm-cash { border-inline-start-color: var(--at-green-600); }
+.pm-cash .pm-icon { background: var(--at-green-50); color: var(--at-green-600); }
+.pm-easypaisa.is-on { border-inline-start-color: #1fa463; }
+.pm-easypaisa .pm-icon { background: #e6f7ee; color: #1fa463; }
+.pm-jazzcash.is-on { border-inline-start-color: #d7262e; }
+.pm-jazzcash .pm-icon { background: #fdecec; color: #d7262e; }
+.pm-bank.is-on { border-inline-start-color: var(--at-blue-600); }
+.pm-bank .pm-icon { background: var(--at-blue-50); color: var(--at-blue-600); }
+
+.iban-input { letter-spacing: .04em; font-weight: 700; }
+.iban-hint { font-size: .8rem; margin-top: .3rem; min-height: 1.1rem; }
+.iban-hint.ok { color: var(--at-green-600); font-weight: 700; }
+.iban-hint.bad { color: var(--at-red-600); font-weight: 700; }
+.iban-hint.wait { color: var(--at-ink-muted); }
+.form-select.flash-pick { box-shadow: 0 0 0 3px rgba(22, 133, 90, .35); border-color: var(--at-green-600); transition: box-shadow .3s; }
