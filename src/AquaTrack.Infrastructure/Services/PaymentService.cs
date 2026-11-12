@@ -217,7 +217,8 @@ public class PaymentService : IPaymentService
                 delivery.CashCollected = 0;
                 delivery.PaymentMethod = PaymentMethod.Cash;
                 delivery.TransactionRef = null;
-                var note = $"{payment.Method} {payment.Amount:0} rejected: {why}";
+                var method = payment.Method == PaymentMethod.BankTransfer ? "Bank transfer" : payment.Method.ToString();
+                var note = $"Rejected {method} Rs {payment.Amount:0} ({why})";
                 delivery.Note = string.IsNullOrEmpty(delivery.Note) ? note : $"{delivery.Note} · {note}"[..Math.Min(delivery.Note.Length + note.Length + 3, 300)];
             }
         }
