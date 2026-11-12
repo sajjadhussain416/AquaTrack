@@ -89,8 +89,16 @@
                         <td>
                             @if (row.UnpaidSince is not null)
                             {
-                                <div class="num">@Fmt.Day(row.UnpaidSince.Value)</div>
-                                <span class="badge-soft @AgeTone(row.DaysUnpaid)">@L["{0} days", row.DaysUnpaid]</span>
+                                var billMonth = BillPeriod.Of(row.UnpaidSince.Value);
+                                <div>@L["{0} bill", Fmt.Month(billMonth)]</div>
+                                @if (row.UnpaidSince.Value.AddMonths(1) > PakistanTime.Today)
+                                {
+                                    <span class="badge-soft neutral">@L["Not due yet"]</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-soft @AgeTone(row.DaysUnpaid)">@L["{0} days late", row.DaysUnpaid]</span>
+                                }
                             }
                             else { <span class="text-muted">-</span> }
                         </td>

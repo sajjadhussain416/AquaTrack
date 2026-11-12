@@ -571,4 +571,7 @@
   <data name="{0} days" xml:space="preserve"><value>{0} دن</value></data>
   <data name="{0} days ago" xml:space="preserve"><value>{0} دن پہلے</value></data>
   <data name="{0} empties back" xml:space="preserve"><value>{0} خالی واپس</value></data>
+  <data name="{0} bill" xml:space="preserve"><value>{0} کا بل</value></data>
+  <data name="Not due yet" xml:space="preserve"><value>ابھی واجب نہیں</value></data>
+  <data name="{0} days late" xml:space="preserve"><value>{0} دن سے باقی</value></data>
 </root>

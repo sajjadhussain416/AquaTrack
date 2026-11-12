@@ -65,15 +65,16 @@ public class ReportService : IReportService
             if (balance == 0) continue;
 
             // Oldest bill not yet covered by payments (payments settle the oldest bills first).
+            // UnpaidSince = month of that bill; days are counted from when it fell due (1st of the next month).
             DateOnly? since = null;
             var left = paid;
             foreach (var b in custBills)
             {
                 if (left >= b.Charge) { left -= b.Charge; continue; }
-                since = new DateOnly(b.Year, b.Month, 1).AddMonths(1); // bill is due from the 1st of next month
+                since = new DateOnly(b.Year, b.Month, 1);
                 break;
             }
-            var days = since is null ? 0 : Math.Max(0, today.DayNumber - since.Value.DayNumber);
+            var days = since is null ? 0 : Math.Max(0, today.DayNumber - since.Value.AddMonths(1).DayNumber);
 
             var last = custPays.OrderByDescending(p => p.Date).FirstOrDefault();
             rows.Add(new UdhaarRow(

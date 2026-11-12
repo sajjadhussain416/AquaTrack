@@ -5,7 +5,10 @@ namespace AquaTrack.Application.Reports;
 
 // ---------------- Udhaar list (SRS RPT-02) ----------------
 
-/// <summary>A customer who owes money. UnpaidSince = start of the oldest bill that payments have not covered.</summary>
+/// <summary>
+/// A customer who owes money. UnpaidSince = first day of the month of the oldest bill that payments have not covered;
+/// DaysUnpaid counts from when that bill fell due (the 1st of the following month), 0 while it is not due yet.
+/// </summary>
 public record UdhaarRow(
     int CustomerId, string Name, string Phone, string? WhatsApp, string AreaName,
     decimal Balance, DateOnly? UnpaidSince, int DaysUnpaid,
