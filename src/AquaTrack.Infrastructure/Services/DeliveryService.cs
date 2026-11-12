@@ -181,6 +181,24 @@ public class DeliveryService : IDeliveryService
                 p.DeliveryId == existingId && p.Method != PaymentMethod.Cash && p.Verification == PaymentVerification.Verified, ct))
             return Result<RouteStop>.Fail("The owner has already checked this payment. Ask the owner to change it.");
 
+        // Cash already handed to the owner cannot be taken back by lowering a delivery:
+        // staff may not push their own cash in hand below zero.
+        if (IsDeliveryBoy && delivery is not null)
+        {
+            var boyId = delivery.DeliveryBoyId;
+            var oldCash = delivery.PaymentMethod == PaymentMethod.Cash ? delivery.CashCollected : 0m;
+            var newCash = method == PaymentMethod.Cash ? cash : 0m;
+            if (newCash < oldCash)
+            {
+                var otherCash = await _db.Deliveries
+                    .Where(d => d.DeliveryBoyId == boyId && d.Id != delivery.Id && d.PaymentMethod == PaymentMethod.Cash)
+                    .SumAsync(d => d.CashCollected, ct);
+                var handed = await _db.CashHandovers.Where(h => h.DeliveryBoyId == boyId).SumAsync(h => h.Amount, ct);
+                if (otherCash + newCash - handed < 0)
+                    return Result<RouteStop>.Fail("This cash is already with the owner. Ask the owner to change it.");
+            }
+        }
+
         // Bottles with the customer, not counting this day's earlier entry
         var bottlesBefore = await _db.BottleMovements
             .Where(m => m.CustomerId == customer.Id && (existingId == null || m.DeliveryId != existingId))

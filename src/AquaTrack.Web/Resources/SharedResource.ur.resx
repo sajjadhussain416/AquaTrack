@@ -505,4 +505,5 @@
   <data name="The owner has not added a JazzCash account." xml:space="preserve"><value>مالک نے جاز کیش اکاؤنٹ شامل نہیں کیا۔</value></data>
   <data name="The owner has not added a bank account." xml:space="preserve"><value>مالک نے بینک اکاؤنٹ شامل نہیں کیا۔</value></data>
   <data name="Keep me signed in on this device" xml:space="preserve"><value>اس ڈیوائس پر لاگ اِن رہیں</value></data>
+  <data name="This cash is already with the owner. Ask the owner to change it." xml:space="preserve"><value>یہ نقد مالک کو دی جا چکی ہے۔ تبدیلی کے لیے مالک سے کہیں۔</value></data>
 </root>
