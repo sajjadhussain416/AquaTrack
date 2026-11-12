@@ -1,0 +1,153 @@
+@model BillsIndexViewModel
+@{
+    var m = Model.Month;
+    var p = m.Period;
+    ViewData["Title"] = L["Bills"];
+    var canGoNext = p.Next.Start <= Model.Latest.Start;
+    var drafts = m.Totals.Count - m.Totals.Sent;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Monthly bills"]</h1>
+        <p>@L["Bills are made on day {0} of each month for the month before.", m.BillingDay]</p>
+    </div>
+    <div class="actions">
+        @if (m.Totals.Count > 0)
+        {
+            <a asp-action="PrintAll" asp-route-year="@p.Year" asp-route-month="@p.Month" asp-route-areaId="@Model.AreaId" target="_blank" class="btn btn-light btn-icon">
+                <i class="bi bi-printer"></i>@L["Print all"]
+            </a>
+        }
+        <form asp-action="Generate" method="post" data-once>
+            <input type="hidden" name="year" value="@p.Year" />
+            <input type="hidden" name="month" value="@p.Month" />
+            <button type="submit" class="btn btn-primary btn-icon">
+                <i class="bi bi-lightning-charge"></i>@(m.Totals.Count == 0 ? L["Make bills"] : L["Refresh draft bills"])
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body d-flex flex-wrap align-items-center gap-3">
+        <div class="month-nav">
+            <a asp-route-year="@p.Previous.Year" asp-route-month="@p.Previous.Month" class="btn btn-light" aria-label="@L["Previous"]">
+                <i class="bi @(AppCultures.IsUrdu ? "bi-chevron-right" : "bi-chevron-left")"></i>
+            </a>
+            <span class="month-label">@Fmt.Month(p)</span>
+            @if (canGoNext)
+            {
+                <a asp-route-year="@p.Next.Year" asp-route-month="@p.Next.Month" class="btn btn-light" aria-label="@L["Next"]">
+                    <i class="bi @(AppCultures.IsUrdu ? "bi-chevron-left" : "bi-chevron-right")"></i>
+                </a>
+            }
+        </div>
+
+        <form method="get" class="d-flex flex-wrap gap-2 ms-lg-auto">
+            <input type="hidden" name="year" value="@p.Year" />
+            <input type="hidden" name="month" value="@p.Month" />
+            <div class="input-icon">
+                <i class="bi bi-search"></i>
+                <input name="q" value="@Model.Search" class="form-control" placeholder="@L["Search name or phone"]" style="height:42px;min-width:220px" />
+            </div>
+            <select name="areaId" class="form-select" style="height:42px;width:auto" onchange="this.form.submit()">
+                <option value="">@L["All areas"]</option>
+                @foreach (var a in m.Areas)
+                {
+                    <option value="@a.Id" selected="@(Model.AreaId == a.Id)">@a.Name</option>
+                }
+            </select>
+            <select name="status" class="form-select" style="height:42px;width:auto" onchange="this.form.submit()">
+                <option value="">@L["All statuses"]</option>
+                <option value="Draft" selected="@(Model.Status == BillStatus.Draft)">@L["Draft"]</option>
+                <option value="Sent" selected="@(Model.Status == BillStatus.Sent)">@L["Sent"]</option>
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-receipt"></i></span>
+            <div><div class="stat-label">@L["Bills"]</div><div class="stat-value num">@m.Totals.Count</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-droplet-half"></i></span>
+            <div><div class="stat-label">@L["Bottles billed"]</div><div class="stat-value num">@m.Totals.Bottles</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-graph-up-arrow"></i></span>
+            <div><div class="stat-label">@L["Billed this month"]</div><div class="stat-value num">@Fmt.Money(m.Totals.Billed)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-hourglass-split"></i></span>
+            <div><div class="stat-label">@L["Total due"]</div><div class="stat-value num">@Fmt.Money(m.Totals.TotalDue)</div></div></div>
+    </div>
+</div>
+
+<div class="card">
+    @if (m.Bills.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-receipt-cutoff"></i>
+            <h5 class="text-body">@L["No bills for {0}", Fmt.Month(p)]</h5>
+            <p>@L["Press Make bills. Every customer with deliveries, payments or a balance gets a bill."]</p>
+        </div>
+    }
+    else
+    {
+        @if (drafts > 0)
+        {
+            <div class="card-body border-bottom d-flex flex-wrap align-items-center gap-2 bg-light-subtle">
+                <i class="bi bi-info-circle text-primary"></i>
+                <span class="small">@L["{0} draft bills. Drafts update when you press Refresh; sent bills stay as they are.", drafts]</span>
+                <form asp-action="MarkAllSent" method="post" class="ms-auto" onsubmit="return confirm('@L["Mark all draft bills of this month as sent?"]');">
+                    <input type="hidden" name="year" value="@p.Year" />
+                    <input type="hidden" name="month" value="@p.Month" />
+                    <button class="btn btn-light btn-sm btn-icon"><i class="bi bi-send-check"></i>@L["Mark all as sent"]</button>
+                </form>
+            </div>
+        }
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Customer"]</th>
+                        <th class="text-center">@L["Bottles"]</th>
+                        <th>@L["This month"]</th>
+                        <th>@L["Previous"]</th>
+                        <th>@L["Paid"]</th>
+                        <th>@L["Total due"]</th>
+                        <th>@L["Status"]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var b in m.Bills)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@b.Id" class="cell-title text-decoration-none">@b.CustomerName</a>
+                            <div class="cell-sub">@b.AreaName · <span class="num">@b.Phone</span></div>
+                        </td>
+                        <td class="text-center num fw-bold">@b.Bottles</td>
+                        <td class="num">@Fmt.Money(b.Amount + b.Adjustments)</td>
+                        <td class="num text-muted">@Fmt.Money(b.PreviousBalance)</td>
+                        <td class="num text-success">@Fmt.Money(b.PaymentsInPeriod)</td>
+                        <td class="num fw-bold @(b.TotalDue > 0 ? "text-danger" : "text-success")">@Fmt.Money(b.TotalDue)</td>
+                        <td><span class="badge-soft @(b.Status == BillStatus.Sent ? "active" : "neutral")">@L[EnumText.Of(b.Status)]</span></td>
+                        <td class="text-end text-nowrap">
+                            <form asp-action="Share" asp-route-id="@b.Id" method="post" target="_blank" class="d-inline">
+                                <button class="btn btn-light btn-sm text-success" title="@L["Send on WhatsApp"]" aria-label="@L["Send on WhatsApp"]"><i class="bi bi-whatsapp"></i></button>
+                            </form>
+                            <a asp-action="Print" asp-route-id="@b.Id" target="_blank" class="btn btn-light btn-sm" title="@L["Print / PDF"]" aria-label="@L["Print / PDF"]"><i class="bi bi-printer"></i></a>
+                            <a asp-action="Details" asp-route-id="@b.Id" class="btn btn-light btn-sm" aria-label="@L["Open"]"><i class="bi @(AppCultures.IsUrdu ? "bi-chevron-left" : "bi-chevron-right")"></i></a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

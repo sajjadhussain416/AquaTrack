@@ -4,6 +4,7 @@
     var overLimit = Model.MaxBottles.HasValue && Model.BottlesInHand > Model.MaxBottles.Value;
     var deactivateMsg = L["Deactivate this customer? They will leave the delivery list."].Value;
     var submitJs = Model.IsActive ? "return confirm('" + deactivateMsg + "');" : "return true;";
+    var account = (AquaTrack.Application.Billing.CustomerAccount)ViewBag.Account;
     var days = string.Join(", ", EnumText.Week.Where(w => Model.ScheduleDays.HasFlag(w.Day)).Select(w => L[w.Label].Value));
 }
 
@@ -19,6 +20,7 @@
         <p><i class="bi bi-geo-alt me-1"></i>@Model.AreaName · @Model.Address</p>
     </div>
     <div class="actions">
+        <a asp-controller="Payments" asp-action="Create" asp-route-customerId="@Model.Id" class="btn btn-primary btn-icon"><i class="bi bi-cash-coin"></i>@L["Receive payment"]</a>
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-light btn-icon"><i class="bi bi-pencil"></i>@L["Edit"]</a>
         <form asp-action="SetActive" asp-route-id="@Model.Id" method="post"
               onsubmit="@submitJs">
@@ -42,19 +44,34 @@
 }
 
 <div class="row g-3 mb-3">
-    <div class="col-md-4">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon @(account.Balance > 0 ? "tone-red" : "tone-green")"><i class="bi bi-wallet2"></i></span>
+            <div>
+                <div class="stat-label">@(account.Balance >= 0 ? L["Balance due"] : L["Advance"])</div>
+                <div class="stat-value num">@Fmt.Money(Math.Abs(account.Balance))</div>
+            </div></div>
+    </div>
+    <div class="col-6 col-xl-3">
         <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-droplet-half"></i></span>
             <div><div class="stat-label">@L["Bottles in hand"]</div><div class="stat-value num">@Model.BottlesInHand</div></div></div>
     </div>
-    <div class="col-md-4">
+    <div class="col-6 col-xl-3">
         <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-tag"></i></span>
-            <div><div class="stat-label">@L["Price per bottle"]</div><div class="stat-value num">Rs @Model.Rate.ToString("N0")</div></div></div>
+            <div><div class="stat-label">@L["Price per bottle"]</div><div class="stat-value num">@Fmt.Money(Model.Rate)</div></div></div>
     </div>
-    <div class="col-md-4">
+    <div class="col-6 col-xl-3">
         <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-safe"></i></span>
-            <div><div class="stat-label">@L["Deposit held"]</div><div class="stat-value num">Rs @Model.DepositHeld.ToString("N0")</div></div></div>
+            <div><div class="stat-label">@L["Deposit held"]</div><div class="stat-value num">@Fmt.Money(Model.DepositHeld)</div></div></div>
     </div>
 </div>
+
+@if (account.UnbilledBottlesValue > 0)
+{
+    <div class="alert flash mb-3" style="background:var(--at-blue-50);color:var(--at-blue-600)">
+        <i class="bi bi-info-circle-fill"></i>
+        <span>@L["Not billed yet: {0} of bottles delivered after the last bill.", Fmt.Money(account.UnbilledBottlesValue)]</span>
+    </div>
+}
 
 <div class="row g-3">
     <div class="col-lg-5">
@@ -94,6 +111,68 @@
                                 <td class="num">@PakistanTime.ToLocal(m.Date).ToString("dd MMM yyyy", System.Globalization.CultureInfo.InvariantCulture)</td>
                                 <td>@L[EnumText.Of(m.Type)]</td>
                                 <td class="num fw-bold @(plus ? "text-primary" : "text-success")">@(plus ? "+" : "−")@m.Quantity</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-0">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+                <span>@L["Recent bills"]</span>
+                <a asp-controller="Bills" asp-action="Index" class="ms-auto small fw-semibold">@L["View all"]</a>
+            </div>
+            @if (account.RecentBills.Count == 0)
+            {
+                <div class="card-body text-muted small">@L["No bills yet."]</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-at">
+                        <tbody>
+                        @foreach (var bill in account.RecentBills)
+                        {
+                            <tr>
+                                <td><a asp-controller="Bills" asp-action="Details" asp-route-id="@bill.Id" class="cell-title text-decoration-none">@Fmt.Month(bill.Period)</a></td>
+                                <td><span class="badge-soft @(bill.Status == BillStatus.Sent ? "active" : "neutral")">@L[EnumText.Of(bill.Status)]</span></td>
+                                <td class="text-end num fw-bold">@Fmt.Money(bill.TotalDue)</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center">
+                <span>@L["Recent payments"]</span>
+                <a asp-controller="Payments" asp-action="Create" asp-route-customerId="@Model.Id" class="ms-auto small fw-semibold">@L["Receive payment"]</a>
+            </div>
+            @if (account.RecentPayments.Count == 0)
+            {
+                <div class="card-body text-muted small">@L["No payments yet."]</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-at">
+                        <tbody>
+                        @foreach (var pay in account.RecentPayments)
+                        {
+                            <tr>
+                                <td class="num">@Fmt.Day(pay.Date)</td>
+                                <td>@L[EnumText.Of(pay.Method)]@(pay.FromDelivery ? " · " + L["At delivery"].Value : "")</td>
+                                <td class="text-end num fw-bold text-success">@Fmt.Money(pay.Amount)</td>
+                                <td class="text-end"><a asp-controller="Payments" asp-action="Receipt" asp-route-id="@pay.Id" class="btn btn-light btn-sm" aria-label="@L["Receipt"]"><i class="bi bi-receipt"></i></a></td>
                             </tr>
                         }
                         </tbody>

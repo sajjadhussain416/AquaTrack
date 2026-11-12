@@ -44,6 +44,23 @@ public static class EnumText
         _ => "trial"
     };
 
+    public static string Of(PaymentMethod m) => m switch
+    {
+        PaymentMethod.JazzCash => "JazzCash",
+        PaymentMethod.Easypaisa => "Easypaisa",
+        PaymentMethod.BankTransfer => "Bank transfer",
+        _ => "Cash"
+    };
+
+    public static string Icon(PaymentMethod m) => m switch
+    {
+        PaymentMethod.JazzCash or PaymentMethod.Easypaisa => "bi-phone",
+        PaymentMethod.BankTransfer => "bi-bank",
+        _ => "bi-cash"
+    };
+
+    public static string Of(BillStatus s) => s == BillStatus.Sent ? "Sent" : "Draft";
+
     public static readonly (WeekDays Day, string Label)[] Week =
     {
         (WeekDays.Monday, "Mon"), (WeekDays.Tuesday, "Tue"), (WeekDays.Wednesday, "Wed"),

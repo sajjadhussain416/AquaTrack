@@ -388,3 +388,66 @@ a.setup-step:hover { border-color: #cfe1f7; background: #fafcff; }
 /* Owner deliveries register */
 .date-nav { display: inline-flex; align-items: center; gap: .35rem; }
 .date-nav .form-control { width: auto; height: 42px; }
+
+/* ---------- Day 5: billing, payments, printable documents ---------- */
+.btn-success { background: #1f9d55; border-color: #1f9d55; }
+.btn-success:hover { background: #18834a; border-color: #18834a; }
+
+.month-nav { display: inline-flex; align-items: center; gap: .5rem; }
+.month-nav .btn { height: 42px; width: 42px; display: grid; place-items: center; padding: 0; }
+.month-label { font-weight: 800; font-size: 1.1rem; min-width: 150px; text-align: center; }
+
+.sum-row { display: flex; justify-content: space-between; gap: 1rem; padding: .45rem 0; border-bottom: 1px dashed var(--at-line); }
+.sum-row:last-child { border-bottom: 0; }
+.sum-row.total { border-top: 2px solid var(--at-ink); border-bottom: 0; margin-top: .35rem; padding-top: .7rem; font-weight: 800; font-size: 1.15rem; }
+
+/* Print pages (bills, receipts) */
+.print-body { background: #e9eef4; }
+.print-toolbar { display: flex; align-items: center; gap: .75rem; max-width: 210mm; margin: 0 auto; padding: 1rem 0; }
+.sheet {
+    background: #fff; color: #142033; width: 210mm; min-height: 270mm; margin: 0 auto 1.5rem;
+    padding: 16mm 15mm; box-shadow: 0 6px 24px rgba(16, 38, 63, .12); display: flex; flex-direction: column;
+}
+.sheet-receipt { min-height: auto; max-width: 148mm; }
+.doc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding-bottom: 1rem; border-bottom: 3px solid var(--at-blue-600); }
+.doc-brand { display: flex; gap: .8rem; align-items: center; }
+.doc-plant { font-size: 1.35rem; font-weight: 800; }
+.doc-muted { color: #5c6b80; font-size: .88rem; }
+.doc-title { text-align: end; }
+.doc-kind { font-size: 1.3rem; font-weight: 800; color: var(--at-blue-600); text-transform: uppercase; letter-spacing: .04em; }
+html[dir="rtl"] .doc-kind { text-transform: none; letter-spacing: 0; }
+.doc-month { font-weight: 700; margin-top: .2rem; }
+.doc-parties { display: flex; justify-content: space-between; gap: 1rem; margin: 1.25rem 0; }
+.doc-label { font-size: .75rem; font-weight: 700; color: #7d8aa0; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .2rem; }
+html[dir="rtl"] .doc-label { text-transform: none; letter-spacing: 0; font-size: .85rem; }
+.doc-strong { font-weight: 800; font-size: 1.1rem; }
+.doc-due { background: var(--at-blue-50); border-radius: 10px; padding: .8rem 1.1rem; text-align: end; min-width: 200px; }
+.doc-due-amount { font-size: 1.7rem; font-weight: 800; color: var(--at-blue-600); }
+.doc-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.doc-table th { background: #f3f6fa; text-align: start; padding: .5rem .6rem; font-size: .78rem; color: #5c6b80; }
+.doc-table td { padding: .42rem .6rem; border-bottom: 1px solid #edf1f5; }
+.doc-table .c { text-align: center; }
+.doc-table .e { text-align: end; }
+.doc-bottom { display: flex; justify-content: space-between; gap: 1.5rem; margin-top: 1.25rem; }
+.doc-notes { flex: 1; }
+.doc-sum { width: 300px; }
+.doc-foot { margin-top: auto; padding-top: 1.2rem; border-top: 1px solid #e3e8ef; display: flex; justify-content: space-between; color: #7d8aa0; font-size: .8rem; }
+.receipt-amount { text-align: center; margin: 1.5rem 0; padding: 1.2rem; border: 2px dashed #b9d3ef; border-radius: 12px; }
+.receipt-amount .num { font-size: 2.2rem; font-weight: 800; color: var(--at-blue-600); }
+.receipt-check { color: var(--at-green-600); font-weight: 700; margin-top: .25rem; }
+.sheet .kv { margin-bottom: 1.25rem; }
+
+@media print {
+    @page { size: A4; margin: 0; }
+    .no-print { display: none !important; }
+    .print-body { background: #fff; }
+    .sheet { box-shadow: none; margin: 0 auto; page-break-after: always; break-after: page; }
+    .sheet:last-of-type { page-break-after: auto; break-after: auto; }
+    .doc-due, .doc-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+@media (max-width: 820px) {
+    .sheet { width: 100%; min-height: 0; padding: 1.25rem; }
+    .doc-head, .doc-parties, .doc-bottom { flex-direction: column; }
+    .doc-sum { width: 100%; }
+    .print-toolbar { padding: .75rem; flex-wrap: wrap; }
+}

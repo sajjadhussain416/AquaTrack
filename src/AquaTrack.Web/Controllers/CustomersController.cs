@@ -1,3 +1,4 @@
+using AquaTrack.Application.Billing;
 using AquaTrack.Application.Common;
 using AquaTrack.Application.Operations;
 using AquaTrack.Web.Models.Operations;
@@ -13,12 +14,14 @@ public class CustomersController : Controller
 {
     private readonly ICustomerService _customers;
     private readonly IAreaService _areas;
+    private readonly IBillingService _billing;
     private readonly IStringLocalizer<SharedResource> _l;
 
-    public CustomersController(ICustomerService customers, IAreaService areas, IStringLocalizer<SharedResource> l)
+    public CustomersController(ICustomerService customers, IAreaService areas, IBillingService billing, IStringLocalizer<SharedResource> l)
     {
         _customers = customers;
         _areas = areas;
+        _billing = billing;
         _l = l;
     }
 
@@ -37,7 +40,10 @@ public class CustomersController : Controller
     public async Task<IActionResult> Details(int id, CancellationToken ct)
     {
         var customer = await _customers.GetDetailsAsync(id, ct);
-        return customer is null ? NotFound() : View(customer);
+        if (customer is null) return NotFound();
+
+        ViewBag.Account = await _billing.GetCustomerAccountAsync(id, ct);
+        return View(customer);
     }
 
     [HttpGet]

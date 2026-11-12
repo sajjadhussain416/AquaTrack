@@ -1,0 +1,112 @@
+@model PaymentsIndexViewModel
+@{
+    var m = Model.Month;
+    var p = m.Period;
+    ViewData["Title"] = L["Payments"];
+    var canGoNext = p.Next.Start <= Model.Current.Start;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Payments"]</h1>
+        <p>@L["Money received at the door and at the plant."]</p>
+    </div>
+    <div class="actions">
+        <a asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-plus-lg"></i>@L["Receive payment"]</a>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body d-flex flex-wrap align-items-center gap-3">
+        <div class="month-nav">
+            <a asp-route-year="@p.Previous.Year" asp-route-month="@p.Previous.Month" class="btn btn-light" aria-label="@L["Previous"]">
+                <i class="bi @(AppCultures.IsUrdu ? "bi-chevron-right" : "bi-chevron-left")"></i>
+            </a>
+            <span class="month-label">@Fmt.Month(p)</span>
+            @if (canGoNext)
+            {
+                <a asp-route-year="@p.Next.Year" asp-route-month="@p.Next.Month" class="btn btn-light" aria-label="@L["Next"]">
+                    <i class="bi @(AppCultures.IsUrdu ? "bi-chevron-left" : "bi-chevron-right")"></i>
+                </a>
+            }
+        </div>
+        <form method="get" class="d-flex flex-wrap gap-2 ms-lg-auto">
+            <input type="hidden" name="year" value="@p.Year" />
+            <input type="hidden" name="month" value="@p.Month" />
+            <div class="input-icon">
+                <i class="bi bi-search"></i>
+                <input name="q" value="@Model.Search" class="form-control" placeholder="@L["Search name or phone"]" style="height:42px;min-width:220px" />
+            </div>
+            <select name="method" class="form-select" style="height:42px;width:auto" onchange="this.form.submit()">
+                <option value="">@L["All methods"]</option>
+                @foreach (var pm in Enum.GetValues<PaymentMethod>())
+                {
+                    <option value="@pm" selected="@(Model.Method == pm)">@L[EnumText.Of(pm)]</option>
+                }
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-cash-stack"></i></span>
+            <div><div class="stat-label">@L["Received in {0}", Fmt.Month(p)]</div><div class="stat-value num">@Fmt.Money(m.Total)</div></div></div>
+    </div>
+    @foreach (var (method, amount) in m.ByMethod)
+    {
+        <div class="col-6 col-xl-3">
+            <div class="card stat"><span class="stat-icon tone-blue"><i class="bi @EnumText.Icon(method)"></i></span>
+                <div><div class="stat-label">@L[EnumText.Of(method)]</div><div class="stat-value num">@Fmt.Money(amount)</div></div></div>
+        </div>
+    }
+</div>
+
+<div class="card">
+    @if (m.Items.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-cash-coin"></i>
+            <h5 class="text-body">@L["No payments in {0}", Fmt.Month(p)]</h5>
+            <p>@L["Cash collected at deliveries and payments at the plant appear here."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr><th>@L["Date"]</th><th>@L["Customer"]</th><th>@L["Method"]</th><th>@L["Received by"]</th><th class="text-end">@L["Amount"]</th><th></th></tr>
+                </thead>
+                <tbody>
+                @foreach (var x in m.Items)
+                {
+                    <tr>
+                        <td class="num">@Fmt.Day(x.Date)</td>
+                        <td>
+                            <a asp-controller="Customers" asp-action="Details" asp-route-id="@x.CustomerId" class="cell-title text-decoration-none">@x.CustomerName</a>
+                            <div class="cell-sub">@x.AreaName@(string.IsNullOrEmpty(x.Note) || x.FromDelivery ? "" : " · " + x.Note)</div>
+                        </td>
+                        <td>
+                            <span class="chip">@L[EnumText.Of(x.Method)]</span>
+                            @if (x.FromDelivery) { <span class="cell-sub ms-1"><i class="bi bi-truck"></i> @L["At delivery"]</span> }
+                        </td>
+                        <td>@x.ReceivedBy</td>
+                        <td class="text-end num fw-bold text-success">@Fmt.Money(x.Amount)</td>
+                        <td class="text-end text-nowrap">
+                            <a asp-action="Receipt" asp-route-id="@x.Id" class="btn btn-light btn-sm" title="@L["Receipt"]" aria-label="@L["Receipt"]"><i class="bi bi-receipt"></i></a>
+                            @if (!x.FromDelivery)
+                            {
+                                <form asp-action="Delete" asp-route-id="@x.Id" asp-route-year="@p.Year" asp-route-month="@p.Month" method="post" class="d-inline"
+                                      onsubmit="return confirm('@L["Remove this payment?"]');">
+                                    <button class="btn btn-light btn-sm text-danger" aria-label="@L["Remove"]"><i class="bi bi-trash"></i></button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

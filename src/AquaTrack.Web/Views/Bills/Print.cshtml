@@ -1,0 +1,94 @@
+@model PrintBillsViewModel
+@{
+    Layout = "_PrintLayout";
+    ViewData["Title"] = Model.Bills.Count == 1 ? Model.Bills[0].Number : L["Bills"] + " " + Fmt.Month(Model.Period);
+    ViewData["BackUrl"] = Model.BackUrl;
+}
+
+@if (Model.Bills.Count == 0)
+{
+    <div class="sheet text-center text-muted">@L["No bills for {0}", Fmt.Month(Model.Period)]</div>
+}
+
+@foreach (var b in Model.Bills)
+{
+    <section class="sheet">
+        <header class="doc-head">
+            <div class="doc-brand">
+                <span class="brand-mark"><i class="bi bi-droplet-fill"></i></span>
+                <div>
+                    <div class="doc-plant">@b.Plant.Name</div>
+                    <div class="doc-muted">@b.Plant.Address@(string.IsNullOrEmpty(b.Plant.Address) ? "" : ", ")@b.Plant.City</div>
+                    <div class="doc-muted num">@b.Plant.Phone</div>
+                </div>
+            </div>
+            <div class="doc-title">
+                <div class="doc-kind">@L["Monthly bill"]</div>
+                <div class="doc-muted num">@b.Number</div>
+                <div class="doc-month">@Fmt.Month(b.Period)</div>
+            </div>
+        </header>
+
+        <div class="doc-parties">
+            <div>
+                <div class="doc-label">@L["Bill to"]</div>
+                <div class="doc-strong">@b.CustomerName</div>
+                <div class="doc-muted">@b.Address</div>
+                <div class="doc-muted"><span class="num">@b.Phone</span> · @b.AreaName</div>
+            </div>
+            <div class="doc-due">
+                <div class="doc-label">@L["Total due"]</div>
+                <div class="doc-due-amount num">@Fmt.Money(b.TotalDue)</div>
+            </div>
+        </div>
+
+        <table class="doc-table">
+            <thead>
+                <tr><th>@L["Date"]</th><th class="c">@L["Bottles"]</th><th class="c">@L["Rate"]</th><th class="e">@L["Amount"]</th></tr>
+            </thead>
+            <tbody>
+            @if (b.Lines.Count == 0)
+            {
+                <tr><td colspan="4" class="c doc-muted">@L["No bottles delivered this month."]</td></tr>
+            }
+            @foreach (var line in b.Lines)
+            {
+                <tr>
+                    <td class="num">@Fmt.Day(line.Date)</td>
+                    <td class="c num">@line.Bottles</td>
+                    <td class="c num">@Fmt.Money(b.Rate)</td>
+                    <td class="e num">@Fmt.Money(line.Amount)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        <div class="doc-bottom">
+            <div class="doc-notes">
+                @if (b.Payments.Count > 0)
+                {
+                    <div class="doc-label">@L["Payments in {0}", Fmt.Month(b.Period)]</div>
+                    @foreach (var pay in b.Payments)
+                    {
+                        <div class="doc-muted num">@Fmt.Day(pay.Date) · @L[EnumText.Of(pay.Method)] · @Fmt.Money(pay.Amount)</div>
+                    }
+                }
+            </div>
+            <div class="doc-sum">
+                <div class="sum-row"><span>@L["Bottles"] (<span class="num">@b.Bottles</span>)</span><span class="num">@Fmt.Money(b.Amount)</span></div>
+                <div class="sum-row"><span>@L["Previous balance"]</span><span class="num">@Fmt.Money(b.PreviousBalance)</span></div>
+                @foreach (var a in b.AdjustmentItems)
+                {
+                    <div class="sum-row"><span>@a.Reason</span><span class="num">@Fmt.Money(a.Amount)</span></div>
+                }
+                <div class="sum-row"><span>@L["Payments received"]</span><span class="num">@Fmt.Money(-b.PaymentsInPeriod)</span></div>
+                <div class="sum-row total"><span>@L["Total due"]</span><span class="num">@Fmt.Money(b.TotalDue)</span></div>
+            </div>
+        </div>
+
+        <footer class="doc-foot">
+            <span>@L["Thank you for your business."]</span>
+            <span class="num">AquaTrack · @Fmt.Day(b.GeneratedAt)</span>
+        </footer>
+    </section>
+}

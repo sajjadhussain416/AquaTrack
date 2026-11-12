@@ -1,0 +1,55 @@
+@model ReceiptViewModel
+@{
+    var r = Model.Receipt;
+    Layout = "_PrintLayout";
+    ViewData["Title"] = L["Receipt"] + " " + r.Number;
+    ViewData["BackUrl"] = Url.Action("Index", "Payments");
+}
+
+<div class="print-toolbar no-print pt-0">
+    <a href="@Model.WhatsAppLink" target="_blank" rel="noopener" class="btn btn-success btn-icon"><i class="bi bi-whatsapp"></i>@L["Send on WhatsApp"]</a>
+    <a asp-controller="Customers" asp-action="Details" asp-route-id="@r.CustomerId" class="btn btn-light">@L["Open customer"]</a>
+    <a asp-action="Create" class="btn btn-light btn-icon ms-auto"><i class="bi bi-plus-lg"></i>@L["Receive another payment"]</a>
+</div>
+
+<section class="sheet sheet-receipt">
+    <header class="doc-head">
+        <div class="doc-brand">
+            <span class="brand-mark"><i class="bi bi-droplet-fill"></i></span>
+            <div>
+                <div class="doc-plant">@r.Plant.Name</div>
+                <div class="doc-muted">@r.Plant.City · <span class="num">@r.Plant.Phone</span></div>
+            </div>
+        </div>
+        <div class="doc-title">
+            <div class="doc-kind">@L["Payment receipt"]</div>
+            <div class="doc-muted num">@r.Number</div>
+            <div class="doc-month num">@Fmt.Day(r.Date)</div>
+        </div>
+    </header>
+
+    <div class="receipt-amount">
+        <div class="doc-label">@L["Amount received"]</div>
+        <div class="num">@Fmt.Money(r.Amount)</div>
+        <div class="receipt-check"><i class="bi bi-check-circle-fill"></i> @L["Paid"]</div>
+    </div>
+
+    <dl class="kv">
+        <dt>@L["Received from"]</dt><dd>@r.CustomerName</dd>
+        <dt>@L["Phone"]</dt><dd class="num">@r.Phone</dd>
+        <dt>@L["Area"]</dt><dd>@r.AreaName</dd>
+        <dt>@L["Payment method"]</dt><dd>@L[EnumText.Of(r.Method)]</dd>
+        <dt>@L["Received by"]</dt><dd>@r.ReceivedBy</dd>
+        @if (!string.IsNullOrEmpty(r.Note))
+        {
+            <dt>@L["Note"]</dt><dd>@r.Note</dd>
+        }
+        <dt>@L["Balance now"]</dt>
+        <dd class="num">@(r.BalanceNow > 0 ? Fmt.Money(r.BalanceNow) : L["No balance due"].Value)</dd>
+    </dl>
+
+    <footer class="doc-foot">
+        <span>@L["Thank you for your business."]</span>
+        <span>AquaTrack</span>
+    </footer>
+</section>

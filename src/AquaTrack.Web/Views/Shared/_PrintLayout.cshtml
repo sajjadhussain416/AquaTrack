@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="@(AppCultures.IsUrdu ? "ur" : "en")" dir="@AppCultures.Direction">
+<head>
+    <partial name="_Head" />
+    <title>@ViewData["Title"] · AquaTrack</title>
+</head>
+<body class="print-body">
+    <div class="print-toolbar no-print">
+        <a href="@ViewData["BackUrl"]" class="btn btn-light btn-icon"><i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i>@L["Back"]</a>
+        <span class="text-muted small d-none d-md-inline">@L["Tip: choose \"Save as PDF\" in the print window to get a PDF."]</span>
+        <button type="button" class="btn btn-primary btn-icon ms-auto" onclick="window.print()"><i class="bi bi-printer"></i>@L["Print / Save PDF"]</button>
+    </div>
+    @RenderBody()
+</body>
+</html>

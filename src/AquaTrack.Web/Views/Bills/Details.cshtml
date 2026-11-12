@@ -1,0 +1,177 @@
+@model BillDetailsViewModel
+@{
+    var b = Model.Bill;
+    ViewData["Title"] = L["Bill"] + " " + b.Number;
+    var isDraft = b.Status == BillStatus.Draft;
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="Index" asp-route-year="@b.Period.Year" asp-route-month="@b.Period.Month" class="small fw-semibold text-decoration-none">
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i> @L["Bills"] · @Fmt.Month(b.Period)
+        </a>
+        <h1 class="mt-1 d-flex align-items-center gap-2 flex-wrap">
+            @b.CustomerName
+            <span class="badge-soft @(isDraft ? "neutral" : "active")">@L[EnumText.Of(b.Status)]</span>
+        </h1>
+        <p><span class="num">@b.Number</span> · @b.AreaName · <span class="num">@b.Phone</span></p>
+    </div>
+    <div class="actions flex-wrap">
+        <a href="@Model.WhatsAppLink" target="_blank" rel="noopener" class="btn btn-success btn-icon" id="waBtn"><i class="bi bi-whatsapp"></i>@L["Send on WhatsApp"]</a>
+        <a asp-action="Print" asp-route-id="@b.Id" target="_blank" class="btn btn-light btn-icon"><i class="bi bi-printer"></i>@L["Print / PDF"]</a>
+        @if (isDraft)
+        {
+            <form asp-action="Regenerate" asp-route-id="@b.Id" method="post" data-once>
+                <button class="btn btn-light btn-icon"><i class="bi bi-arrow-repeat"></i>@L["Refresh"]</button>
+            </form>
+            <form asp-action="SetSent" asp-route-id="@b.Id" method="post">
+                <input type="hidden" name="sent" value="true" />
+                <button class="btn btn-light btn-icon"><i class="bi bi-send-check"></i>@L["Mark as sent"]</button>
+            </form>
+        }
+        else
+        {
+            <form asp-action="SetSent" asp-route-id="@b.Id" method="post" onsubmit="return confirm('@L["Reopen this bill to change it?"]');">
+                <input type="hidden" name="sent" value="false" />
+                <button class="btn btn-light btn-icon"><i class="bi bi-unlock"></i>@L["Reopen"]</button>
+            </form>
+        }
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="card mb-3">
+            <div class="card-header d-flex align-items-center">
+                <span>@L["Deliveries in {0}", Fmt.Month(b.Period)]</span>
+                <span class="ms-auto chip num">@b.Bottles @L["bottles"]</span>
+            </div>
+            @if (b.Lines.Count == 0)
+            {
+                <div class="empty-state"><i class="bi bi-truck"></i><p class="mb-0">@L["No bottles delivered this month."]</p></div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-at">
+                        <thead><tr><th>@L["Date"]</th><th class="text-center">@L["Bottles"]</th><th class="text-end">@L["Amount"]</th></tr></thead>
+                        <tbody>
+                        @foreach (var line in b.Lines)
+                        {
+                            <tr>
+                                <td class="num">@Fmt.Day(line.Date)</td>
+                                <td class="text-center num fw-bold">@line.Bottles</td>
+                                <td class="text-end num">@Fmt.Money(line.Amount)</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+
+        <div class="card">
+            <div class="card-header">@L["Payments in {0}", Fmt.Month(b.Period)]</div>
+            @if (b.Payments.Count == 0)
+            {
+                <div class="card-body text-muted small">@L["No payments this month."]</div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-at">
+                        <thead><tr><th>@L["Date"]</th><th>@L["Method"]</th><th class="text-end">@L["Amount"]</th></tr></thead>
+                        <tbody>
+                        @foreach (var pay in b.Payments)
+                        {
+                            <tr>
+                                <td class="num">@Fmt.Day(pay.Date)</td>
+                                <td>@L[EnumText.Of(pay.Method)]</td>
+                                <td class="text-end num text-success fw-bold">@Fmt.Money(pay.Amount)</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card mb-3 bill-summary">
+            <div class="card-header">@L["Bill summary"]</div>
+            <div class="card-body">
+                <div class="sum-row"><span>@L["Bottles"] (<span class="num">@b.Bottles × @Fmt.Money(b.Rate)</span>)</span><span class="num">@Fmt.Money(b.Amount)</span></div>
+                <div class="sum-row"><span>@L["Previous balance"]</span><span class="num">@Fmt.Money(b.PreviousBalance)</span></div>
+                @foreach (var a in b.AdjustmentItems)
+                {
+                    <div class="sum-row">
+                        <span>
+                            @a.Reason
+                            @if (isDraft)
+                            {
+                                <form asp-action="RemoveAdjustment" asp-route-id="@b.Id" method="post" class="d-inline">
+                                    <input type="hidden" name="adjustmentId" value="@a.Id" />
+                                    <button class="btn btn-link btn-sm p-0 text-danger" aria-label="@L["Remove"]"><i class="bi bi-x-circle"></i></button>
+                                </form>
+                            }
+                        </span>
+                        <span class="num">@Fmt.Money(a.Amount)</span>
+                    </div>
+                }
+                <div class="sum-row"><span>@L["Payments received"]</span><span class="num text-success">@Fmt.Money(-b.PaymentsInPeriod)</span></div>
+                <div class="sum-row total"><span>@L["Total due"]</span><span class="num">@Fmt.Money(b.TotalDue)</span></div>
+                @if (b.TotalDue < 0)
+                {
+                    <div class="small text-success mt-2"><i class="bi bi-info-circle me-1"></i>@L["Customer has paid in advance."]</div>
+                }
+            </div>
+        </div>
+
+        @if (isDraft)
+        {
+            <div class="card mb-3">
+                <div class="card-header">@L["Add adjustment"]</div>
+                <div class="card-body">
+                    <form asp-action="AddAdjustment" asp-route-id="@b.Id" method="post" data-once class="d-grid gap-2">
+                        <input name="reason" class="form-control" maxlength="200" required placeholder="@L["Reason, e.g. broken bottle or discount"]" />
+                        <div class="d-flex gap-2">
+                            <input name="amount" type="number" step="1" class="form-control num" required placeholder="@L["Amount (use - for discount)"]" />
+                            <button class="btn btn-primary">@L["Add"]</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+
+        <div class="card">
+            <div class="card-body small text-muted d-grid gap-1">
+                <div><i class="bi bi-clock-history me-1"></i>@L["Updated"]: <span class="num">@Fmt.Day(b.GeneratedAt)</span></div>
+                @if (b.SentAt.HasValue)
+                {
+                    <div><i class="bi bi-send-check me-1"></i>@L["Sent"]: <span class="num">@Fmt.Day(b.SentAt.Value)</span></div>
+                }
+                <div><i class="bi bi-geo-alt me-1"></i>@b.Address</div>
+                <a asp-controller="Customers" asp-action="Details" asp-route-id="@b.CustomerId" class="mt-1">@L["Open customer"]</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @if (isDraft)
+    {
+        <script>
+            // Opening WhatsApp from a draft also marks it as sent
+            document.getElementById('waBtn').addEventListener('click', function (e) {
+                e.preventDefault();
+                var f = document.createElement('form');
+                f.method = 'post'; f.action = '@Url.Action("Share", new { id = b.Id })'; f.target = '_blank';
+                var t = document.querySelector('input[name="__RequestVerificationToken"]');
+                if (t) f.appendChild(t.cloneNode());
+                document.body.appendChild(f); f.submit();
+                setTimeout(function () { location.reload(); }, 1200);
+            });
+        </script>
+    }
+}

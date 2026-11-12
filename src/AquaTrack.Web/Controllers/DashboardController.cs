@@ -1,3 +1,4 @@
+using AquaTrack.Application.Billing;
 using AquaTrack.Application.Common;
 using AquaTrack.Application.Operations;
 using Microsoft.AspNetCore.Authorization;
@@ -10,12 +11,17 @@ namespace AquaTrack.Web.Controllers;
 public class DashboardController : Controller
 {
     private readonly IPlantDashboardService _dashboard;
+    private readonly IBillingService _billing;
 
-    public DashboardController(IPlantDashboardService dashboard)
+    public DashboardController(IPlantDashboardService dashboard, IBillingService billing)
     {
         _dashboard = dashboard;
+        _billing = billing;
     }
 
-    public async Task<IActionResult> Index(CancellationToken ct) =>
-        View(await _dashboard.GetSummaryAsync(ct));
+    public async Task<IActionResult> Index(CancellationToken ct)
+    {
+        ViewBag.Pending = await _billing.GetTotalPendingAsync(ct);
+        return View(await _dashboard.GetSummaryAsync(ct));
+    }
 }

@@ -302,4 +302,113 @@
   <data name="Today" xml:space="preserve"><value>آج</value></data>
   <data name="You cannot record a delivery for a future date." xml:space="preserve"><value>آنے والی تاریخ کی ڈیلیوری درج نہیں ہو سکتی۔</value></data>
   <data name="{0} areas and {1} delivery staff." xml:space="preserve"><value>{0} علاقے اور {1} ڈیلیوری عملہ۔</value></data>
+  <data name="Add" xml:space="preserve"><value>شامل کریں</value></data>
+  <data name="Add adjustment" xml:space="preserve"><value>ایڈجسٹمنٹ شامل کریں</value></data>
+  <data name="Adjustment added." xml:space="preserve"><value>ایڈجسٹمنٹ شامل ہو گئی۔</value></data>
+  <data name="Adjustment not found." xml:space="preserve"><value>ایڈجسٹمنٹ نہیں ملی۔</value></data>
+  <data name="Adjustment removed." xml:space="preserve"><value>ایڈجسٹمنٹ ہٹا دی گئی۔</value></data>
+  <data name="Adjustments" xml:space="preserve"><value>ایڈجسٹمنٹ</value></data>
+  <data name="Advance" xml:space="preserve"><value>ایڈوانس</value></data>
+  <data name="All methods" xml:space="preserve"><value>تمام طریقے</value></data>
+  <data name="Amount" xml:space="preserve"><value>رقم</value></data>
+  <data name="Amount (PKR)" xml:space="preserve"><value>رقم (روپے)</value></data>
+  <data name="Amount (use - for discount)" xml:space="preserve"><value>رقم (رعایت کے لیے - لگائیں)</value></data>
+  <data name="Amount received" xml:space="preserve"><value>وصول شدہ رقم</value></data>
+  <data name="At delivery" xml:space="preserve"><value>ڈیلیوری پر</value></data>
+  <data name="Back" xml:space="preserve"><value>واپس</value></data>
+  <data name="Balance due" xml:space="preserve"><value>باقی رقم</value></data>
+  <data name="Balance now" xml:space="preserve"><value>اب باقی</value></data>
+  <data name="Bank transfer" xml:space="preserve"><value>بینک ٹرانسفر</value></data>
+  <data name="Bill" xml:space="preserve"><value>بل</value></data>
+  <data name="Bill marked as sent." xml:space="preserve"><value>بل بھیجا ہوا درج ہو گیا۔</value></data>
+  <data name="Bill not found." xml:space="preserve"><value>بل نہیں ملا۔</value></data>
+  <data name="Bill refreshed with the latest deliveries and payments." xml:space="preserve"><value>بل تازہ ترین ڈیلیوریوں اور ادائیگیوں سے اپ ڈیٹ ہو گیا۔</value></data>
+  <data name="Bill reopened. You can change it now." xml:space="preserve"><value>بل دوبارہ کھل گیا۔ اب آپ اسے بدل سکتے ہیں۔</value></data>
+  <data name="Bill summary" xml:space="preserve"><value>بل کا خلاصہ</value></data>
+  <data name="Bill to" xml:space="preserve"><value>بل بنام</value></data>
+  <data name="Billed this month" xml:space="preserve"><value>اس ماہ کا بل</value></data>
+  <data name="Bills are made on day {0} of each month for the month before." xml:space="preserve"><value>ہر ماہ کی {0} تاریخ کو پچھلے مہینے کے بل بنتے ہیں۔</value></data>
+  <data name="Bills cannot be made for a future month." xml:space="preserve"><value>آنے والے مہینے کے بل نہیں بن سکتے۔</value></data>
+  <data name="Bills ready: {0} new, {1} refreshed, {2} already sent (not changed)." xml:space="preserve"><value>بل تیار: {0} نئے، {1} اپ ڈیٹ، {2} پہلے سے بھیجے گئے (تبدیل نہیں ہوئے)۔</value></data>
+  <data name="Bottles billed" xml:space="preserve"><value>بل شدہ بوتلیں</value></data>
+  <data name="Cash collected at deliveries and payments at the plant appear here." xml:space="preserve"><value>ڈیلیوری پر وصول نقد اور پلانٹ پر ادائیگیاں یہاں نظر آئیں گی۔</value></data>
+  <data name="Customer has paid in advance." xml:space="preserve"><value>گاہک نے ایڈوانس ادائیگی کی ہے۔</value></data>
+  <data name="Deliveries in {0}" xml:space="preserve"><value>{0} کی ڈیلیوریاں</value></data>
+  <data name="Draft" xml:space="preserve"><value>مسودہ</value></data>
+  <data name="Easypaisa" xml:space="preserve"><value>ایزی پیسہ</value></data>
+  <data name="Enter an amount greater than zero." xml:space="preserve"><value>صفر سے زیادہ رقم درج کریں۔</value></data>
+  <data name="Enter an amount. Use minus for a discount." xml:space="preserve"><value>رقم درج کریں۔ رعایت کے لیے منفی (-) لگائیں۔</value></data>
+  <data name="For money paid at the plant. Cash taken at the door is entered on the delivery screen." xml:space="preserve"><value>پلانٹ پر دی گئی رقم کے لیے۔ دروازے پر لی گئی نقد ڈیلیوری اسکرین پر درج ہوتی ہے۔</value></data>
+  <data name="JazzCash" xml:space="preserve"><value>جاز کیش</value></data>
+  <data name="Make bills" xml:space="preserve"><value>بل بنائیں</value></data>
+  <data name="Mark all as sent" xml:space="preserve"><value>سب کو بھیجا ہوا کریں</value></data>
+  <data name="Mark all draft bills of this month as sent?" xml:space="preserve"><value>کیا اس مہینے کے تمام مسودہ بل بھیجے ہوئے درج کرنے ہیں؟</value></data>
+  <data name="Mark as sent" xml:space="preserve"><value>بھیجا ہوا درج کریں</value></data>
+  <data name="Method" xml:space="preserve"><value>طریقہ</value></data>
+  <data name="Money received at the door and at the plant." xml:space="preserve"><value>دروازے پر اور پلانٹ پر وصول شدہ رقم۔</value></data>
+  <data name="Monthly bill" xml:space="preserve"><value>ماہانہ بل</value></data>
+  <data name="Monthly bills" xml:space="preserve"><value>ماہانہ بل</value></data>
+  <data name="No balance due" xml:space="preserve"><value>کوئی رقم باقی نہیں</value></data>
+  <data name="No bills for {0}" xml:space="preserve"><value>{0} کے کوئی بل نہیں</value></data>
+  <data name="No bills yet." xml:space="preserve"><value>ابھی کوئی بل نہیں۔</value></data>
+  <data name="No bottles delivered this month." xml:space="preserve"><value>اس ماہ کوئی بوتل نہیں دی گئی۔</value></data>
+  <data name="No payments in {0}" xml:space="preserve"><value>{0} میں کوئی ادائیگی نہیں</value></data>
+  <data name="No payments this month." xml:space="preserve"><value>اس ماہ کوئی ادائیگی نہیں۔</value></data>
+  <data name="No payments yet." xml:space="preserve"><value>ابھی کوئی ادائیگی نہیں۔</value></data>
+  <data name="Not billed yet: {0} of bottles delivered after the last bill." xml:space="preserve"><value>ابھی بل نہیں ہوا: آخری بل کے بعد دی گئی بوتلوں کی رقم {0}۔</value></data>
+  <data name="Open" xml:space="preserve"><value>کھولیں</value></data>
+  <data name="Open customer" xml:space="preserve"><value>گاہک کھولیں</value></data>
+  <data name="Owed by customers" xml:space="preserve"><value>گاہکوں کے ذمے</value></data>
+  <data name="Paid" xml:space="preserve"><value>ادا شدہ</value></data>
+  <data name="Pay full balance" xml:space="preserve"><value>پوری باقی رقم</value></data>
+  <data name="Payment date cannot be in the future." xml:space="preserve"><value>ادائیگی کی تاریخ آنے والی نہیں ہو سکتی۔</value></data>
+  <data name="Payment date is too old." xml:space="preserve"><value>ادائیگی کی تاریخ بہت پرانی ہے۔</value></data>
+  <data name="Payment method" xml:space="preserve"><value>ادائیگی کا طریقہ</value></data>
+  <data name="Payment not found." xml:space="preserve"><value>ادائیگی نہیں ملی۔</value></data>
+  <data name="Payment receipt" xml:space="preserve"><value>رسید</value></data>
+  <data name="Payment received" xml:space="preserve"><value>ادائیگی وصول ہوئی</value></data>
+  <data name="Payment removed." xml:space="preserve"><value>ادائیگی ہٹا دی گئی۔</value></data>
+  <data name="Payment saved." xml:space="preserve"><value>ادائیگی محفوظ ہو گئی۔</value></data>
+  <data name="Payments in {0}" xml:space="preserve"><value>{0} کی ادائیگیاں</value></data>
+  <data name="Payments received" xml:space="preserve"><value>وصول شدہ ادائیگیاں</value></data>
+  <data name="Please enter a reason." xml:space="preserve"><value>براہ کرم وجہ لکھیں۔</value></data>
+  <data name="Please select a customer." xml:space="preserve"><value>براہ کرم گاہک منتخب کریں۔</value></data>
+  <data name="Press Make bills. Every customer with deliveries, payments or a balance gets a bill." xml:space="preserve"><value>"بل بنائیں" دبائیں۔ جس گاہک کی ڈیلیوری، ادائیگی یا باقی رقم ہو، اس کا بل بنے گا۔</value></data>
+  <data name="Previous balance" xml:space="preserve"><value>پچھلا بقایا</value></data>
+  <data name="Print / PDF" xml:space="preserve"><value>پرنٹ / PDF</value></data>
+  <data name="Print / Save PDF" xml:space="preserve"><value>پرنٹ / PDF محفوظ کریں</value></data>
+  <data name="Print all" xml:space="preserve"><value>سب پرنٹ کریں</value></data>
+  <data name="Reason, e.g. broken bottle or discount" xml:space="preserve"><value>وجہ، مثلاً ٹوٹی بوتل یا رعایت</value></data>
+  <data name="Receipt" xml:space="preserve"><value>رسید</value></data>
+  <data name="Receipt no." xml:space="preserve"><value>رسید نمبر</value></data>
+  <data name="Receive another payment" xml:space="preserve"><value>ایک اور ادائیگی وصول کریں</value></data>
+  <data name="Receive payment" xml:space="preserve"><value>ادائیگی وصول کریں</value></data>
+  <data name="Received by" xml:space="preserve"><value>وصول کنندہ</value></data>
+  <data name="Received from" xml:space="preserve"><value>ادا کنندہ</value></data>
+  <data name="Received in {0}" xml:space="preserve"><value>{0} میں وصول</value></data>
+  <data name="Recent bills" xml:space="preserve"><value>حالیہ بل</value></data>
+  <data name="Recent payments" xml:space="preserve"><value>حالیہ ادائیگیاں</value></data>
+  <data name="Refresh" xml:space="preserve"><value>تازہ کریں</value></data>
+  <data name="Refresh draft bills" xml:space="preserve"><value>مسودہ بل تازہ کریں</value></data>
+  <data name="Remove this payment?" xml:space="preserve"><value>کیا یہ ادائیگی ہٹانی ہے؟</value></data>
+  <data name="Reopen" xml:space="preserve"><value>دوبارہ کھولیں</value></data>
+  <data name="Reopen this bill to change it?" xml:space="preserve"><value>کیا اس بل کو بدلنے کے لیے دوبارہ کھولنا ہے؟</value></data>
+  <data name="Save payment" xml:space="preserve"><value>ادائیگی محفوظ کریں</value></data>
+  <data name="Search name or phone" xml:space="preserve"><value>نام یا فون تلاش کریں</value></data>
+  <data name="Select customer" xml:space="preserve"><value>گاہک منتخب کریں</value></data>
+  <data name="Send on WhatsApp" xml:space="preserve"><value>واٹس ایپ پر بھیجیں</value></data>
+  <data name="Sent" xml:space="preserve"><value>بھیجا گیا</value></data>
+  <data name="Thank you for your business." xml:space="preserve"><value>آپ کے تعاون کا شکریہ۔</value></data>
+  <data name="Thank you!" xml:space="preserve"><value>شکریہ!</value></data>
+  <data name="This bill is already sent. Reopen it to make changes." xml:space="preserve"><value>یہ بل بھیجا جا چکا ہے۔ تبدیلی کے لیے دوبارہ کھولیں۔</value></data>
+  <data name="This cash was collected at a delivery. Change it from the Deliveries page." xml:space="preserve"><value>یہ نقد ڈیلیوری پر وصول ہوئی تھی۔ اسے ڈیلیوری کے صفحے سے بدلیں۔</value></data>
+  <data name="This month" xml:space="preserve"><value>اس ماہ</value></data>
+  <data name="Tip: choose &quot;Save as PDF&quot; in the print window to get a PDF." xml:space="preserve"><value>مشورہ: PDF کے لیے پرنٹ ونڈو میں "Save as PDF" منتخب کریں۔</value></data>
+  <data name="Total due" xml:space="preserve"><value>کل واجب الادا</value></data>
+  <data name="Updated" xml:space="preserve"><value>اپ ڈیٹ</value></data>
+  <data name="View bills" xml:space="preserve"><value>بل دیکھیں</value></data>
+  <data name="bottles" xml:space="preserve"><value>بوتلیں</value></data>
+  <data name="e.g. JazzCash transaction ID" xml:space="preserve"><value>مثلاً جاز کیش ٹرانزیکشن آئی ڈی</value></data>
+  <data name="{0} bills marked as sent." xml:space="preserve"><value>{0} بل بھیجے ہوئے درج ہو گئے۔</value></data>
+  <data name="{0} draft bills. Drafts update when you press Refresh; sent bills stay as they are." xml:space="preserve"><value>{0} مسودہ بل۔ "تازہ کریں" دبانے پر مسودے اپ ڈیٹ ہوتے ہیں؛ بھیجے گئے بل ویسے ہی رہتے ہیں۔</value></data>
 </root>
