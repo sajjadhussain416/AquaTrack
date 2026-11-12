@@ -253,4 +253,53 @@
   <data name="e.g. G-11 Sector or Main Bazar" xml:space="preserve"><value>مثلاً G-11 سیکٹر یا مین بازار</value></data>
   <data name="{0} areas and {1} delivery staff. Daily delivery entry is coming next." xml:space="preserve"><value>{0} علاقے اور {1} ڈیلیوری عملہ۔ روزانہ ڈیلیوری کا اندراج اگلی اپ ڈیٹ میں۔</value></data>
   <data name="{0} customers" xml:space="preserve"><value>{0} گاہک</value></data>
+  <data name="All" xml:space="preserve"><value>سب</value></data>
+  <data name="All delivery staff" xml:space="preserve"><value>تمام ڈیلیوری عملہ</value></data>
+  <data name="All done for now" xml:space="preserve"><value>فی الحال سب مکمل</value></data>
+  <data name="Ask your plant owner to give you an area." xml:space="preserve"><value>اپنے پلانٹ مالک سے علاقہ لینے کا کہیں۔</value></data>
+  <data name="Bottles and cash count only when the status is Delivered." xml:space="preserve"><value>بوتلیں اور رقم صرف تب شمار ہوں گی جب حیثیت "ڈیلیور کی گئی" ہو۔</value></data>
+  <data name="Cash" xml:space="preserve"><value>رقم</value></data>
+  <data name="Cash collected" xml:space="preserve"><value>وصول شدہ رقم</value></data>
+  <data name="Cash received (PKR)" xml:space="preserve"><value>وصول شدہ رقم (روپے)</value></data>
+  <data name="Cash received (Rs)" xml:space="preserve"><value>وصول شدہ رقم (روپے)</value></data>
+  <data name="Could not save. Check your internet and try again." xml:space="preserve"><value>محفوظ نہیں ہو سکا۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔</value></data>
+  <data name="Delivery not found." xml:space="preserve"><value>ڈیلیوری نہیں ملی۔</value></data>
+  <data name="Delivery removed. Bottles and cash were reversed." xml:space="preserve"><value>ڈیلیوری ہٹا دی گئی۔ بوتلیں اور رقم واپس کر دی گئیں۔</value></data>
+  <data name="Delivery staff can only record today's deliveries." xml:space="preserve"><value>ڈیلیوری عملہ صرف آج کی ڈیلیوری درج کر سکتا ہے۔</value></data>
+  <data name="Delivery updated." xml:space="preserve"><value>ڈیلیوری اپ ڈیٹ ہو گئی۔</value></data>
+  <data name="Done" xml:space="preserve"><value>مکمل</value></data>
+  <data name="Edit delivery" xml:space="preserve"><value>ڈیلیوری میں ترمیم</value></data>
+  <data name="Empties" xml:space="preserve"><value>خالی</value></data>
+  <data name="Empties collected" xml:space="preserve"><value>خالی واپس لیں</value></data>
+  <data name="Empty bottles cannot be more than the bottles with the customer." xml:space="preserve"><value>خالی بوتلیں گاہک کے پاس موجود بوتلوں سے زیادہ نہیں ہو سکتیں۔</value></data>
+  <data name="Empty bottles collected" xml:space="preserve"><value>واپس لی گئی خالی بوتلیں</value></data>
+  <data name="Enter bottles or cash, or choose Not home / Skip." xml:space="preserve"><value>بوتلیں یا رقم درج کریں، یا "گھر پر نہیں" / "چھوڑ دیں" منتخب کریں۔</value></data>
+  <data name="Enter deliveries" xml:space="preserve"><value>ڈیلیوری درج کریں</value></data>
+  <data name="Entries made by delivery staff appear here." xml:space="preserve"><value>ڈیلیوری عملے کے اندراجات یہاں نظر آئیں گے۔</value></data>
+  <data name="Every change is saved in the audit log." xml:space="preserve"><value>ہر تبدیلی آڈٹ لاگ میں محفوظ ہوتی ہے۔</value></data>
+  <data name="Filled" xml:space="preserve"><value>بھری</value></data>
+  <data name="Filled bottles given" xml:space="preserve"><value>دی گئی بھری بوتلیں</value></data>
+  <data name="Filled given" xml:space="preserve"><value>بھری دیں</value></data>
+  <data name="Full amount" xml:space="preserve"><value>پوری رقم</value></data>
+  <data name="No area assigned to you yet" xml:space="preserve"><value>ابھی آپ کو کوئی علاقہ نہیں دیا گیا</value></data>
+  <data name="No deliveries on this day" xml:space="preserve"><value>اس دن کوئی ڈیلیوری نہیں</value></data>
+  <data name="Not home" xml:space="preserve"><value>گھر پر نہیں</value></data>
+  <data name="Note" xml:space="preserve"><value>نوٹ</value></data>
+  <data name="Nothing left in this list." xml:space="preserve"><value>اس لسٹ میں کچھ باقی نہیں۔</value></data>
+  <data name="Other customers (on call / not due today)" xml:space="preserve"><value>دیگر گاہک (کال پر / آج باری نہیں)</value></data>
+  <data name="Pending" xml:space="preserve"><value>باقی</value></data>
+  <data name="Please check the numbers." xml:space="preserve"><value>براہ کرم نمبر چیک کریں۔</value></data>
+  <data name="Refused" xml:space="preserve"><value>انکار کیا</value></data>
+  <data name="Remove this delivery? Its bottles and cash will be reversed." xml:space="preserve"><value>کیا یہ ڈیلیوری ہٹانی ہے؟ اس کی بوتلیں اور رقم واپس ہو جائیں گی۔</value></data>
+  <data name="Save delivery" xml:space="preserve"><value>ڈیلیوری محفوظ کریں</value></data>
+  <data name="Saved" xml:space="preserve"><value>محفوظ شدہ</value></data>
+  <data name="Saved." xml:space="preserve"><value>محفوظ ہو گیا۔</value></data>
+  <data name="Search name or address" xml:space="preserve"><value>نام یا پتہ تلاش کریں</value></data>
+  <data name="Skip" xml:space="preserve"><value>چھوڑ دیں</value></data>
+  <data name="Skipped" xml:space="preserve"><value>چھوڑ دیا</value></data>
+  <data name="This customer is not on your route." xml:space="preserve"><value>یہ گاہک آپ کے روٹ پر نہیں ہے۔</value></data>
+  <data name="Time" xml:space="preserve"><value>وقت</value></data>
+  <data name="Today" xml:space="preserve"><value>آج</value></data>
+  <data name="You cannot record a delivery for a future date." xml:space="preserve"><value>آنے والی تاریخ کی ڈیلیوری درج نہیں ہو سکتی۔</value></data>
+  <data name="{0} areas and {1} delivery staff." xml:space="preserve"><value>{0} علاقے اور {1} ڈیلیوری عملہ۔</value></data>
 </root>

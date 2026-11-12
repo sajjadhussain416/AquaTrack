@@ -1,0 +1,139 @@
+@model DeliveriesIndexViewModel
+@{
+    var r = Model.Report;
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
+    ViewData["Title"] = L["Deliveries"];
+    string D(DateOnly d) => d.ToString("yyyy-MM-dd", inv);
+    var prev = r.Date.AddDays(-1);
+    var next = r.Date.AddDays(1);
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Deliveries"]</h1>
+        <p class="num">@r.Date.ToString("dddd, dd MMM yyyy", inv)</p>
+    </div>
+    <div class="actions">
+        <a asp-controller="Delivery" asp-action="Index" asp-route-date="@D(r.Date)" asp-route-areaId="@Model.AreaId" class="btn btn-primary btn-icon">
+            <i class="bi bi-truck"></i>@L["Enter deliveries"]
+        </a>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-center">
+            <div class="col-md-4">
+                <div class="date-nav">
+                    <a class="btn btn-light" asp-route-date="@D(prev)" asp-route-areaId="@Model.AreaId" asp-route-boyId="@Model.DeliveryBoyId" aria-label="@L["Previous"]">
+                        <i class="bi @(AppCultures.IsUrdu ? "bi-chevron-right" : "bi-chevron-left")"></i>
+                    </a>
+                    <input type="date" name="date" class="form-control num" value="@D(r.Date)" max="@D(Model.Today)" onchange="this.form.submit()" />
+                    @if (r.Date < Model.Today)
+                    {
+                        <a class="btn btn-light" asp-route-date="@D(next)" asp-route-areaId="@Model.AreaId" asp-route-boyId="@Model.DeliveryBoyId" aria-label="@L["Next"]">
+                            <i class="bi @(AppCultures.IsUrdu ? "bi-chevron-left" : "bi-chevron-right")"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select name="areaId" class="form-select" onchange="this.form.submit()">
+                    <option value="">@L["All areas"]</option>
+                    @foreach (var a in r.Areas)
+                    {
+                        <option value="@a.Id" selected="@(Model.AreaId == a.Id)">@a.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="boyId" class="form-select" onchange="this.form.submit()">
+                    <option value="">@L["All delivery staff"]</option>
+                    @foreach (var s in r.Staff)
+                    {
+                        <option value="@s.Id" selected="@(Model.DeliveryBoyId == s.Id)">@s.FullName</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                @if (r.Date != Model.Today)
+                {
+                    <a asp-action="Index" class="btn btn-light w-100">@L["Today"]</a>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-check2-circle"></i></span>
+            <div><div class="stat-label">@L["Delivered"]</div><div class="stat-value num">@r.Totals.Done</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-arrow-down-circle"></i></span>
+            <div><div class="stat-label">@L["Filled given"]</div><div class="stat-value num">@r.Totals.Filled</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-arrow-up-circle"></i></span>
+            <div><div class="stat-label">@L["Empties collected"]</div><div class="stat-value num">@r.Totals.Empties</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-cash-stack"></i></span>
+            <div><div class="stat-label">@L["Cash collected"]</div><div class="stat-value num">Rs @r.Totals.Cash.ToString("N0")</div></div></div>
+    </div>
+</div>
+
+<div class="card">
+    @if (r.Rows.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-truck"></i>
+            <h5 class="text-body">@L["No deliveries on this day"]</h5>
+            <p>@L["Entries made by delivery staff appear here."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Customer"]</th>
+                        <th>@L["Delivery staff"]</th>
+                        <th>@L["Status"]</th>
+                        <th class="text-center">@L["Filled"]</th>
+                        <th class="text-center">@L["Empties"]</th>
+                        <th>@L["Cash"]</th>
+                        <th>@L["Time"]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var d in r.Rows)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Customers" asp-action="Details" asp-route-id="@d.CustomerId" class="cell-title text-decoration-none">@d.CustomerName</a>
+                            <div class="cell-sub">@d.AreaName@(string.IsNullOrEmpty(d.Note) ? "" : " · " + d.Note)</div>
+                        </td>
+                        <td>@d.DeliveryBoyName</td>
+                        <td><span class="badge-soft @EnumText.Css(d.Status)">@L[EnumText.Of(d.Status)]</span></td>
+                        <td class="text-center num fw-bold">@d.Filled</td>
+                        <td class="text-center num fw-bold">@d.Empties</td>
+                        <td class="num">Rs @d.Cash.ToString("N0")</td>
+                        <td class="num text-muted small">@PakistanTime.ToLocal(d.SavedAt).ToString("hh:mm tt", inv)</td>
+                        <td class="text-end text-nowrap">
+                            <a asp-action="Edit" asp-route-id="@d.Id" class="btn btn-light btn-sm" aria-label="@L["Edit"]"><i class="bi bi-pencil"></i></a>
+                            <form asp-action="Delete" asp-route-id="@d.Id" method="post" class="d-inline"
+                                  onsubmit="return confirm('@L["Remove this delivery? Its bottles and cash will be reversed."]');">
+                                <button class="btn btn-light btn-sm text-danger" aria-label="@L["Remove"]"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

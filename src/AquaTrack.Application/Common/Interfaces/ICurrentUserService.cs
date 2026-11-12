@@ -12,4 +12,6 @@ public interface ICurrentUserService
     int? PlantId { get; }
 
     bool IsSuperAdmin { get; }
+
+    bool IsInRole(string role);
 }

@@ -312,3 +312,79 @@ a.setup-step:hover { border-color: #cfe1f7; background: #fafcff; }
 .kv dd { margin: 0; font-weight: 600; }
 .bottle-count { display: inline-flex; align-items: center; gap: .35rem; font-weight: 800; color: #0e8f99; background: var(--at-aqua-50); padding: .2rem .6rem; border-radius: 999px; }
 .modal-content { border: 0; border-radius: var(--at-radius); box-shadow: var(--at-shadow); }
+
+/* ---------- Day 4: delivery route (mobile first) ---------- */
+.badge-soft.neutral { background: #eef1f5; color: var(--at-ink-soft); }
+
+.route-head { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+.route-filter { margin-inline-start: auto; display: flex; gap: .5rem; }
+.route-filter .form-select, .route-filter .form-control { height: 42px; padding-top: .4rem; padding-bottom: .4rem; }
+
+.route-totals {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem;
+    background: var(--at-navy-800); color: #fff; border-radius: var(--at-radius);
+    padding: .85rem 1rem; margin-bottom: .85rem; box-shadow: var(--at-shadow-sm);
+    position: sticky; top: 72px; z-index: 5;
+}
+.route-totals > div { display: flex; flex-direction: column; }
+.route-totals .t-label { font-size: .72rem; color: #9fb3cc; font-weight: 600; }
+.route-totals .t-value { font-size: 1.15rem; font-weight: 800; }
+
+.route-tools { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .85rem; }
+.seg { display: inline-flex; background: var(--at-surface); border: 1px solid var(--at-line); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; padding: .45rem .9rem; border-radius: 999px; font-weight: 700; font-size: .85rem; color: var(--at-ink-soft); white-space: nowrap; }
+.seg button.on { background: var(--at-blue-600); color: #fff; }
+.seg button span { opacity: .8; margin-inline-start: .25rem; }
+
+.stops { display: grid; gap: .75rem; }
+.stop {
+    background: var(--at-surface); border: 1px solid var(--at-line); border-radius: var(--at-radius);
+    box-shadow: var(--at-shadow-sm); overflow: hidden; border-inline-start: 4px solid #c9d4e2;
+    transition: box-shadow .2s, transform .2s;
+}
+.stop.done   { border-inline-start-color: var(--at-green-600); }
+.stop.missed { border-inline-start-color: var(--at-amber-600); }
+.stop.just-saved { box-shadow: 0 0 0 3px rgba(22, 133, 90, .35); }
+
+.stop-head { display: flex; align-items: center; gap: .75rem; padding: .85rem 1rem; cursor: pointer; }
+.stop-title { min-width: 0; flex: 1; }
+.stop-name { font-weight: 800; font-size: 1.02rem; }
+.stop-sub { color: var(--at-ink-muted); font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stop-right { display: flex; align-items: center; gap: .4rem; flex-shrink: 0; }
+.stop-summary { display: flex; gap: 1.25rem; padding: 0 1rem .8rem; font-weight: 700; color: var(--at-ink-soft); font-size: .9rem; }
+
+.stop-form { display: none; border-top: 1px dashed var(--at-line); padding: .9rem 1rem 1rem; }
+.stop.open .stop-form { display: block; }
+
+.stepper-row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-bottom: .75rem; }
+.stepper label, .cash-row label { display: block; font-size: .8rem; font-weight: 700; color: var(--at-ink-soft); margin-bottom: .3rem; }
+.stepper-ctl { display: flex; align-items: stretch; border: 1px solid #d6dde7; border-radius: var(--at-radius-sm); overflow: hidden; height: 52px; }
+.stepper-ctl button {
+    width: 52px; border: 0; background: var(--at-blue-50); color: var(--at-blue-600);
+    font-size: 1.6rem; font-weight: 700; line-height: 1;
+}
+.stepper-ctl button:active { background: #d6e8fb; }
+.stepper-ctl input { flex: 1; min-width: 0; border: 0; text-align: center; font-size: 1.35rem; font-weight: 800; -moz-appearance: textfield; }
+.stepper-ctl input::-webkit-outer-spin-button, .stepper-ctl input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.stepper-ctl input:focus { outline: none; background: #fafcff; }
+
+.cash-row { margin-bottom: .85rem; }
+.cash-row .form-control { height: 48px; font-size: 1.1rem; font-weight: 700; }
+
+.stop-actions { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: .5rem; }
+.stop-actions .btn { min-height: 48px; justify-content: center; }
+
+.others summary { list-style: none; cursor: pointer; }
+.others summary::-webkit-details-marker { display: none; }
+
+@media (max-width: 575.98px) {
+    .route-totals { grid-template-columns: repeat(2, 1fr); top: 64px; }
+    .route-filter { width: 100%; margin-inline-start: 0; }
+    .route-tools .seg { width: 100%; justify-content: space-between; }
+    .stop-actions { grid-template-columns: 1fr 1fr; }
+    .stop-actions .btn-primary { grid-column: 1 / -1; }
+}
+
+/* Owner deliveries register */
+.date-nav { display: inline-flex; align-items: center; gap: .35rem; }
+.date-nav .form-control { width: auto; height: 42px; }

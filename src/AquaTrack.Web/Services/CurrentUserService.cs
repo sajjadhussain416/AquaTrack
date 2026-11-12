@@ -22,4 +22,6 @@ public class CurrentUserService : ICurrentUserService
         int.TryParse(User?.FindFirstValue(AppClaims.PlantId), out var id) ? id : null;
 
     public bool IsSuperAdmin => User?.IsInRole(Roles.SuperAdmin) ?? false;
+
+    public bool IsInRole(string role) => User?.IsInRole(role) ?? false;
 }

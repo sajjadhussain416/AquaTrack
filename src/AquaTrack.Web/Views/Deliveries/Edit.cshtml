@@ -1,0 +1,61 @@
+@model DeliveryEditViewModel
+@{
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
+    ViewData["Title"] = L["Edit delivery"];
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="Index" asp-route-date="@Model.Date.ToString("yyyy-MM-dd", inv)" class="small fw-semibold text-decoration-none">
+            <i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i> @L["Deliveries"]
+        </a>
+        <h1 class="mt-1">@Model.CustomerName</h1>
+        <p class="num">@Model.AreaName · @Model.Date.ToString("dd MMM yyyy", inv)</p>
+    </div>
+</div>
+
+<div class="card" style="max-width:560px">
+    <div class="card-body">
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post" data-once>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label"></label>
+                <select asp-for="Status" class="form-select">
+                    @foreach (var s in Enum.GetValues<DeliveryStatus>())
+                    {
+                        <option value="@s">@L[EnumText.Of(s)]</option>
+                    }
+                </select>
+                <div class="form-text">@L["Bottles and cash count only when the status is Delivered."]</div>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    <label asp-for="Filled" class="form-label"></label>
+                    <input asp-for="Filled" class="form-control num" type="number" min="0" max="200" />
+                    <span asp-validation-for="Filled"></span>
+                </div>
+                <div class="col-6">
+                    <label asp-for="Empties" class="form-label"></label>
+                    <input asp-for="Empties" class="form-control num" type="number" min="0" max="200" />
+                    <span asp-validation-for="Empties"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Cash" class="form-label"></label>
+                <input asp-for="Cash" class="form-control num" type="number" min="0" step="1" />
+                <span asp-validation-for="Cash"></span>
+            </div>
+            <div class="mb-4">
+                <label asp-for="Note" class="form-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">@L["Save changes"]</button>
+                <a asp-action="Index" asp-route-date="@Model.Date.ToString("yyyy-MM-dd", inv)" class="btn btn-light">@L["Cancel"]</a>
+            </div>
+            <p class="text-muted small mt-3 mb-0"><i class="bi bi-shield-check me-1"></i>@L["Every change is saved in the audit log."]</p>
+        </form>
+    </div>
+</div>

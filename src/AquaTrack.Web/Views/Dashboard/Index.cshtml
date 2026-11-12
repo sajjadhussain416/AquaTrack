@@ -54,11 +54,10 @@
                 <span>@L["Add customers with their bottle rate"]</span>
                 <span class="ms-auto num small text-muted">@Model.ActiveCustomers</span>
             </a>
-            <div class="setup-step">
-                <i class="bi bi-4-circle"></i>
+            <a asp-controller="Delivery" asp-action="Index" class="setup-step @(Model.TodayDeliveries > 0 ? "done" : "")">
+                <i class="bi @(Model.TodayDeliveries > 0 ? "bi-check-circle-fill" : "bi-4-circle")"></i>
                 <span>@L["Start recording daily deliveries"]</span>
-                <span class="ms-auto small text-muted">@L["Soon"]</span>
-            </div>
+            </a>
         </div>
     </div>
 }
@@ -69,7 +68,7 @@ else
             <span class="stat-icon tone-green"><i class="bi bi-check2-all"></i></span>
             <div>
                 <div class="fw-bold">@L["Your plant is set up."]</div>
-                <div class="text-muted small">@L["{0} areas and {1} delivery staff. Daily delivery entry is coming next.", Model.Areas, Model.DeliveryStaff]</div>
+                <div class="text-muted small">@L["{0} areas and {1} delivery staff.", Model.Areas, Model.DeliveryStaff]</div>
             </div>
         </div>
     </div>

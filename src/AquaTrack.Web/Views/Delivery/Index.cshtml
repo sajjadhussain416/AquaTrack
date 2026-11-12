@@ -1,11 +1,95 @@
+@model RoutePageViewModel
 @{
+    var r = Model.Route;
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
     ViewData["Title"] = L["Today's deliveries"];
+    ViewData["RouteDate"] = r.Date.ToString("yyyy-MM-dd", inv);
+    var isToday = r.Date == Model.Today;
+    var pending = r.Stops.Count(s => !s.IsSaved);
 }
 
-<div class="card">
-    <div class="empty-state">
-        <i class="bi bi-truck"></i>
-        <h5 class="text-body">@L["No deliveries yet"]</h5>
-        <p class="mb-0">@L["Your delivery list will appear here once your areas and customers are set up."]</p>
+<div class="route-head">
+    <div>
+        <h1 class="h4 fw-bold mb-0">@(isToday ? L["Today's deliveries"] : L["Deliveries"])</h1>
+        <div class="text-muted small num">@r.Date.ToString("dddd, dd MMM yyyy", inv)</div>
     </div>
+
+    @if (Model.CanPickDate)
+    {
+        <form method="get" class="route-filter">
+            <select name="areaId" class="form-select" onchange="this.form.submit()">
+                <option value="">@L["All areas"]</option>
+                @foreach (var a in r.Areas)
+                {
+                    <option value="@a.Id" selected="@(r.AreaId == a.Id)">@a.Name</option>
+                }
+            </select>
+            <input type="date" name="date" class="form-control num" value="@r.Date.ToString("yyyy-MM-dd", inv)"
+                   max="@Model.Today.ToString("yyyy-MM-dd", inv)" onchange="this.form.submit()" />
+        </form>
+    }
 </div>
+
+@if (r.Areas.Count == 0)
+{
+    <div class="card">
+        <div class="empty-state">
+            <i class="bi bi-geo-alt"></i>
+            <h5 class="text-body">@L["No area assigned to you yet"]</h5>
+            <p class="mb-0">@L["Ask your plant owner to give you an area."]</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="route-totals" id="routeTotals">
+        <div><span class="t-label">@L["Done"]</span><span class="t-value num"><b data-total="done">@r.Totals.Done</b> / <span data-total="stops">@r.Totals.Stops</span></span></div>
+        <div><span class="t-label">@L["Filled given"]</span><span class="t-value num" data-total="filled">@r.Totals.Filled</span></div>
+        <div><span class="t-label">@L["Empties"]</span><span class="t-value num" data-total="empties">@r.Totals.Empties</span></div>
+        <div><span class="t-label">@L["Cash"]</span><span class="t-value num">Rs <span data-total="cash">@r.Totals.Cash.ToString("N0")</span></span></div>
+    </div>
+
+    <div class="route-tools">
+        <div class="seg" role="tablist">
+            <button type="button" class="on" data-filter="pending">@L["Pending"] <span class="num" data-count="pending">@pending</span></button>
+            <button type="button" data-filter="saved">@L["Saved"] <span class="num" data-count="saved">@(r.Stops.Count - pending)</span></button>
+            <button type="button" data-filter="all">@L["All"]</button>
+        </div>
+        <div class="input-icon flex-fill">
+            <i class="bi bi-search"></i>
+            <input type="search" class="form-control" placeholder="@L["Search name or address"]" data-route-search style="height:44px" />
+        </div>
+    </div>
+
+    <div class="stops" id="routeStops" data-msg-offline="@L["Could not save. Check your internet and try again."]">
+        @foreach (var s in r.Stops)
+        {
+            <partial name="_Stop" model="s" view-data="ViewData" />
+        }
+        <div class="empty-state route-empty" hidden>
+            <i class="bi bi-check2-all"></i>
+            <h5 class="text-body">@L["All done for now"]</h5>
+            <p class="mb-0">@L["Nothing left in this list."]</p>
+        </div>
+    </div>
+
+    @if (r.Others.Count > 0)
+    {
+        <details class="others card mt-3">
+            <summary class="card-header d-flex align-items-center">
+                <span><i class="bi bi-telephone-inbound me-2 text-primary"></i>@L["Other customers (on call / not due today)"]</span>
+                <span class="ms-auto chip num">@r.Others.Count</span>
+            </summary>
+            <div class="card-body stops">
+                @foreach (var s in r.Others)
+                {
+                    <partial name="_Stop" model="s" view-data="ViewData" />
+                }
+            </div>
+        </details>
+    }
+}
+
+@section Scripts {
+    <script src="~/js/route.js" asp-append-version="true"></script>
+}

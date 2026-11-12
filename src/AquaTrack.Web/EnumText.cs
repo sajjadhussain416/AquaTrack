@@ -29,6 +29,21 @@ public static class EnumText
         _ => "Damaged"
     };
 
+    public static string Of(DeliveryStatus s) => s switch
+    {
+        DeliveryStatus.NotHome => "Not home",
+        DeliveryStatus.Refused => "Refused",
+        DeliveryStatus.Skipped => "Skipped",
+        _ => "Delivered"
+    };
+
+    public static string Css(DeliveryStatus s) => s switch
+    {
+        DeliveryStatus.Done => "active",
+        DeliveryStatus.Skipped => "neutral",
+        _ => "trial"
+    };
+
     public static readonly (WeekDays Day, string Label)[] Week =
     {
         (WeekDays.Monday, "Mon"), (WeekDays.Tuesday, "Tue"), (WeekDays.Wednesday, "Wed"),

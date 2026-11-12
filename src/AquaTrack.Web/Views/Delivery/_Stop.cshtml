@@ -1,0 +1,74 @@
+@model RouteStop
+@{
+    var saved = Model.IsSaved;
+    var state = !saved ? "pending" : Model.Status == DeliveryStatus.Done ? "done" : "missed";
+    var dateText = ViewData["RouteDate"] as string ?? PakistanTime.Today.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+    var search = (Model.Name + " " + Model.Address + " " + Model.Phone).ToLowerInvariant();
+}
+<article class="stop @state @(saved ? "" : "open")" id="stop-@Model.CustomerId"
+         data-state="@state" data-search="@search"
+         data-filled="@Model.Filled" data-empties="@Model.Empties"
+         data-cash="@Model.Cash.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+    <header class="stop-head" data-stop-toggle>
+        <div class="stop-title">
+            <div class="stop-name">@Model.Name</div>
+            <div class="stop-sub">@Model.Address</div>
+        </div>
+        <div class="stop-right">
+            @if (saved)
+            {
+                <span class="badge-soft @EnumText.Css(Model.Status!.Value)">@L[EnumText.Of(Model.Status!.Value)]</span>
+            }
+            <span class="bottle-count num" title="@L["Bottles in hand"]"><i class="bi bi-droplet-fill"></i>@Model.BottlesInHand</span>
+        </div>
+    </header>
+
+    @if (saved && Model.Status == DeliveryStatus.Done)
+    {
+        <div class="stop-summary num">
+            <span><i class="bi bi-arrow-down-circle text-primary"></i> @Model.Filled</span>
+            <span><i class="bi bi-arrow-up-circle text-success"></i> @Model.Empties</span>
+            <span><i class="bi bi-cash"></i> Rs @Model.Cash.ToString("N0")</span>
+        </div>
+    }
+
+    <form asp-controller="Delivery" asp-action="Save" method="post" class="stop-form" data-stop-form data-rate="@Model.Rate.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+        <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
+        <input type="hidden" name="Date" value="@dateText" />
+
+        <div class="stepper-row">
+            <div class="stepper">
+                <label>@L["Filled given"]</label>
+                <div class="stepper-ctl">
+                    <button type="button" data-step="-1" aria-label="-">−</button>
+                    <input name="Filled" type="number" inputmode="numeric" min="0" max="200" value="@(saved ? Model.Filled : 0)" class="num" />
+                    <button type="button" data-step="1" aria-label="+">+</button>
+                </div>
+            </div>
+            <div class="stepper">
+                <label>@L["Empties collected"]</label>
+                <div class="stepper-ctl">
+                    <button type="button" data-step="-1" aria-label="-">−</button>
+                    <input name="Empties" type="number" inputmode="numeric" min="0" max="200" value="@(saved ? Model.Empties : 0)" class="num" />
+                    <button type="button" data-step="1" aria-label="+">+</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cash-row">
+            <label>@L["Cash received (Rs)"]</label>
+            <div class="d-flex gap-2">
+                <input name="Cash" type="number" inputmode="decimal" min="0" step="1" value="@(saved ? Model.Cash.ToString("0", System.Globalization.CultureInfo.InvariantCulture) : "0")" class="form-control num" />
+                <button type="button" class="btn btn-light text-nowrap" data-full-cash>@L["Full amount"]</button>
+            </div>
+            <div class="form-text num">@L["Rate"]: Rs @Model.Rate.ToString("N0")</div>
+        </div>
+
+        <div class="stop-actions">
+            <button type="submit" name="Status" value="Done" class="btn btn-primary btn-icon"><i class="bi bi-check2-circle"></i>@L["Save delivery"]</button>
+            <button type="submit" name="Status" value="NotHome" class="btn btn-light">@L["Not home"]</button>
+            <button type="submit" name="Status" value="Skipped" class="btn btn-light">@L["Skip"]</button>
+        </div>
+        <div class="stop-error text-danger small" role="alert" hidden></div>
+    </form>
+</article>
