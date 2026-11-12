@@ -82,12 +82,28 @@
         var tmp = document.createElement('div');
         tmp.innerHTML = html.trim();
         var fresh = tmp.firstElementChild;
+        updateCashInHand(cashOf(card), cashOf(fresh));
         fresh.classList.add('just-saved');
         card.replaceWith(fresh);
         var f = fresh.querySelector('[data-stop-form]');
         if (f) syncMethod(f);
         recount();
         setTimeout(function () { fresh.classList.remove('just-saved'); apply(); }, 900);
+    }
+
+    // Cash this stop put in the staff member's hand (digital money never does).
+    function cashOf(stop) {
+        if (!stop || stop.getAttribute('data-state') === 'pending') return 0;
+        return stop.getAttribute('data-method') === 'Cash' ? num(stop.getAttribute('data-cash')) : 0;
+    }
+
+    // "Cash in your hand" box: move it by the change this save made, without reloading.
+    function updateCashInHand(before, after) {
+        var el = document.querySelector('[data-in-hand]');
+        if (!el || before === after) return;
+        var v = num(el.getAttribute('data-in-hand')) + (after - before);
+        el.setAttribute('data-in-hand', v);
+        el.textContent = (v < 0 ? '-' : '') + 'Rs ' + Math.round(Math.abs(v)).toLocaleString('en-US');
     }
 
     // ---- Totals and counters ----

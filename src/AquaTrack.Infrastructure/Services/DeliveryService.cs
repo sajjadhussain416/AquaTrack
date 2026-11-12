@@ -176,6 +176,11 @@ public class DeliveryService : IDeliveryService
         var delivery = await _db.Deliveries.FirstOrDefaultAsync(d => d.CustomerId == customer.Id && d.Date == entry.Date, ct);
         var existingId = delivery?.Id;
 
+        // Once the owner has checked an Easypaisa / JazzCash / bank payment, delivery staff cannot change it.
+        if (IsDeliveryBoy && existingId != null && await _db.Payments.AnyAsync(p =>
+                p.DeliveryId == existingId && p.Method != PaymentMethod.Cash && p.Verification == PaymentVerification.Verified, ct))
+            return Result<RouteStop>.Fail("The owner has already checked this payment. Ask the owner to change it.");
+
         // Bottles with the customer, not counting this day's earlier entry
         var bottlesBefore = await _db.BottleMovements
             .Where(m => m.CustomerId == customer.Id && (existingId == null || m.DeliveryId != existingId))

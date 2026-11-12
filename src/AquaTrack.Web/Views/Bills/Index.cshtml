@@ -51,14 +51,14 @@
                 <i class="bi bi-search"></i>
                 <input name="q" value="@Model.Search" class="form-control" placeholder="@L["Search name or phone"]" style="height:42px;min-width:220px" />
             </div>
-            <select name="areaId" class="form-select" style="height:42px;width:auto" onchange="this.form.submit()">
+            <select name="areaId" class="form-select" style="height:42px;width:auto;min-width:9.5rem" onchange="this.form.submit()">
                 <option value="">@L["All areas"]</option>
                 @foreach (var a in m.Areas)
                 {
                     <option value="@a.Id" selected="@(Model.AreaId == a.Id)">@a.Name</option>
                 }
             </select>
-            <select name="status" class="form-select" style="height:42px;width:auto" onchange="this.form.submit()">
+            <select name="status" class="form-select" style="height:42px;width:auto;min-width:9.5rem" onchange="this.form.submit()">
                 <option value="">@L["All statuses"]</option>
                 <option value="Draft" selected="@(Model.Status == BillStatus.Draft)">@L["Draft"]</option>
                 <option value="Sent" selected="@(Model.Status == BillStatus.Sent)">@L["Sent"]</option>
@@ -135,7 +135,10 @@
                         <td class="num">@Fmt.Money(b.Amount + b.Adjustments)</td>
                         <td class="num text-muted">@Fmt.Money(b.PreviousBalance)</td>
                         <td class="num text-success">@Fmt.Money(b.PaymentsInPeriod)</td>
-                        <td class="num fw-bold @(b.TotalDue > 0 ? "text-danger" : "text-success")">@Fmt.Money(b.TotalDue)</td>
+                        <td class="num fw-bold @(b.TotalDue > 0 ? "text-danger" : "text-success")">
+                            @Fmt.Money(Math.Abs(b.TotalDue))
+                            @if (b.TotalDue < 0) { <div class="cell-sub fw-normal">@L["Advance"]</div> }
+                        </td>
                         <td><span class="badge-soft @(b.Status == BillStatus.Sent ? "active" : "neutral")">@L[EnumText.Of(b.Status)]</span></td>
                         <td class="text-end text-nowrap">
                             <form asp-action="Share" asp-route-id="@b.Id" method="post" target="_blank" class="d-inline">

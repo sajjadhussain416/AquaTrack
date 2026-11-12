@@ -46,7 +46,7 @@
                 <i class="bi bi-search"></i>
                 <input name="q" value="@Model.Search" class="form-control" placeholder="@L["Search name or phone"]" style="height:42px;min-width:220px" />
             </div>
-            <select name="method" class="form-select" style="height:42px;width:auto" onchange="this.form.submit()">
+            <select name="method" class="form-select" style="height:42px;width:auto;min-width:9.5rem" onchange="this.form.submit()">
                 <option value="">@L["All methods"]</option>
                 @foreach (var pm in Enum.GetValues<PaymentMethod>())
                 {
