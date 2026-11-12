@@ -1,0 +1,21 @@
+@model AquaTrack.Application.Plants.MySubscription
+@{
+    var days = Model.DaysLeft ?? 0;
+    var late = days < 0;
+    var trial = Model.Status == PlantStatus.Trial;
+    string support = ViewBag.SupportPhone ?? "";
+    string message = trial
+        ? (late ? L["Your free trial has ended."].Value : L["Your free trial ends in {0} days.", days].Value)
+        : (late ? L["Your AquaTrack payment is {0} days overdue.", -days].Value
+                : days == 0 ? L["Your AquaTrack payment is due today."].Value
+                : L["Your AquaTrack payment is due in {0} days.", days].Value);
+    var waText = Uri.EscapeDataString(L["Assalam o Alaikum, I want to pay for AquaTrack ({0} plan).", Model.PlanName].Value);
+}
+<div class="sub-banner @(late ? "late" : "soon")" role="status">
+    <i class="bi @(late ? "bi-exclamation-octagon" : "bi-bell")"></i>
+    <span>@message <span class="fw-normal">@Model.PlanName · <span class="num">@Fmt.Money(Model.MonthlyPrice)</span>/@L["month"]</span></span>
+    @if (!string.IsNullOrEmpty(support))
+    {
+        <a class="btn btn-sm btn-light btn-icon text-success" href="https://wa.me/@Fmt.WhatsAppNumber(support)?text=@waText" target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i>@L["Pay / contact AquaTrack"]</a>
+    }
+</div>

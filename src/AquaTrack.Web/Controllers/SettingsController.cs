@@ -12,12 +12,20 @@ namespace AquaTrack.Web.Controllers;
 public class SettingsController : Controller
 {
     private readonly IPlantSettingsService _settings;
+    private readonly AquaTrack.Application.Plants.ISubscriptionService _subs;
     private readonly IStringLocalizer<SharedResource> _l;
 
-    public SettingsController(IPlantSettingsService settings, IStringLocalizer<SharedResource> l)
+    public SettingsController(IPlantSettingsService settings, AquaTrack.Application.Plants.ISubscriptionService subs, IStringLocalizer<SharedResource> l)
     {
         _settings = settings;
+        _subs = subs;
         _l = l;
+    }
+
+    public override async Task OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext context, Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate next)
+    {
+        ViewBag.Subscription = await _subs.GetMineAsync(HttpContext.RequestAborted);
+        await next();
     }
 
     [HttpGet]

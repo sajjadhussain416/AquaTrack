@@ -1,0 +1,17 @@
+@model (DateTime? Due, int? DaysLeft, PlantStatus Status)
+@if (Model.Due is null)
+{
+    <span class="text-muted">-</span>
+}
+else
+{
+    <div class="num">@Fmt.Day(Model.Due.Value)</div>
+    @if (Model.Status != PlantStatus.Suspended && Model.DaysLeft is not null)
+    {
+        var d = Model.DaysLeft.Value;
+        if (d < 0) { <span class="due-chip late">@L["{0} days overdue", -d]</span> }
+        else if (d == 0) { <span class="due-chip soon">@L["Due today"]</span> }
+        else if (d <= 7) { <span class="due-chip soon">@L["In {0} days", d]</span> }
+        else { <span class="due-chip ok">@L["In {0} days", d]</span> }
+    }
+}

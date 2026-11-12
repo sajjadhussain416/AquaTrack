@@ -1,0 +1,47 @@
+@model IReadOnlyList<PlanRow>
+@{
+    ViewData["Title"] = L["Plans"];
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Plans"]</h1>
+        <p>@L["Monthly price and limits that each water plant pays for."]</p>
+    </div>
+    <div class="actions">
+        <a asp-action="Create" class="btn btn-primary btn-icon"><i class="bi bi-plus-lg"></i>@L["New plan"]</a>
+    </div>
+</div>
+
+<div class="row g-3">
+    @foreach (var p in Model)
+    {
+        <div class="col-md-6 col-xl-4">
+            <div class="card plan-card h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-start">
+                        <div>
+                            <div class="plan-name">@p.Name</div>
+                            <div class="plan-price num">@Fmt.Money(p.MonthlyPrice)<span>/@L["month"]</span></div>
+                        </div>
+                        <span class="badge-soft neutral ms-auto">@L["{0} plants", p.PlantCount]</span>
+                    </div>
+                    <ul class="plan-features">
+                        <li><i class="bi bi-people"></i>@(p.MaxCustomers is null ? L["Unlimited customers"] : L["Up to {0} customers", p.MaxCustomers])</li>
+                        <li><i class="bi bi-person-badge"></i>@(p.MaxDeliveryBoys is null ? L["Unlimited delivery staff"] : L["Up to {0} delivery staff", p.MaxDeliveryBoys])</li>
+                        <li class="@(p.IncludesWhatsAppApi ? "" : "off")"><i class="bi @(p.IncludesWhatsAppApi ? "bi-check2-circle" : "bi-x-circle")"></i>@L["Automatic WhatsApp messages"]</li>
+                    </ul>
+                </div>
+                <div class="card-body border-top d-flex gap-2">
+                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-light btn-sm btn-icon"><i class="bi bi-pencil"></i>@L["Edit"]</a>
+                    @if (p.PlantCount == 0)
+                    {
+                        <form asp-action="Delete" asp-route-id="@p.Id" method="post" class="ms-auto" onsubmit="return confirm('@L["Remove this plan?"]');">
+                            <button class="btn btn-light btn-sm text-danger btn-icon"><i class="bi bi-trash"></i>@L["Remove"]</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

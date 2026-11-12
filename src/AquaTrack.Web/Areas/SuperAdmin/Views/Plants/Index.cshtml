@@ -71,7 +71,7 @@
                 {
                     <tr>
                         <td>
-                            <div class="cell-title">@p.Name</div>
+                            <a class="cell-title" asp-controller="Subscriptions" asp-action="Plant" asp-route-id="@p.Id">@p.Name</a>
                             <div class="cell-sub num">@p.Phone</div>
                         </td>
                         <td>@p.OwnerName</td>
@@ -87,6 +87,7 @@
                             <div class="dropdown">
                                 <button class="btn btn-light btn-sm" data-bs-toggle="dropdown" aria-label="@L["Actions"]"><i class="bi bi-three-dots"></i></button>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                    <li><a class="dropdown-item" asp-controller="Subscriptions" asp-action="Plant" asp-route-id="@p.Id"><i class="bi bi-cash-coin me-2 text-primary"></i>@L["Subscription & payments"]</a></li>
                                     @if (p.Status != PlantStatus.Active)
                                     {
                                         <li>

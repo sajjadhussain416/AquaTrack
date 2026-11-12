@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = L["Dashboard"];
     var recent = (IReadOnlyList<PlantListItem>)ViewBag.Recent;
+    var subs = (SubscriptionOverview)ViewBag.Subs;
+    var due = subs.Rows.Where(r => r.Status != PlantStatus.Suspended && r.DaysLeft is not null && r.DaysLeft <= 7).Take(6).ToList();
 }
 
 <div class="page-head">
@@ -29,7 +31,8 @@
     </div>
     <div class="col-6 col-xl-3">
         <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-cash-coin"></i></span>
-            <div><div class="stat-label">@L["Monthly revenue"]</div><div class="stat-value num">Rs @Model.ExpectedMonthlyRevenue.ToString("N0")</div></div></div>
+            <div><div class="stat-label">@L["Collected this month"]</div><div class="stat-value num">@Fmt.Money(subs.CollectedThisMonth)</div>
+                <div class="cell-sub num">@L["Expected"] @Fmt.Money(Model.ExpectedMonthlyRevenue)</div></div></div>
     </div>
 </div>
 
@@ -71,7 +74,32 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="card h-100">
+        <div class="card mb-3">
+            <div class="card-header d-flex align-items-center">
+                <span><i class="bi bi-bell me-2 text-danger"></i>@L["Payments due"]</span>
+                <a asp-controller="Subscriptions" asp-action="Index" class="ms-auto small fw-semibold">@L["View all"]</a>
+            </div>
+            @if (due.Count == 0)
+            {
+                <div class="card-body text-muted small"><i class="bi bi-check2-circle text-success me-1"></i>@L["No payments due this week."]</div>
+            }
+            else
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var r in due)
+                    {
+                        <a asp-controller="Subscriptions" asp-action="Plant" asp-route-id="@r.PlantId" class="list-group-item list-group-item-action d-flex align-items-center gap-2">
+                            <div>
+                                <div class="fw-semibold">@r.Name</div>
+                                <div class="cell-sub num">@Fmt.Money(r.MonthlyPrice) · @(r.Status == PlantStatus.Trial ? L["Trial"] : L["Paid plan"])</div>
+                            </div>
+                            <span class="ms-auto"><partial name="_DueChip" model="(r.DueDate, r.DaysLeft, r.Status)" /></span>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+        <div class="card">
             <div class="card-header">@L["Platform health"]</div>
             <div class="card-body d-grid gap-3">
                 <div class="d-flex align-items-center"><span class="stat-icon tone-blue me-3" style="width:40px;height:40px;font-size:1.1rem"><i class="bi bi-people"></i></span>

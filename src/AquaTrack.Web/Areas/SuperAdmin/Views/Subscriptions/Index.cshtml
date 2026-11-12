@@ -1,0 +1,88 @@
+@model SubscriptionOverview
+@{
+    ViewData["Title"] = L["Subscriptions"];
+    var filter = (string)ViewBag.Filter;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Subscriptions"]</h1>
+        <p>@L["Who has paid, who is due, and whose free trial is ending."]</p>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-red"><i class="bi bi-exclamation-octagon"></i></span>
+            <div><div class="stat-label">@L["Overdue"]</div><div class="stat-value num">@Model.Overdue</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-calendar-week"></i></span>
+            <div><div class="stat-label">@L["Due in 7 days"]</div><div class="stat-value num">@Model.DueThisWeek</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-hourglass-split"></i></span>
+            <div><div class="stat-label">@L["Trials ending in 7 days"]</div><div class="stat-value num">@Model.TrialsEndingThisWeek</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-cash-coin"></i></span>
+            <div><div class="stat-label">@L["Collected this month"]</div><div class="stat-value num">@Fmt.Money(Model.CollectedThisMonth)</div>
+                <div class="cell-sub num">@L["Expected"] @Fmt.Money(Model.ExpectedMonthly)</div></div></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body border-bottom">
+        <div class="seg flex-wrap">
+            <a class="@(filter == "all" ? "on" : "")" asp-route-filter="all">@L["All"]</a>
+            <a class="@(filter == "overdue" ? "on" : "")" asp-route-filter="overdue">@L["Overdue"]</a>
+            <a class="@(filter == "week" ? "on" : "")" asp-route-filter="week">@L["Due in 7 days"]</a>
+            <a class="@(filter == "trial" ? "on" : "")" asp-route-filter="trial">@L["Free trial"]</a>
+        </div>
+    </div>
+    @if (Model.Rows.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-check2-circle"></i>
+            <h5 class="text-body">@L["Nothing here"]</h5>
+            <p class="mb-0">@L["No plant matches this filter."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Plant"]</th>
+                        <th>@L["Plan"]</th>
+                        <th>@L["Status"]</th>
+                        <th>@L["Next due"]</th>
+                        <th class="text-end"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var r in Model.Rows)
+                {
+                    <tr>
+                        <td>
+                            <a class="cell-title" asp-action="Plant" asp-route-id="@r.PlantId">@r.Name</a>
+                            <div class="cell-sub">@r.OwnerName · <span class="num">@r.Phone</span></div>
+                        </td>
+                        <td>
+                            <div>@r.PlanName</div>
+                            <div class="cell-sub num">@Fmt.Money(r.MonthlyPrice)/@L["month"]</div>
+                        </td>
+                        <td><partial name="_StatusBadge" model="r.Status" /></td>
+                        <td><partial name="_DueChip" model="(r.DueDate, r.DaysLeft, r.Status)" /></td>
+                        <td class="text-end text-nowrap">
+                            <a href="https://wa.me/@Fmt.WhatsAppNumber(r.Phone)" target="_blank" rel="noopener" class="btn btn-light btn-sm text-success" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+                            <a asp-action="Plant" asp-route-id="@r.PlantId" class="btn btn-primary btn-sm btn-icon"><i class="bi bi-cash-coin"></i>@L["Record payment"]</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

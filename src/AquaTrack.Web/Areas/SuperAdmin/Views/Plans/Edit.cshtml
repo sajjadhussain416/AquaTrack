@@ -1,0 +1,45 @@
+@model PlanInput
+@{
+    int? id = ViewBag.Id;
+    ViewData["Title"] = id is null ? L["New plan"] : L["Edit plan"];
+}
+
+<div class="page-head">
+    <div>
+        <a asp-action="Index" class="back-link"><i class="bi @(AppCultures.IsUrdu ? "bi-arrow-right" : "bi-arrow-left")"></i>@L["Plans"]</a>
+        <h1>@ViewData["Title"]</h1>
+    </div>
+</div>
+
+<form asp-action="Save" asp-route-id="@id" method="post" data-once class="card" style="max-width:640px">
+    <div class="card-body">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
+        <div class="row g-3">
+            <div class="col-md-7">
+                <label class="form-label" for="Name">@L["Plan name"]</label>
+                <input asp-for="Name" class="form-control" maxlength="50" required />
+            </div>
+            <div class="col-md-5">
+                <label class="form-label" for="MonthlyPrice">@L["Monthly price (PKR)"]</label>
+                <input asp-for="MonthlyPrice" class="form-control num" type="number" min="0" step="1" required />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="MaxCustomers">@L["Customer limit"]</label>
+                <input asp-for="MaxCustomers" class="form-control num" type="number" min="1" step="1" placeholder="@L["Empty = unlimited"]" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label" for="MaxDeliveryBoys">@L["Delivery staff limit"]</label>
+                <input asp-for="MaxDeliveryBoys" class="form-control num" type="number" min="1" step="1" placeholder="@L["Empty = unlimited"]" />
+            </div>
+            <div class="col-12">
+                <div class="form-check">
+                    <input asp-for="IncludesWhatsAppApi" class="form-check-input" />
+                    <label class="form-check-label" for="IncludesWhatsAppApi">@L["Includes automatic WhatsApp messages"]</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border-top">
+        <button class="btn btn-primary btn-icon"><i class="bi bi-check2"></i>@L["Save plan"]</button>
+    </div>
+</form>

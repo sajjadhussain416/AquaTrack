@@ -56,6 +56,7 @@ public static class DependencyInjection
         services.AddScoped<IPlantSettingsService, PlantSettingsService>();
         services.AddScoped<ICashService, CashService>();
         services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<ISubscriptionService, SubscriptionService>();
 
         return services;
     }

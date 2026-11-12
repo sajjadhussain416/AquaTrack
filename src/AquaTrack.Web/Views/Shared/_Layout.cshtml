@@ -51,6 +51,7 @@
             </header>
 
             <main class="content">
+                @await Component.InvokeAsync("SubscriptionBanner")
                 <partial name="_Flash" />
                 @RenderBody()
             </main>

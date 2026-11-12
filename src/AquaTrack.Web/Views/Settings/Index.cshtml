@@ -11,6 +11,40 @@
     </div>
 </div>
 
+@if (ViewBag.Subscription is AquaTrack.Application.Plants.MySubscription sub)
+{
+    int Pct(int used, int? max) => max is null or 0 ? 0 : Math.Min(100, used * 100 / max.Value);
+    <div class="card mb-3">
+        <div class="card-header d-flex align-items-center"><i class="bi bi-credit-card-2-front me-2 text-primary"></i>@L["Your AquaTrack plan"]
+            <span class="ms-auto badge-soft @(sub.Status == PlantStatus.Active ? "active" : sub.Status == PlantStatus.Trial ? "trial" : "suspended")">@L[sub.Status == PlantStatus.Active ? "Active" : sub.Status == PlantStatus.Trial ? "Trial" : "Suspended"]</span></div>
+        <div class="card-body">
+            <div class="row g-3 align-items-center">
+                <div class="col-sm-3">
+                    <div class="stat-label">@L["Plan"]</div>
+                    <div class="fw-bold">@sub.PlanName</div>
+                    <div class="cell-sub num">@Fmt.Money(sub.MonthlyPrice)/@L["month"]</div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="stat-label">@(sub.Status == PlantStatus.Trial ? L["Trial ends"] : L["Next due"])</div>
+                    <div class="fw-bold num">@(sub.DueDate is null ? "-" : Fmt.Day(sub.DueDate.Value))</div>
+                    @if (sub.DaysLeft is not null)
+                    {
+                        <div class="cell-sub">@(sub.DaysLeft < 0 ? L["{0} days overdue", -sub.DaysLeft.Value] : L["In {0} days", sub.DaysLeft.Value])</div>
+                    }
+                </div>
+                <div class="col-sm-3">
+                    <div class="d-flex"><span class="stat-label">@L["Customers"]</span><span class="ms-auto num small fw-bold">@sub.Customers / @(sub.MaxCustomers?.ToString() ?? "∞")</span></div>
+                    <div class="usage @(sub.MaxCustomers is not null && sub.Customers >= sub.MaxCustomers ? "full" : "")"><span style="width:@Pct(sub.Customers, sub.MaxCustomers)%"></span></div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="d-flex"><span class="stat-label">@L["Delivery staff"]</span><span class="ms-auto num small fw-bold">@sub.DeliveryStaff / @(sub.MaxDeliveryBoys?.ToString() ?? "∞")</span></div>
+                    <div class="usage @(sub.MaxDeliveryBoys is not null && sub.DeliveryStaff >= sub.MaxDeliveryBoys ? "full" : "")"><span style="width:@Pct(sub.DeliveryStaff, sub.MaxDeliveryBoys)%"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <form asp-action="Index" method="post" data-once novalidate>
     <div asp-validation-summary="ModelOnly" class="alert alert-danger flash validation-summary" role="alert"></div>
 

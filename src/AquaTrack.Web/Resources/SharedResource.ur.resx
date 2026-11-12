@@ -574,4 +574,79 @@
   <data name="{0} bill" xml:space="preserve"><value>{0} کا بل</value></data>
   <data name="Not due yet" xml:space="preserve"><value>ابھی واجب نہیں</value></data>
   <data name="{0} days late" xml:space="preserve"><value>{0} دن سے باقی</value></data>
+  <data name="A plan with this name already exists." xml:space="preserve"><value>اس نام کا پلان پہلے سے موجود ہے۔</value></data>
+  <data name="Assalam o Alaikum, I want to pay for AquaTrack ({0} plan)." xml:space="preserve"><value>السلام علیکم، میں AquaTrack ({0} پلان) کی ادائیگی کرنا چاہتا ہوں۔</value></data>
+  <data name="Automatic WhatsApp messages" xml:space="preserve"><value>خودکار واٹس ایپ پیغامات</value></data>
+  <data name="Change plan" xml:space="preserve"><value>پلان بدلیں</value></data>
+  <data name="Choose a payment date within the last year." xml:space="preserve"><value>پچھلے ایک سال کے اندر کی تاریخ منتخب کریں۔</value></data>
+  <data name="Choose between 1 and 24 months." xml:space="preserve"><value>1 سے 24 مہینے منتخب کریں۔</value></data>
+  <data name="Choose between 1 and 90 days." xml:space="preserve"><value>1 سے 90 دن منتخب کریں۔</value></data>
+  <data name="Collected this month" xml:space="preserve"><value>اس ماہ وصول</value></data>
+  <data name="Customer limit" xml:space="preserve"><value>گاہکوں کی حد</value></data>
+  <data name="Customer limit must be at least 1, or empty for unlimited." xml:space="preserve"><value>گاہکوں کی حد کم از کم 1 ہو، یا لامحدود کے لیے خالی چھوڑیں۔</value></data>
+  <data name="Delivery staff limit" xml:space="preserve"><value>ڈیلیوری عملے کی حد</value></data>
+  <data name="Delivery staff limit must be at least 1, or empty for unlimited." xml:space="preserve"><value>ڈیلیوری عملے کی حد کم از کم 1 ہو، یا لامحدود کے لیے خالی چھوڑیں۔</value></data>
+  <data name="Due in 7 days" xml:space="preserve"><value>7 دن میں واجب</value></data>
+  <data name="Due today" xml:space="preserve"><value>آج واجب</value></data>
+  <data name="Edit plan" xml:space="preserve"><value>پلان میں ترمیم</value></data>
+  <data name="Empty = unlimited" xml:space="preserve"><value>خالی = لامحدود</value></data>
+  <data name="Enter a monthly price between 0 and 1,000,000." xml:space="preserve"><value>0 سے 1,000,000 کے درمیان ماہانہ قیمت لکھیں۔</value></data>
+  <data name="Enter a plan name (up to 50 letters)." xml:space="preserve"><value>پلان کا نام لکھیں (زیادہ سے زیادہ 50 حروف)۔</value></data>
+  <data name="Expected" xml:space="preserve"><value>متوقع</value></data>
+  <data name="Extend trial" xml:space="preserve"><value>ٹرائل بڑھائیں</value></data>
+  <data name="Free trial" xml:space="preserve"><value>مفت ٹرائل</value></data>
+  <data name="In {0} days" xml:space="preserve"><value>{0} دن میں</value></data>
+  <data name="Includes automatic WhatsApp messages" xml:space="preserve"><value>خودکار واٹس ایپ پیغامات شامل ہیں</value></data>
+  <data name="Monthly price (PKR)" xml:space="preserve"><value>ماہانہ قیمت (روپے)</value></data>
+  <data name="Monthly price and limits that each water plant pays for." xml:space="preserve"><value>ہر واٹر پلانٹ کی ماہانہ قیمت اور حدیں۔</value></data>
+  <data name="Months" xml:space="preserve"><value>مہینے</value></data>
+  <data name="New plan" xml:space="preserve"><value>نیا پلان</value></data>
+  <data name="No payments due this week." xml:space="preserve"><value>اس ہفتے کوئی ادائیگی واجب نہیں۔</value></data>
+  <data name="No plant matches this filter." xml:space="preserve"><value>اس فلٹر میں کوئی پلانٹ نہیں۔</value></data>
+  <data name="No subscription payments yet." xml:space="preserve"><value>ابھی کوئی سبسکرپشن ادائیگی نہیں۔</value></data>
+  <data name="Note (optional)" xml:space="preserve"><value>نوٹ (اختیاری)</value></data>
+  <data name="Nothing here" xml:space="preserve"><value>یہاں کچھ نہیں</value></data>
+  <data name="Only a plant on free trial can get more trial days." xml:space="preserve"><value>صرف مفت ٹرائل والے پلانٹ کو مزید ٹرائل دن مل سکتے ہیں۔</value></data>
+  <data name="Only the latest payment can be removed." xml:space="preserve"><value>صرف آخری ادائیگی ہٹائی جا سکتی ہے۔</value></data>
+  <data name="Overdue" xml:space="preserve"><value>تاریخ گزر گئی</value></data>
+  <data name="Paid on" xml:space="preserve"><value>ادائیگی کی تاریخ</value></data>
+  <data name="Paid plan" xml:space="preserve"><value>ادا شدہ پلان</value></data>
+  <data name="Pay / contact AquaTrack" xml:space="preserve"><value>ادائیگی / AquaTrack سے رابطہ</value></data>
+  <data name="Payment history" xml:space="preserve"><value>ادائیگیوں کی تاریخ</value></data>
+  <data name="Payments due" xml:space="preserve"><value>واجب ادائیگیاں</value></data>
+  <data name="Period" xml:space="preserve"><value>مدت</value></data>
+  <data name="Plan name" xml:space="preserve"><value>پلان کا نام</value></data>
+  <data name="Plan not found." xml:space="preserve"><value>پلان نہیں ملا۔</value></data>
+  <data name="Plan removed." xml:space="preserve"><value>پلان ہٹا دیا گیا۔</value></data>
+  <data name="Plan saved." xml:space="preserve"><value>پلان محفوظ ہو گیا۔</value></data>
+  <data name="Plants are using this plan. Move them to another plan first." xml:space="preserve"><value>کچھ پلانٹس یہ پلان استعمال کر رہے ہیں۔ پہلے انہیں دوسرے پلان پر منتقل کریں۔</value></data>
+  <data name="Reactivate" xml:space="preserve"><value>دوبارہ فعال کریں</value></data>
+  <data name="Record payment" xml:space="preserve"><value>ادائیگی درج کریں</value></data>
+  <data name="Remove this payment? The due date will move back." xml:space="preserve"><value>یہ ادائیگی ہٹانی ہے؟ واجب تاریخ واپس چلی جائے گی۔</value></data>
+  <data name="Remove this plan?" xml:space="preserve"><value>یہ پلان ہٹانا ہے؟</value></data>
+  <data name="Save plan" xml:space="preserve"><value>پلان محفوظ کریں</value></data>
+  <data name="Since {0}" xml:space="preserve"><value>{0} سے</value></data>
+  <data name="Subscription" xml:space="preserve"><value>سبسکرپشن</value></data>
+  <data name="Subscription &amp; payments" xml:space="preserve"><value>سبسکرپشن اور ادائیگیاں</value></data>
+  <data name="Subscription payment saved. The plant is active." xml:space="preserve"><value>سبسکرپشن ادائیگی محفوظ ہو گئی۔ پلانٹ فعال ہے۔</value></data>
+  <data name="The plant becomes active and its next due date moves forward by the months paid." xml:space="preserve"><value>پلانٹ فعال ہو جائے گا اور اگلی واجب تاریخ ادا شدہ مہینوں جتنی آگے چلی جائے گی۔</value></data>
+  <data name="This plant has more customers than the new plan allows." xml:space="preserve"><value>اس پلانٹ کے گاہک نئے پلان کی حد سے زیادہ ہیں۔</value></data>
+  <data name="This plant has more delivery staff than the new plan allows." xml:space="preserve"><value>اس پلانٹ کا ڈیلیوری عملہ نئے پلان کی حد سے زیادہ ہے۔</value></data>
+  <data name="Total paid" xml:space="preserve"><value>کل ادا شدہ</value></data>
+  <data name="Trial ends" xml:space="preserve"><value>ٹرائل ختم</value></data>
+  <data name="Trials ending in 7 days" xml:space="preserve"><value>7 دن میں ختم ہونے والے ٹرائل</value></data>
+  <data name="Unlimited customers" xml:space="preserve"><value>لامحدود گاہک</value></data>
+  <data name="Unlimited delivery staff" xml:space="preserve"><value>لامحدود ڈیلیوری عملہ</value></data>
+  <data name="Up to {0} customers" xml:space="preserve"><value>{0} گاہکوں تک</value></data>
+  <data name="Up to {0} delivery staff" xml:space="preserve"><value>{0} ڈیلیوری عملے تک</value></data>
+  <data name="Who has paid, who is due, and whose free trial is ending." xml:space="preserve"><value>کس نے ادائیگی کی، کس کی واجب ہے، اور کس کا مفت ٹرائل ختم ہو رہا ہے۔</value></data>
+  <data name="Your AquaTrack payment is due in {0} days." xml:space="preserve"><value>آپ کی AquaTrack ادائیگی {0} دن میں واجب ہے۔</value></data>
+  <data name="Your AquaTrack payment is due today." xml:space="preserve"><value>آپ کی AquaTrack ادائیگی آج واجب ہے۔</value></data>
+  <data name="Your AquaTrack payment is {0} days overdue." xml:space="preserve"><value>آپ کی AquaTrack ادائیگی {0} دن سے واجب ہے۔</value></data>
+  <data name="Your AquaTrack plan" xml:space="preserve"><value>آپ کا AquaTrack پلان</value></data>
+  <data name="Your free trial ends in {0} days." xml:space="preserve"><value>آپ کا مفت ٹرائل {0} دن میں ختم ہو رہا ہے۔</value></data>
+  <data name="Your free trial has ended." xml:space="preserve"><value>آپ کا مفت ٹرائل ختم ہو گیا ہے۔</value></data>
+  <data name="days" xml:space="preserve"><value>دن</value></data>
+  <data name="e.g. Easypaisa TID" xml:space="preserve"><value>مثلاً ایزی پیسہ TID</value></data>
+  <data name="{0} days overdue" xml:space="preserve"><value>{0} دن سے واجب</value></data>
 </root>

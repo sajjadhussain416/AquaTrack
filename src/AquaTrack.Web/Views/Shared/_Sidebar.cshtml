@@ -27,11 +27,11 @@
             <a class="side-link @Active("SuperAdmin", "Plants")" asp-area="SuperAdmin" asp-controller="Plants" asp-action="Index">
                 <i class="bi bi-buildings"></i><span>@L["Water plants"]</span>
             </a>
-            <a class="side-link disabled" href="#">
-                <i class="bi bi-credit-card-2-front"></i><span>@L["Subscriptions"]</span><span class="soon">@L["Soon"]</span>
+            <a class="side-link @Active("SuperAdmin", "Subscriptions")" asp-area="SuperAdmin" asp-controller="Subscriptions" asp-action="Index">
+                <i class="bi bi-credit-card-2-front"></i><span>@L["Subscriptions"]</span>
             </a>
-            <a class="side-link disabled" href="#">
-                <i class="bi bi-layers"></i><span>@L["Plans"]</span><span class="soon">@L["Soon"]</span>
+            <a class="side-link @Active("SuperAdmin", "Plans")" asp-area="SuperAdmin" asp-controller="Plans" asp-action="Index">
+                <i class="bi bi-layers"></i><span>@L["Plans"]</span>
             </a>
         }
         else if (User.IsInRole(Roles.DeliveryBoy))
@@ -68,6 +68,6 @@
         }
     </nav>
 
-    <div class="sidebar-foot">AquaTrack v0.7</div>
+    <div class="sidebar-foot">AquaTrack v0.8</div>
 </aside>
 <div class="sidebar-backdrop" data-sidebar-close></div>

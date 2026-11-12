@@ -556,3 +556,27 @@ html[dir="rtl"] .doc-label { text-transform: none; letter-spacing: 0; font-size:
     .card { box-shadow: none !important; border-color: #ddd !important; }
     .table-responsive { overflow: visible !important; }
 }
+
+/* ---------- Day 8: Plans & subscriptions ---------- */
+.back-link { display: inline-flex; align-items: center; gap: .35rem; font-size: .875rem; font-weight: 600; text-decoration: none; margin-bottom: .25rem; }
+.plan-card .plan-name { font-weight: 800; font-size: 1.1rem; color: var(--at-ink); }
+.plan-card .plan-price { font-size: 1.6rem; font-weight: 800; color: var(--at-blue-600); }
+.plan-card .plan-price span { font-size: .85rem; font-weight: 600; color: var(--at-ink-muted); margin-inline-start: .2rem; }
+.plan-features { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .45rem; font-size: .9rem; }
+.plan-features i { color: var(--at-green-600); margin-inline-end: .45rem; }
+.plan-features li.off { color: var(--at-ink-muted); }
+.plan-features li.off i { color: var(--at-ink-muted); }
+
+.due-chip { display: inline-block; font-size: .75rem; font-weight: 700; padding: .2rem .55rem; border-radius: 999px; margin-top: .2rem; }
+.due-chip.late { background: var(--at-red-50); color: var(--at-red-600); }
+.due-chip.soon { background: var(--at-amber-50); color: var(--at-amber-600); }
+.due-chip.ok   { background: var(--at-green-50); color: var(--at-green-600); }
+
+.usage { height: 8px; border-radius: 999px; background: #eef1f5; overflow: hidden; margin-top: .35rem; }
+.usage > span { display: block; height: 100%; background: var(--at-blue-500); }
+.usage.full > span { background: var(--at-red-600); }
+
+.sub-banner { display: flex; align-items: center; gap: .75rem; border-radius: var(--at-radius); padding: .75rem 1rem; margin-bottom: 1rem; font-weight: 600; }
+.sub-banner.soon { background: var(--at-amber-50); color: var(--at-amber-600); }
+.sub-banner.late { background: var(--at-red-50); color: var(--at-red-600); }
+.sub-banner .btn { margin-inline-start: auto; }
