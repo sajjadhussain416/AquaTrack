@@ -65,6 +65,33 @@ public class WhatsAppMessages
         return Link(r.Phone, sb.ToString());
     }
 
+    /// <summary>Polite payment reminder for the udhaar list (SRS NTF-02, sent by hand).</summary>
+    public string ReminderLink(AquaTrack.Application.Reports.UdhaarRow r, PlantHeader plant)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine($"*{plant.Name}*");
+        sb.AppendLine($"{_l["Assalam o Alaikum"]} {r.Name},");
+        sb.AppendLine();
+        sb.AppendLine(_l["Your balance for water bottles is {0}.", $"*{Fmt.Money(r.Balance)}*"]);
+        sb.AppendLine(_l["Please pay at your earliest convenience."]);
+
+        var a = plant.Accounts;
+        if (a.Any)
+        {
+            sb.AppendLine();
+            sb.AppendLine($"{_l["You can pay by"]}:");
+            if (a.HasEasypaisa) sb.AppendLine($"• {_l["Easypaisa"]}: {a.EasypaisaNumber} ({a.EasypaisaTitle})");
+            if (a.HasJazzCash) sb.AppendLine($"• {_l["JazzCash"]}: {a.JazzCashNumber} ({a.JazzCashTitle})");
+            if (a.HasBank) sb.AppendLine($"• {a.BankName}: {a.BankAccountTitle}, {a.BankAccountDisplay}");
+            sb.AppendLine(_l["Please send the transaction ID (TID) after paying."]);
+        }
+
+        sb.AppendLine();
+        sb.Append($"{_l["Thank you!"]} {plant.Phone}");
+
+        return Link(r.WhatsApp ?? r.Phone, sb.ToString());
+    }
+
     private static string Link(string phone, string text) =>
         $"https://wa.me/{Fmt.WhatsAppNumber(phone)}?text={Uri.EscapeDataString(text)}";
 }

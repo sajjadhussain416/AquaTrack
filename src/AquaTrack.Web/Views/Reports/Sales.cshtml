@@ -1,0 +1,128 @@
+@model AquaTrack.Web.Models.Reports.SalesPageViewModel
+@{
+    ViewData["Title"] = L["Sales report"];
+    var r = Model.Report;
+    var maxDay = r.ByDay.Count == 0 ? 1m : Math.Max(1m, r.ByDay.Max(d => d.Value));
+    string Pct(decimal v) => (v * 100m / maxDay).ToString("0.#", System.Globalization.CultureInfo.InvariantCulture) + "%";
+    var collected = r.Cash + r.Digital;
+    var period = r.From == r.To ? Fmt.Day(r.From) : Fmt.Day(r.From) + " – " + Fmt.Day(r.To);
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Reports"]</h1>
+        <p>@L["Bottles sold and money collected, by area and delivery staff."]</p>
+    </div>
+    <div class="actions no-print">
+        <button type="button" class="btn btn-light btn-icon" onclick="window.print()"><i class="bi bi-printer"></i>@L["Print"]</button>
+    </div>
+</div>
+
+<partial name="_Tabs" />
+
+<div class="card mb-3 no-print">
+    <div class="card-body d-grid gap-2">
+        <div class="seg flex-wrap" style="width:fit-content;max-width:100%">
+            <a class="@(Model.Range == "today" ? "on" : "")" asp-route-range="today" asp-route-areaId="@Model.AreaId" asp-route-staffId="@Model.StaffId">@L["Today"]</a>
+            <a class="@(Model.Range == "7d" ? "on" : "")" asp-route-range="7d" asp-route-areaId="@Model.AreaId" asp-route-staffId="@Model.StaffId">@L["Last 7 days"]</a>
+            <a class="@(Model.Range == "month" ? "on" : "")" asp-route-range="month" asp-route-areaId="@Model.AreaId" asp-route-staffId="@Model.StaffId">@L["This month"]</a>
+            <a class="@(Model.Range == "last-month" ? "on" : "")" asp-route-range="last-month" asp-route-areaId="@Model.AreaId" asp-route-staffId="@Model.StaffId">@L["Last month"]</a>
+        </div>
+        <form method="get" class="d-flex flex-wrap gap-2 align-items-center">
+            <input type="hidden" name="range" value="custom" />
+            <input type="date" name="from" class="form-control num" style="height:42px;width:auto" value="@Fmt.Iso(r.From)" max="@Fmt.Iso(Model.Today)" aria-label="@L["From"]" />
+            <span class="text-muted">–</span>
+            <input type="date" name="to" class="form-control num" style="height:42px;width:auto" value="@Fmt.Iso(r.To)" max="@Fmt.Iso(Model.Today)" aria-label="@L["To"]" />
+            <select name="areaId" class="form-select" style="height:42px;width:auto;min-width:10rem">
+                <option value="">@L["All areas"]</option>
+                @foreach (var a in Model.Areas)
+                {
+                    <option value="@a.Id" selected="@(Model.AreaId == a.Id)">@a.Name</option>
+                }
+            </select>
+            <select name="staffId" class="form-select" style="height:42px;width:auto;min-width:10rem">
+                <option value="">@L["All delivery staff"]</option>
+                @foreach (var s in Model.Staff)
+                {
+                    <option value="@s.Id" selected="@(Model.StaffId == s.Id)">@s.FullName</option>
+                }
+            </select>
+            <button class="btn btn-primary btn-icon"><i class="bi bi-funnel"></i>@L["Show"]</button>
+        </form>
+    </div>
+</div>
+
+<p class="fw-bold mb-2"><i class="bi bi-calendar3 me-1"></i><span class="num">@period</span></p>
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-truck"></i></span>
+            <div><div class="stat-label">@L["Deliveries"]</div><div class="stat-value num">@r.Deliveries</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-aqua"><i class="bi bi-droplet-fill"></i></span>
+            <div><div class="stat-label">@L["Bottles sold"]</div><div class="stat-value num">@r.Bottles</div><div class="cell-sub num">@L["{0} empties back", r.Empties]</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-graph-up-arrow"></i></span>
+            <div><div class="stat-label">@L["Sales value"]</div><div class="stat-value num">@Fmt.Money(r.Value)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-cash-coin"></i></span>
+            <div><div class="stat-label">@L["Collected at the door"]</div><div class="stat-value num">@Fmt.Money(collected)</div>
+                <div class="cell-sub num">@L["Cash"] @Fmt.Money(r.Cash) · @L["Digital"] @Fmt.Money(r.Digital)</div></div></div>
+    </div>
+</div>
+
+<div class="row g-3 mb-3">
+    <div class="col-xl-6"><partial name="_SalesTable" model="@((L["By area"].Value, "bi-geo-alt", r.ByArea))" /></div>
+    <div class="col-xl-6"><partial name="_SalesTable" model="@((L["By delivery staff"].Value, "bi-person-badge", r.ByStaff))" /></div>
+</div>
+
+@if (r.ByDay.Count > 1)
+{
+    <div class="card">
+        <div class="card-header"><i class="bi bi-calendar-week me-2 text-primary"></i>@L["Day by day"]</div>
+        <div class="table-responsive">
+            <table class="table table-at mb-0">
+                <thead>
+                    <tr>
+                        <th>@L["Date"]</th>
+                        <th class="text-end">@L["Deliveries"]</th>
+                        <th class="text-end">@L["Bottles"]</th>
+                        <th class="text-end">@L["Sales value"]</th>
+                        <th style="width:30%"></th>
+                        <th class="text-end">@L["Cash"]</th>
+                        <th class="text-end">@L["Digital"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var d in r.ByDay)
+                {
+                    <tr>
+                        <td class="num">@Fmt.Day(d.Date)</td>
+                        <td class="text-end num">@d.Deliveries</td>
+                        <td class="text-end num">@d.Bottles</td>
+                        <td class="text-end num fw-bold">@Fmt.Money(d.Value)</td>
+                        <td><div class="day-bar"><span style="width:@Pct(d.Value)"></span></div></td>
+                        <td class="text-end num">@Fmt.Money(d.Cash)</td>
+                        <td class="text-end num text-muted">@Fmt.Money(d.Digital)</td>
+                    </tr>
+                }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>@L["Total"]</th>
+                        <th class="text-end num">@r.Deliveries</th>
+                        <th class="text-end num">@r.Bottles</th>
+                        <th class="text-end num">@Fmt.Money(r.Value)</th>
+                        <th></th>
+                        <th class="text-end num">@Fmt.Money(r.Cash)</th>
+                        <th class="text-end num">@Fmt.Money(r.Digital)</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+}
+<p class="small text-muted mt-3 mb-0"><i class="bi bi-info-circle me-1"></i>@L["Sales value = bottles delivered × each customer's price. Digital includes payments the owner has not checked yet."]</p>

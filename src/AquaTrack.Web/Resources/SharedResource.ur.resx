@@ -506,4 +506,69 @@
   <data name="The owner has not added a bank account." xml:space="preserve"><value>مالک نے بینک اکاؤنٹ شامل نہیں کیا۔</value></data>
   <data name="Keep me signed in on this device" xml:space="preserve"><value>اس ڈیوائس پر لاگ اِن رہیں</value></data>
   <data name="This cash is already with the owner. Ask the owner to change it." xml:space="preserve"><value>یہ نقد مالک کو دی جا چکی ہے۔ تبدیلی کے لیے مالک سے کہیں۔</value></data>
+  <data name="Advance from {0} customers" xml:space="preserve"><value>{0} گاہکوں کا ایڈوانس</value></data>
+  <data name="Assalam o Alaikum" xml:space="preserve"><value>السلام علیکم</value></data>
+  <data name="At plant" xml:space="preserve"><value>پلانٹ پر</value></data>
+  <data name="Balance" xml:space="preserve"><value>بقایا</value></data>
+  <data name='Balance is from monthly bills minus payments. Payments clear the oldest bill first, so "unpaid since" shows the oldest bill still open.' xml:space="preserve"><value>بقایا = ماہانہ بل − ادائیگیاں۔ ادائیگی پہلے سب سے پرانا بل صاف کرتی ہے، اس لیے "کب سے باقی" سب سے پرانا کھلا بل دکھاتا ہے۔</value></data>
+  <data name="Bottle report" xml:space="preserve"><value>بوتل رپورٹ</value></data>
+  <data name="Bottle stock" xml:space="preserve"><value>بوتلوں کا اسٹاک</value></data>
+  <data name="Bottle stock saved." xml:space="preserve"><value>بوتلوں کا اسٹاک محفوظ ہو گیا۔</value></data>
+  <data name="Bottles sold" xml:space="preserve"><value>فروخت شدہ بوتلیں</value></data>
+  <data name="Bottles sold and money collected, by area and delivery staff." xml:space="preserve"><value>علاقے اور ڈیلیوری عملے کے حساب سے فروخت شدہ بوتلیں اور وصول شدہ رقم۔</value></data>
+  <data name="By area" xml:space="preserve"><value>علاقے کے حساب سے</value></data>
+  <data name="By delivery staff" xml:space="preserve"><value>ڈیلیوری عملے کے حساب سے</value></data>
+  <data name="Collected at the door" xml:space="preserve"><value>گھر پر وصول</value></data>
+  <data name="Customers hold more bottles than your total. Please update the total you own." xml:space="preserve"><value>گاہکوں کے پاس آپ کی کل بوتلوں سے زیادہ ہیں۔ براہ کرم اپنی کل بوتلیں اپ ڈیٹ کریں۔</value></data>
+  <data name="Customers who owe" xml:space="preserve"><value>بقایا والے گاہک</value></data>
+  <data name="Day by day" xml:space="preserve"><value>روزانہ</value></data>
+  <data name="Enter a number between 0 and 1,000,000." xml:space="preserve"><value>0 سے 1,000,000 کے درمیان نمبر لکھیں۔</value></data>
+  <data name="Enter how many bottles your plant owns, so the report can show how many are at the plant." xml:space="preserve"><value>اپنے پلانٹ کی کل بوتلیں لکھیں تاکہ رپورٹ دکھا سکے کہ پلانٹ پر کتنی ہیں۔</value></data>
+  <data name="Every customer has paid their bills." xml:space="preserve"><value>تمام گاہکوں نے اپنے بل ادا کر دیے ہیں۔</value></data>
+  <data name="From" xml:space="preserve"><value>سے</value></data>
+  <data name="Highest amount" xml:space="preserve"><value>زیادہ رقم پہلے</value></data>
+  <data name="Inactive, collect bottles" xml:space="preserve"><value>غیر فعال، بوتلیں واپس لیں</value></data>
+  <data name="Last 7 days" xml:space="preserve"><value>پچھلے 7 دن</value></data>
+  <data name="Last delivery" xml:space="preserve"><value>آخری ڈیلیوری</value></data>
+  <data name="Last month" xml:space="preserve"><value>پچھلا مہینہ</value></data>
+  <data name="Last payment" xml:space="preserve"><value>آخری ادائیگی</value></data>
+  <data name="Limit" xml:space="preserve"><value>حد</value></data>
+  <data name="Lost / damaged" xml:space="preserve"><value>گم / ٹوٹی</value></data>
+  <data name="May be missing" xml:space="preserve"><value>شاید گم ہیں</value></data>
+  <data name="Needs attention" xml:space="preserve"><value>توجہ طلب</value></data>
+  <data name="Never paid" xml:space="preserve"><value>کبھی ادائیگی نہیں</value></data>
+  <data name="No customer in this list is holding bottles." xml:space="preserve"><value>اس فہرست میں کسی گاہک کے پاس بوتلیں نہیں۔</value></data>
+  <data name="No deliveries in this period." xml:space="preserve"><value>اس مدت میں کوئی ڈیلیوری نہیں۔</value></data>
+  <data name="No delivery for {0}+ days" xml:space="preserve"><value>{0}+ دن سے ڈیلیوری نہیں</value></data>
+  <data name="No delivery yet" xml:space="preserve"><value>ابھی کوئی ڈیلیوری نہیں</value></data>
+  <data name="No udhaar" xml:space="preserve"><value>کوئی ادھار نہیں</value></data>
+  <data name="Nothing to show" xml:space="preserve"><value>دکھانے کو کچھ نہیں</value></data>
+  <data name="Oldest first" xml:space="preserve"><value>پرانا پہلے</value></data>
+  <data name="Over limit" xml:space="preserve"><value>حد سے زیادہ</value></data>
+  <data name="Over their limit" xml:space="preserve"><value>حد سے زیادہ والے</value></data>
+  <data name="Please pay at your earliest convenience." xml:space="preserve"><value>براہ کرم جلد از جلد ادائیگی کر دیں۔</value></data>
+  <data name="Print" xml:space="preserve"><value>پرنٹ</value></data>
+  <data name="Reports" xml:space="preserve"><value>رپورٹس</value></data>
+  <data name="Sales" xml:space="preserve"><value>فروخت</value></data>
+  <data name="Sales report" xml:space="preserve"><value>فروخت رپورٹ</value></data>
+  <data name="Sales value" xml:space="preserve"><value>فروخت کی مالیت</value></data>
+  <data name="Sales value = bottles delivered × each customer's price. Digital includes payments the owner has not checked yet." xml:space="preserve"><value>فروخت کی مالیت = دی گئی بوتلیں × ہر گاہک کا ریٹ۔ ڈیجیٹل میں وہ ادائیگیاں بھی شامل ہیں جو مالک نے ابھی چیک نہیں کیں۔</value></data>
+  <data name="Send reminder on WhatsApp" xml:space="preserve"><value>واٹس ایپ پر یاد دہانی بھیجیں</value></data>
+  <data name="Show" xml:space="preserve"><value>دکھائیں</value></data>
+  <data name="To" xml:space="preserve"><value>تک</value></data>
+  <data name="Total" xml:space="preserve"><value>کل</value></data>
+  <data name="Total bottles you own" xml:space="preserve"><value>آپ کی کل بوتلیں</value></data>
+  <data name="Total owned" xml:space="preserve"><value>کل بوتلیں</value></data>
+  <data name="Total udhaar" xml:space="preserve"><value>کل ادھار</value></data>
+  <data name="Udhaar list" xml:space="preserve"><value>ادھار لسٹ</value></data>
+  <data name="Unpaid for over 30 days" xml:space="preserve"><value>30 دن سے زیادہ پرانا</value></data>
+  <data name="Unpaid since" xml:space="preserve"><value>کب سے باقی</value></data>
+  <data name="Update this when you buy new bottles. At plant = total − with customers − lost." xml:space="preserve"><value>نئی بوتلیں خریدیں تو یہ اپ ڈیٹ کریں۔ پلانٹ پر = کل − گاہکوں کے پاس − گم شدہ۔</value></data>
+  <data name="Where your bottles are: at the plant, with customers, or lost." xml:space="preserve"><value>آپ کی بوتلیں کہاں ہیں: پلانٹ پر، گاہکوں کے پاس، یا گم۔</value></data>
+  <data name="Who owes money, how much and since when." xml:space="preserve"><value>کس کے ذمے کتنے پیسے ہیں اور کب سے۔</value></data>
+  <data name="With customers" xml:space="preserve"><value>گاہکوں کے پاس</value></data>
+  <data name="Your balance for water bottles is {0}." xml:space="preserve"><value>پانی کی بوتلوں کا آپ کا بقایا {0} ہے۔</value></data>
+  <data name="{0} days" xml:space="preserve"><value>{0} دن</value></data>
+  <data name="{0} days ago" xml:space="preserve"><value>{0} دن پہلے</value></data>
+  <data name="{0} empties back" xml:space="preserve"><value>{0} خالی واپس</value></data>
 </root>

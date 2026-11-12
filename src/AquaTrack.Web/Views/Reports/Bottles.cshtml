@@ -1,0 +1,150 @@
+@model AquaTrack.Web.Models.Reports.BottlePageViewModel
+@{
+    ViewData["Title"] = L["Bottle report"];
+    var r = Model.Report;
+    var total = Math.Max(1, r.AtPlant + r.WithCustomers + r.LostOrDamaged);
+    string Pct(int n) => (n * 100.0 / total).ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) + "%";
+    var stockMissing = r.TotalOwned == 0;
+    var stockShort = r.TotalOwned > 0 && r.WithCustomers + r.LostOrDamaged > r.TotalOwned;
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Reports"]</h1>
+        <p>@L["Where your bottles are: at the plant, with customers, or lost."]</p>
+    </div>
+    <div class="actions no-print">
+        <button type="button" class="btn btn-light btn-icon" onclick="window.print()"><i class="bi bi-printer"></i>@L["Print"]</button>
+    </div>
+</div>
+
+<partial name="_Tabs" />
+
+<div class="row g-3 mb-3">
+    <div class="col-lg-7">
+        <div class="card h-100">
+            <div class="card-header"><i class="bi bi-box-seam me-2 text-primary"></i>@L["Bottle stock"]</div>
+            <div class="card-body">
+                <div class="row g-3 mb-3 text-center">
+                    <div class="col-3"><div class="stat-label">@L["Total owned"]</div><div class="stat-value num">@r.TotalOwned</div></div>
+                    <div class="col-3"><div class="stat-label">@L["At plant"]</div><div class="stat-value num text-primary">@r.AtPlant</div></div>
+                    <div class="col-3"><div class="stat-label">@L["With customers"]</div><div class="stat-value num" style="color:#0e8f99">@r.WithCustomers</div></div>
+                    <div class="col-3"><div class="stat-label">@L["Lost / damaged"]</div><div class="stat-value num text-danger">@r.LostOrDamaged</div></div>
+                </div>
+                <div class="stock-bar" role="img" aria-label="@L["Bottle stock"]">
+                    <span class="c-plant" style="width:@Pct(r.AtPlant)"></span>
+                    <span class="c-cust" style="width:@Pct(r.WithCustomers)"></span>
+                    <span class="c-lost" style="width:@Pct(r.LostOrDamaged)"></span>
+                </div>
+                <div class="stock-legend">
+                    <span><i class="c-plant"></i>@L["At plant"]</span>
+                    <span><i class="c-cust"></i>@L["With customers"]</span>
+                    <span><i class="c-lost"></i>@L["Lost / damaged"]</span>
+                </div>
+                @if (stockMissing)
+                {
+                    <div class="alert flash mt-3 mb-0" style="background:var(--at-amber-50);color:var(--at-amber-600)"><i class="bi bi-exclamation-circle me-1"></i>@L["Enter how many bottles your plant owns, so the report can show how many are at the plant."]</div>
+                }
+                else if (stockShort)
+                {
+                    <div class="alert flash mt-3 mb-0" style="background:var(--at-amber-50);color:var(--at-amber-600)"><i class="bi bi-exclamation-circle me-1"></i>@L["Customers hold more bottles than your total. Please update the total you own."]</div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card h-100">
+            <div class="card-header"><i class="bi bi-pencil-square me-2 text-primary"></i>@L["Total bottles you own"]</div>
+            <div class="card-body">
+                <form asp-action="TotalBottles" method="post" class="d-flex gap-2" data-once>
+                    <input name="total" type="number" min="0" max="1000000" step="1" required class="form-control num" value="@r.TotalOwned" />
+                    <button class="btn btn-primary text-nowrap">@L["Save"]</button>
+                </form>
+                <p class="form-text mb-3">@L["Update this when you buy new bottles. At plant = total − with customers − lost."]</p>
+                <div class="d-flex gap-3">
+                    <div class="flex-fill"><div class="stat-label">@L["Over their limit"]</div><div class="stat-value num text-danger">@r.OverLimitCount</div></div>
+                    <div class="flex-fill"><div class="stat-label">@L["No delivery for {0}+ days", r.IdleDays]</div><div class="stat-value num" style="color:var(--at-amber-600)">@r.IdleCount</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3 no-print">
+    <div class="card-body">
+        <form method="get" class="d-flex flex-wrap gap-2 align-items-center">
+            <select name="areaId" class="form-select" style="height:42px;width:auto;min-width:11rem" onchange="this.form.submit()">
+                <option value="">@L["All areas"]</option>
+                @foreach (var a in Model.Areas)
+                {
+                    <option value="@a.Id" selected="@(Model.AreaId == a.Id)">@a.Name</option>
+                }
+            </select>
+            <div class="seg ms-auto">
+                <a class="@(Model.Show == "all" ? "on" : "")" asp-route-show="all" asp-route-areaId="@Model.AreaId">@L["All"]</a>
+                <a class="@(Model.Show == "attention" ? "on" : "")" asp-route-show="attention" asp-route-areaId="@Model.AreaId">@L["Needs attention"]</a>
+                <a class="@(Model.Show == "over" ? "on" : "")" asp-route-show="over" asp-route-areaId="@Model.AreaId">@L["Over limit"]</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    @if (Model.Rows.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-droplet"></i>
+            <h5 class="text-body">@L["Nothing to show"]</h5>
+            <p class="mb-0">@L["No customer in this list is holding bottles."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Customer"]</th>
+                        <th class="text-end">@L["Bottles in hand"]</th>
+                        <th class="text-end">@L["Limit"]</th>
+                        <th>@L["Last delivery"]</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        <td>
+                            <a class="cell-title" asp-controller="Customers" asp-action="Details" asp-route-id="@row.CustomerId">@row.Name</a>
+                            <div class="cell-sub">@row.AreaName · <span class="num">@row.Phone</span></div>
+                        </td>
+                        <td class="text-end num fw-bold @(row.OverLimit ? "text-danger" : "")">@row.InHand</td>
+                        <td class="text-end num text-muted">@(row.MaxBottles?.ToString() ?? "-")</td>
+                        <td>
+                            @if (row.LastDelivery is not null)
+                            {
+                                <div class="num">@Fmt.Day(row.LastDelivery.Value)</div>
+                                <div class="cell-sub">@L["{0} days ago", row.DaysSinceDelivery ?? 0]</div>
+                            }
+                            else { <span class="text-muted">@L["No delivery yet"]</span> }
+                        </td>
+                        <td class="text-end">
+                            @if (row.OverLimit) { <span class="flag over"><i class="bi bi-exclamation-triangle"></i>@L["Over limit"]</span> }
+                            @if (!row.IsActive) { <span class="flag off"><i class="bi bi-person-x"></i>@L["Inactive, collect bottles"]</span> }
+                            else if (row.Idle) { <span class="flag idle"><i class="bi bi-hourglass"></i>@L["May be missing"]</span> }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>@L["Total"]</th>
+                        <th class="text-end num">@Model.Rows.Sum(x => x.InHand)</th>
+                        <th colspan="3"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    }
+</div>

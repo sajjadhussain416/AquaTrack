@@ -1,0 +1,125 @@
+@model AquaTrack.Web.Models.Reports.UdhaarPageViewModel
+@{
+    ViewData["Title"] = L["Udhaar list"];
+    var r = Model.Report;
+    string AgeTone(int days) => days > 60 ? "suspended" : days > 30 ? "trial" : "neutral";
+}
+
+<div class="page-head">
+    <div>
+        <h1>@L["Reports"]</h1>
+        <p>@L["Who owes money, how much and since when."]</p>
+    </div>
+    <div class="actions no-print">
+        <button type="button" class="btn btn-light btn-icon" onclick="window.print()"><i class="bi bi-printer"></i>@L["Print"]</button>
+    </div>
+</div>
+
+<partial name="_Tabs" />
+
+<div class="row g-3 mb-3">
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-red"><i class="bi bi-cash-stack"></i></span>
+            <div><div class="stat-label">@L["Total udhaar"]</div><div class="stat-value num">@Fmt.Money(r.Total)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-blue"><i class="bi bi-people"></i></span>
+            <div><div class="stat-label">@L["Customers who owe"]</div><div class="stat-value num">@r.Rows.Count</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-amber"><i class="bi bi-hourglass-split"></i></span>
+            <div><div class="stat-label">@L["Unpaid for over 30 days"]</div><div class="stat-value num">@Fmt.Money(r.Over30Days)</div></div></div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="card stat"><span class="stat-icon tone-green"><i class="bi bi-piggy-bank"></i></span>
+            <div><div class="stat-label">@L["Advance from {0} customers", r.AdvanceCustomers]</div><div class="stat-value num">@Fmt.Money(r.AdvanceTotal)</div></div></div>
+    </div>
+</div>
+
+<div class="card mb-3 no-print">
+    <div class="card-body">
+        <form method="get" class="d-flex flex-wrap gap-2 align-items-center">
+            <select name="areaId" class="form-select" style="height:42px;width:auto;min-width:11rem" onchange="this.form.submit()">
+                <option value="">@L["All areas"]</option>
+                @foreach (var a in Model.Areas)
+                {
+                    <option value="@a.Id" selected="@(Model.AreaId == a.Id)">@a.Name</option>
+                }
+            </select>
+            <input type="hidden" name="sort" value="@Model.Sort" />
+            <div class="seg ms-auto" role="tablist">
+                <a class="@(Model.Sort == "amount" ? "on" : "")" asp-route-sort="amount" asp-route-areaId="@Model.AreaId">@L["Highest amount"]</a>
+                <a class="@(Model.Sort == "age" ? "on" : "")" asp-route-sort="age" asp-route-areaId="@Model.AreaId">@L["Oldest first"]</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    @if (Model.Rows.Count == 0)
+    {
+        <div class="empty-state">
+            <i class="bi bi-emoji-smile"></i>
+            <h5 class="text-body">@L["No udhaar"]</h5>
+            <p class="mb-0">@L["Every customer has paid their bills."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at">
+                <thead>
+                    <tr>
+                        <th>@L["Customer"]</th>
+                        <th class="text-end">@L["Balance"]</th>
+                        <th>@L["Unpaid since"]</th>
+                        <th>@L["Last payment"]</th>
+                        <th class="no-print"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        <td>
+                            <a class="cell-title" asp-controller="Customers" asp-action="Details" asp-route-id="@row.CustomerId">@row.Name</a>
+                            <div class="cell-sub">@row.AreaName · <span class="num">@row.Phone</span></div>
+                        </td>
+                        <td class="text-end num fw-bold text-danger">@Fmt.Money(row.Balance)</td>
+                        <td>
+                            @if (row.UnpaidSince is not null)
+                            {
+                                <div class="num">@Fmt.Day(row.UnpaidSince.Value)</div>
+                                <span class="badge-soft @AgeTone(row.DaysUnpaid)">@L["{0} days", row.DaysUnpaid]</span>
+                            }
+                            else { <span class="text-muted">-</span> }
+                        </td>
+                        <td>
+                            @if (row.LastPaymentDate is not null)
+                            {
+                                <div class="num">@Fmt.Day(row.LastPaymentDate.Value)</div>
+                                <div class="cell-sub num">@Fmt.Money(row.LastPaymentAmount)</div>
+                            }
+                            else { <span class="text-muted">@L["Never paid"]</span> }
+                        </td>
+                        <td class="text-end text-nowrap no-print">
+                            <a href="@Model.ReminderLinks[row.CustomerId]" target="_blank" rel="noopener" class="btn btn-light btn-sm text-success" title="@L["Send reminder on WhatsApp"]" aria-label="@L["Send reminder on WhatsApp"]"><i class="bi bi-whatsapp"></i></a>
+                            <a asp-controller="Payments" asp-action="Create" asp-route-customerId="@row.CustomerId" class="btn btn-light btn-sm btn-icon"><i class="bi bi-cash-coin"></i>@L["Receive payment"]</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>@L["Total"]</th>
+                        <th class="text-end num">@Fmt.Money(r.Total)</th>
+                        <th colspan="3"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="card-body border-top small text-muted">
+            <i class="bi bi-info-circle me-1"></i>@L["Balance is from monthly bills minus payments. Payments clear the oldest bill first, so \"unpaid since\" shows the oldest bill still open."]
+        </div>
+    }
+</div>

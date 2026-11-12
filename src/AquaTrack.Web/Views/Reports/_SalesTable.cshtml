@@ -1,0 +1,38 @@
+@model (string Title, string Icon, IReadOnlyList<AquaTrack.Application.Reports.SalesLine> Lines)
+<div class="card h-100">
+    <div class="card-header"><i class="bi @Model.Icon me-2 text-primary"></i>@Model.Title</div>
+    @if (Model.Lines.Count == 0)
+    {
+        <div class="card-body text-muted small">@L["No deliveries in this period."]</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-at mb-0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="text-end">@L["Deliveries"]</th>
+                        <th class="text-end">@L["Bottles"]</th>
+                        <th class="text-end">@L["Sales value"]</th>
+                        <th class="text-end">@L["Cash"]</th>
+                        <th class="text-end">@L["Digital"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var l in Model.Lines)
+                {
+                    <tr>
+                        <td class="cell-title">@l.Name</td>
+                        <td class="text-end num">@l.Deliveries</td>
+                        <td class="text-end num">@l.Bottles</td>
+                        <td class="text-end num fw-bold">@Fmt.Money(l.Value)</td>
+                        <td class="text-end num">@Fmt.Money(l.Cash)</td>
+                        <td class="text-end num text-muted">@Fmt.Money(l.Digital)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

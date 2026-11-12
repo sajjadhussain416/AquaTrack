@@ -518,3 +518,41 @@ html[dir="rtl"] .doc-label { text-transform: none; letter-spacing: 0; font-size:
 .stop-summary > span { min-width: 0; overflow-wrap: anywhere; }
 
 .pay-to .pay-missing { color: var(--at-amber-600); font-weight: 600; }
+
+/* ---------- Day 7: Reports ---------- */
+.report-tabs { display: flex; gap: .4rem; flex-wrap: wrap; border-bottom: 1px solid var(--at-line); }
+.report-tabs a {
+    display: inline-flex; align-items: center; gap: .45rem; padding: .6rem 1rem; font-weight: 700;
+    color: var(--at-ink-soft); text-decoration: none; border-bottom: 3px solid transparent; margin-bottom: -1px;
+}
+.report-tabs a:hover { color: var(--at-ink); }
+.report-tabs a.on { color: var(--at-blue-600); border-bottom-color: var(--at-blue-600); }
+
+.seg a { display: inline-block; padding: .45rem .9rem; border-radius: 999px; font-weight: 700; font-size: .85rem; color: var(--at-ink-soft); text-decoration: none; white-space: nowrap; }
+.seg a.on { background: var(--at-blue-600); color: #fff; }
+
+.table-at tfoot th { background: var(--at-canvas); font-weight: 800; border-top: 2px solid var(--at-line); }
+.badge-soft.neutral, .badge-soft.trial, .badge-soft.suspended, .badge-soft.active { display: inline-block; margin-top: .2rem; }
+
+.flag { display: inline-flex; align-items: center; gap: .25rem; font-size: .75rem; font-weight: 700; padding: .2rem .5rem; border-radius: 999px; }
+.flag.over { background: var(--at-red-50); color: var(--at-red-600); }
+.flag.idle { background: var(--at-amber-50); color: var(--at-amber-600); }
+.flag.off  { background: #eef1f5; color: var(--at-ink-soft); }
+
+.stock-bar { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: #eef1f5; }
+.stock-bar > span { display: block; height: 100%; }
+.stock-legend { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .85rem; margin-top: .6rem; color: var(--at-ink-soft); }
+.stock-legend i { display: inline-block; width: .7rem; height: .7rem; border-radius: 3px; margin-inline-end: .35rem; vertical-align: middle; }
+.c-plant { background: var(--at-blue-500); }
+.c-cust  { background: var(--at-aqua-500); }
+.c-lost  { background: var(--at-red-600); }
+
+.day-bar { position: relative; height: 8px; border-radius: 999px; background: #eef1f5; min-width: 80px; }
+.day-bar > span { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 999px; background: var(--at-blue-500); }
+
+@media print {
+    .sidebar, .sidebar-backdrop, .topbar, .report-tabs, form, .btn { display: none !important; }
+    .main, .content, main { margin: 0 !important; padding: 0 !important; }
+    .card { box-shadow: none !important; border-color: #ddd !important; }
+    .table-responsive { overflow: visible !important; }
+}

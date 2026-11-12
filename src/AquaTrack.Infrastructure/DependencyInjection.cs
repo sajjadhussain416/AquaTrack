@@ -1,3 +1,4 @@
+using AquaTrack.Application.Reports;
 using AquaTrack.Application.Billing;
 using AquaTrack.Application.Operations;
 using AquaTrack.Application.Plants;
@@ -54,6 +55,7 @@ public static class DependencyInjection
         services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IPlantSettingsService, PlantSettingsService>();
         services.AddScoped<ICashService, CashService>();
+        services.AddScoped<IReportService, ReportService>();
 
         return services;
     }

@@ -4,6 +4,9 @@
     string Active(string a, string c) =>
         string.Equals(area, a, StringComparison.OrdinalIgnoreCase) &&
         string.Equals(controller, c, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    string ActiveAction(string a) =>
+        Active("", "Reports") == "active" && string.Equals(action, a, StringComparison.OrdinalIgnoreCase) ? "active" : "";
 }
 <aside class="sidebar" id="sidebar">
     <a class="brand" href="~/">
@@ -50,6 +53,11 @@
             <a class="side-link @Active("", "Payments")" asp-area="" asp-controller="Payments" asp-action="Index"><i class="bi bi-cash-coin"></i><span>@L["Payments"]</span></a>
             <a class="side-link @Active("", "Cash")" asp-area="" asp-controller="Cash" asp-action="Index"><i class="bi bi-wallet2"></i><span>@L["Cash sheet"]</span></a>
 
+            <div class="nav-group-title mt-2">@L["Reports"]</div>
+            <a class="side-link @(ActiveAction("Udhaar"))" asp-area="" asp-controller="Reports" asp-action="Udhaar"><i class="bi bi-hourglass-split"></i><span>@L["Udhaar list"]</span></a>
+            <a class="side-link @(ActiveAction("Bottles"))" asp-area="" asp-controller="Reports" asp-action="Bottles"><i class="bi bi-droplet"></i><span>@L["Bottle report"]</span></a>
+            <a class="side-link @(ActiveAction("Sales"))" asp-area="" asp-controller="Reports" asp-action="Sales"><i class="bi bi-graph-up-arrow"></i><span>@L["Sales report"]</span></a>
+
             <div class="nav-group-title mt-2">@L["Setup"]</div>
             <a class="side-link @Active("", "DeliveryAreas")" asp-area="" asp-controller="DeliveryAreas" asp-action="Index"><i class="bi bi-geo-alt"></i><span>@L["Areas"]</span></a>
             <a class="side-link @Active("", "Staff")" asp-area="" asp-controller="Staff" asp-action="Index"><i class="bi bi-person-badge"></i><span>@L["Delivery staff"]</span></a>
@@ -60,6 +68,6 @@
         }
     </nav>
 
-    <div class="sidebar-foot">AquaTrack v0.6</div>
+    <div class="sidebar-foot">AquaTrack v0.7</div>
 </aside>
 <div class="sidebar-backdrop" data-sidebar-close></div>
